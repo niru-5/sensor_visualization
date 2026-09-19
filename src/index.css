@@ -1,4 +1,11 @@
-@import 'tailwindcss';
+/*
+ * Scan only src/ for utility classes. Tailwind v4 otherwise auto-detects
+ * every non-gitignored file under the project root (agent logs in .pi/,
+ * docs/, reports/ ...) and registers each as a watched dependency, so a
+ * write to any of them made the dev server full-reload the page.
+ * (index.html contains no utility classes.)
+ */
+@import 'tailwindcss' source('.');
 
 body {
   margin: 0;
