@@ -1,7 +1,9 @@
 import { Grid, Html, OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
+import { useEffect, useMemo } from 'react'
 import * as THREE from 'three'
 import { computeFov, sensorDiagonalMm } from '../lib/optics'
+import { computeFitDistance, computeStageFit, fitCameraPosition } from '../lib/stageFit'
 import type { FovRisk } from '../lib/optics'
 import type { Lens, Sensor } from '../lib/types'
 
@@ -66,6 +68,37 @@ function Frustum({ sensor, lens, workingDistanceMm }: FovCone3DProps) {
 
   const sh = sensor.heightMm / 2
 
+  // Line geometries are memoised per FOV footprint and disposed on change /
+  // unmount. Previously these were rebuilt on every render with no dispose,
+  // leaking GPU buffers on each slider tick — on constrained machines the
+  // tab would eventually crash, which surfaces as the page "reloading".
+  const { footprintEdges, raySets } = useMemo(() => {
+    if (!fov.horizontal.fovMm || !fov.vertical.fovMm) {
+      return { footprintEdges: null as THREE.BufferGeometry | null, raySets: [] as THREE.BufferGeometry[] }
+    }
+    const fw = fov.horizontal.fovMm / 2
+    const fh = fov.vertical.fovMm / 2
+    const wd = workingDistanceMm
+    const corners = [
+      new THREE.Vector3(fw, fh, wd),
+      new THREE.Vector3(-fw, fh, wd),
+      new THREE.Vector3(-fw, -fh, wd),
+      new THREE.Vector3(fw, -fh, wd),
+    ]
+    return {
+      footprintEdges: new THREE.BufferGeometry().setFromPoints([...corners, corners[0]]),
+      raySets: corners.map((c) => new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), c])),
+    }
+  }, [fov.horizontal.fovMm, fov.vertical.fovMm, workingDistanceMm])
+
+  useEffect(
+    () => () => {
+      footprintEdges?.dispose()
+      for (const geom of raySets) geom.dispose()
+    },
+    [footprintEdges, raySets],
+  )
+
   if (!fov.horizontal.fovMm || !fov.vertical.fovMm) {
     return (
       <group>
@@ -79,19 +112,8 @@ function Frustum({ sensor, lens, workingDistanceMm }: FovCone3DProps) {
     )
   }
 
-  const fw = fov.horizontal.fovMm / 2
-  const fh = fov.vertical.fovMm / 2
   const wd = workingDistanceMm
-
-  const corners = [
-    new THREE.Vector3(fw, fh, wd),
-    new THREE.Vector3(-fw, fh, wd),
-    new THREE.Vector3(-fw, -fh, wd),
-    new THREE.Vector3(fw, -fh, wd),
-  ]
-
-  const footprintEdges = new THREE.BufferGeometry().setFromPoints([...corners, corners[0]])
-  const raySets = corners.map((c) => new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), c]))
+  const fh = (fov.vertical.fovMm ?? 0) / 2
 
   return (
     <group>
@@ -106,10 +128,12 @@ function Frustum({ sensor, lens, workingDistanceMm }: FovCone3DProps) {
       ))}
 
       {/* Footprint outline */}
-      <lineSegments>
-        <primitive object={footprintEdges} attach="geometry" />
-        <lineBasicMaterial color={color} />
-      </lineSegments>
+      {footprintEdges && (
+        <lineSegments>
+          <primitive object={footprintEdges} attach="geometry" />
+          <lineBasicMaterial color={color} />
+        </lineSegments>
+      )}
 
       {/* Footprint fill, opacity communicates the uncertainty/risk level */}
       <mesh position={[0, 0, wd]}>
@@ -149,24 +173,82 @@ export function FovCone3D({ sensor, lens, workingDistanceMm, sceneScaleMm, heigh
   const scale = Math.max(sceneScaleMm ?? wd, 1)
   const diagonal = sensorDiagonalMm(sensor)
 
+  // Per-panel auto-fit: derive this panel's footprint and place the camera
+  // one fit distance out along the 3/4-view direction, so wide lenses (whose
+  // footprint dwarfs the working distance) frame instead of washing the
+  // viewport blank. Invalid geometry degrades to a WD-based fallback
+  // inside computeFitDistance, keeping the rig + error badge framed.
+  const fovForFit = computeFov(sensor, lens.focalLengthMm, wd)
+  const fitFw = (fovForFit.horizontal.fovMm ?? 0) / 2
+  const fitFh = (fovForFit.vertical.fovMm ?? 0) / 2
+  const fitDist = computeFitDistance(fitFw, fitFh, wd)
+  const stageFit = computeStageFit(fitDist)
+  // Bounding-sphere centre of this panel's frustum (apex at origin,
+  // footprint at z = wd): the look-at target the fit distance is measured from.
+  const targetZ = wd / 2
+
+  // Floor placement: the optical axis runs along +Z (camera at the origin,
+  // footprint plane at z = wd spanning y = +/-fh), while drei <Grid> is an
+  // XZ-horizontal floor (normal +Y). The old fixed offset (y = -diagonal*4)
+  // sat inside the frustum whenever the footprint half-height fh exceeded it
+  // (fh grows ~linearly with working distance), slicing through both the
+  // frustum volume and the vertical footprint rectangle. Park the floor below
+  // the lowest point of the whole rig (footprint bottom edge vs. camera-body
+  // bottom, whichever is lower) plus a margin that scales with scene size so
+  // it stays clear at both macro and long working distances without
+  // detaching visually when zoomed out via a shared sceneScaleMm.
+  const fhForFloor = fitFh
+  const swHalf = sensor.widthMm / 2
+  const shHalf = sensor.heightMm / 2
+  const lensBottom = Math.max(4, Math.min(swHalf, shHalf) * 0.85) * 1.15
+  const cameraBottom = Math.max(shHalf * 1.3, lensBottom)
+  const lowestY = -Math.max(fhForFloor, cameraBottom)
+  const floorMargin = Math.max(diagonal * 0.5, Math.abs(lowestY) * 0.08, scale * 0.01)
+  const groundY = lowestY - floorMargin
+
+  // Memoise R3F object/array props on `fitDist`/`targetZ` so a re-render
+  // triggered by an unrelated panel (same fit) keeps stable prop identities
+  // and doesn't force this Canvas to re-apply camera/fog/grid state.
+  const cameraProps = useMemo(
+    () => ({
+      position: fitCameraPosition(fitDist, targetZ),
+      fov: 50,
+      near: Math.max(fitDist * 0.01, 0.1),
+      far: fitDist * 10,
+    }),
+    [fitDist, targetZ],
+  )
+  const fogArgs = useMemo(
+    () => ['#0b1220', stageFit.fogNearMm, stageFit.fogFarMm] as [string, number, number],
+    [stageFit.fogNearMm, stageFit.fogFarMm],
+  )
+  const gridArgs = useMemo(() => [fitDist * 4, fitDist * 4] as [number, number], [fitDist])
+  const gridCellSize = stageFit.gridCellMm
+  const gridSectionSize = stageFit.gridSectionMm
+  const controlsTarget = useMemo(() => [0, 0, targetZ] as [number, number, number], [targetZ])
+  const controlsMaxDistance = stageFit.controlsMaxDistanceMm
+
   return (
     <div className={`${heightClass} w-full overflow-hidden rounded-xl bg-gradient-to-b from-slate-900 to-slate-950 shadow-inner`}>
-      <Canvas camera={{ position: [scale * 0.55, scale * 0.38, scale * 0.85], fov: 50, near: 0.1, far: scale * 10 }}>
+      <Canvas frameloop="demand" dpr={[1, 1.5]} camera={cameraProps}>
         <color attach="background" args={['#0b1220']} />
-        <fog attach="fog" args={['#0b1220', scale * 0.8, scale * 6]} />
+        <fog attach="fog" args={fogArgs} />
         <ambientLight intensity={0.55} />
-        <directionalLight position={[scale * 0.4, scale * 0.6, scale * 0.2]} intensity={1.1} />
-        <pointLight position={[0, 0, 10]} color="#22d3ee" intensity={8} distance={60} />
+        <directionalLight position={[fitDist * 0.4, fitDist * 0.6, fitDist * 0.2]} intensity={1.1} />
+        <pointLight position={[0, 0, 10]} color="#22d3ee" intensity={8} distance={fitDist * 2} />
         <Grid
-          args={[scale * 4, scale * 4]}
-          position={[0, -diagonal * 4, 0]}
+          args={gridArgs}
+          position={[0, groundY, 0]}
+          cellSize={gridCellSize}
+          sectionSize={gridSectionSize}
           cellColor="#1e293b"
           sectionColor="#334155"
-          fadeDistance={scale * 3}
+          fadeDistance={fitDist * 3}
           fadeStrength={1}
         />
         <Frustum sensor={sensor} lens={lens} workingDistanceMm={wd} />
-        <OrbitControls target={[0, 0, scale / 2]} enableDamping dampingFactor={0.08} minDistance={diagonal} maxDistance={scale * 8} />
+        {/* enableDamping={false} so frameloop="demand" settles instead of requesting endless frames */}
+        <OrbitControls target={controlsTarget} enableDamping={false} minDistance={diagonal} maxDistance={controlsMaxDistance} />
       </Canvas>
     </div>
   )
