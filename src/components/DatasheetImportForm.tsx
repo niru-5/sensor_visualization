@@ -53,16 +53,34 @@ export function DatasheetImportForm({ kind, onSaveSensor, onSaveLens, onCancel }
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ url: url.trim(), kind }),
       })
-      const json = (await res.json()) as ExtractResponse
+      // Read as text first: the dev proxy / serverless host can return a
+      // non-JSON error page (or nothing) when the endpoint is down, and
+      // res.json() would throw a confusing "Unexpected token" message.
+      const raw = await res.text()
+      let json: ExtractResponse | { error: string }
+      try {
+        json = raw ? (JSON.parse(raw) as ExtractResponse) : { error: 'The extraction service returned an empty response.' }
+      } catch {
+        json = { error: `The extraction service returned an unreadable response (HTTP ${res.status}). Is the API server running?` }
+      }
       if (!res.ok || 'error' in json) {
-        setErrorMessage('error' in json ? json.error : `Extraction failed (HTTP ${res.status}).`)
+        const serverMessage = 'error' in json ? json.error : `Extraction failed (HTTP ${res.status}).`
+        setErrorMessage(
+          res.status === 503
+            ? `${serverMessage} You can still enter the specs manually below.`
+            : serverMessage,
+        )
         setStatus('error')
         return
       }
       setResult(json)
       setStatus('idle')
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : 'Could not reach the extraction service.')
+      setErrorMessage(
+        err instanceof Error
+          ? `Could not reach the extraction service (${err.message}). Is the dev API server running?`
+          : 'Could not reach the extraction service.',
+      )
       setStatus('error')
     }
   }
@@ -104,7 +122,11 @@ export function DatasheetImportForm({ kind, onSaveSensor, onSaveLens, onCancel }
           placeholder="https://..."
         />
       </label>
-      {status === 'error' && <p className="text-sm text-red-700">{errorMessage}</p>}
+      {status === 'error' && (
+        <p role="alert" className="text-sm text-red-700">
+          {errorMessage}
+        </p>
+      )}
       <div className="flex gap-2">
         <button
           type="button"

@@ -51,6 +51,13 @@ export const LENS_TOOL = {
 const MODEL = 'claude-sonnet-5'
 const MAX_INPUT_CHARS = 20000
 
+export const MISSING_API_KEY_MESSAGE =
+  'Datasheet extraction is not configured on this server (missing API key). The site owner needs to set ANTHROPIC_API_KEY — meanwhile, please enter the specs manually.'
+
+export function isMissingApiKeyError(err: unknown): boolean {
+  return err instanceof Error && err.message.includes('MISSING_ANTHROPIC_API_KEY')
+}
+
 export function toExtractedFields(raw: Record<string, unknown>): Record<string, ExtractedField<unknown>> {
   const result: Record<string, ExtractedField<unknown>> = {}
   for (const key of Object.keys(raw)) {
@@ -66,7 +73,9 @@ export async function extractFieldsFromText(
 ): Promise<{ kind: 'sensor'; fields: SensorExtractedFields } | { kind: 'lens'; fields: LensExtractedFields }> {
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
-    throw new Error('ANTHROPIC_API_KEY is not configured on the server — see docs/LEARNINGS.md for setup.')
+    // Prefixed so the HTTP layer can map this to 503 (not a generic 500).
+    // The user-facing sentence stays free of internal file references.
+    throw new Error(`MISSING_ANTHROPIC_API_KEY: ${MISSING_API_KEY_MESSAGE}`)
   }
 
   const client = new Anthropic({ apiKey })
