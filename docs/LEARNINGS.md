@@ -230,3 +230,65 @@ visually verified in an actual browser**, same gap as noted below.
 - Everything already listed under "Open questions" in requirements.md
   (extraction confidence UX, seed dataset expansion, exact uncertainty
   visual language, caching) is still open.
+
+## 2026-09-19: Anthropic PDF extraction E2E + dev-stack gotchas
+
+- **Anthropic PDF extraction E2E PASS (OV5640).** First live LLM
+  extraction ran end to end via the local dev API against
+  `https://cdn.sparkfun.com/datasheets/Sensors/LightImaging/OV5640_datasheet.pdf`
+  (HTTP 200): 9/12 fields found, with correct abstentions (`null` /
+  not-found) for mount, interface, and trigger — exactly the fields a
+  bare sensor datasheet should not commit to. This closes the "actual
+  LLM extraction call never run" gap above for the PDF path at least.
+- **Env gotcha: `scripts/dev-api.ts` only loads `.env`, not
+  `.env.local`.** It uses `dotenv/config`, so a key present only in
+  `.env.local` is invisible to the dev API and every extraction 503s
+  despite the key being there (verified: 108-char key present, value
+  never logged). Launch with `DOTENV_CONFIG_PATH=.env.local` (e.g.
+  `DOTENV_CONFIG_PATH=.env.local npm run dev`) or copy the key into
+  `.env`.
+- **Dev stack refresher:** `npm run dev` runs Vite + the local API
+  together via `concurrently`, and Vite proxies `/api` →
+  `localhost:8787` — so browser `POST /api/extract-datasheet` calls
+  land on the dev server without CORS issues.
+
+## 2026-09-20: Comparison-tab "3D flicker" was a dev-server reload loop
+
+- **Symptom:** the 3D view on the Camera comparison tab flickered
+  continuously with no interaction. It looked like a render bug, and earlier
+  attempts treated it as one (geometry disposal, error boundary, persisted
+  tab, `frameloop="demand"`). None of those were the cause.
+- **Cause:** the *whole page* was reloading about every 0.7s. Chain: the
+  comparison tab is the only one that mounts `<Canvas>`, and mounting logs a
+  `THREE.Clock` deprecation warning → Vite 8 auto-enables `forwardConsole`
+  when it detects an agent (`AI_AGENT` / `PI_CODING_AGENT` in the env) and
+  prints browser warnings in the dev-server terminal → the harness captures
+  that terminal into `.pi/tasks/**/*.output`, inside the project root →
+  Tailwind v4's Vite plugin auto-scans and watches every non-gitignored file
+  under the root, so that write made Vite send `full-reload` → reload, mount,
+  warn again. The persisted active tab put you straight back on the comparison
+  tab each time. `*.log` files are gitignored and so were not scanned, which is
+  why only `.output` triggered it.
+- **How it was found:** a Playwright probe against the dev server logged
+  navigations and Vite websocket frames — a `vite:forward-console` message
+  answered ~10ms later by `full-reload`. The scene itself measured fine on a
+  clean server: 0 idle draws, one WebGL context, same `<canvas>` across slider
+  drags.
+- **Fix:** `src/index.css` now scopes Tailwind to `src/`
+  (`@import 'tailwindcss' source('.')`); `vite.config.ts` also ignores
+  `**/.pi/**` in the watcher. The 16 utilities this dropped were bare English
+  words (`absolute`, `filter`, `shadow`...) matched from prose in docs/logs; none
+  is used in `src/`.
+- **Second finding:** any App re-render (even opening an unrelated sidebar
+  form) repainted every 3D panel, since R3F repaints on each commit.
+  `FovCone3D` is now `memo`-ised so a panel redraws only when its own inputs
+  change.
+- **Tests:** `scripts/devServer.test.ts` (in `npm test`) runs a real Vite
+  server and asserts writes to non-source files send no `full-reload`.
+  `e2e/comparisonStability.e2e.test.ts` (`npm run test:e2e`, needs Chrome)
+  asserts in a real browser that the page never navigates while idle, canvases
+  and WebGL contexts are never recreated, and a panel only redraws when it
+  changed. Each fails when its fix is reverted.
+- **If the flicker ever comes back:** restart `npm run dev` first (config
+  changes hot-restart Vite, but a stale process is the first thing to rule
+  out), then run `npm run test:e2e`.
