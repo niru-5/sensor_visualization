@@ -1,6 +1,6 @@
 import { Grid, Html, OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { useEffect, useMemo } from 'react'
+import { memo, useEffect, useMemo } from 'react'
 import * as THREE from 'three'
 import { computeFov, sensorDiagonalMm } from '../lib/optics'
 import { computeFitDistance, computeStageFit, fitCameraPosition } from '../lib/stageFit'
@@ -167,8 +167,14 @@ function Frustum({ sensor, lens, workingDistanceMm }: FovCone3DProps) {
  * computeFov rather than hard-blocking sensitive or invalid inputs
  * (requirements.md §3.3). Styled dark to read as an instrument viewport,
  * similar in spirit to commercial lens-selector configurators.
+ *
+ * Memoised: App re-renders on every state change anywhere (a slider tick on
+ * another camera, opening a sidebar form...), and R3F repaints the canvas on
+ * each commit even when nothing in the scene changed — so without this every
+ * panel redrew on every unrelated update. Props are all primitives or
+ * library objects with stable identity, so the shallow compare is exact.
  */
-export function FovCone3D({ sensor, lens, workingDistanceMm, sceneScaleMm, heightClass = 'h-[480px]' }: FovStageProps) {
+export const FovCone3D = memo(function FovCone3D({ sensor, lens, workingDistanceMm, sceneScaleMm, heightClass = 'h-[480px]' }: FovStageProps) {
   const wd = Math.max(workingDistanceMm, 1)
   const scale = Math.max(sceneScaleMm ?? wd, 1)
   const diagonal = sensorDiagonalMm(sensor)
@@ -252,4 +258,4 @@ export function FovCone3D({ sensor, lens, workingDistanceMm, sceneScaleMm, heigh
       </Canvas>
     </div>
   )
-}
+})
