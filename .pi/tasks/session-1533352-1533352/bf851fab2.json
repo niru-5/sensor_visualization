@@ -1,0 +1,19 @@
+{
+  "id": "bf851fab2",
+  "name": "backend fields worker",
+  "command": "pi -p \"You are backend worker in /hdd/side_projects/camera_selection/camera_selection_tool. Extend api/extract-datasheet.ts schema + api/_lib/* with nullable interface (USB3|GigE|MIPI|other), shutter (global|rolling), fps, trigger bool, plus MOD, distortion, weightG, driverNote display-only, and resolvingPowerLpMm where datasheet states it. Keep per-field found+snippet flag-dont-guess UX, stateless, rate-limit. Add Body vs Chip note: mount=typicalBodyMount. Add unit tests for new fields, run npm test + typecheck. Do NOT change optics formulas. Coordinate via src/lib/types.ts only. Report to reports/backend-worker.md.\" --mode json > reports/backend-worker.json 2>&1",
+  "status": "failed",
+  "outputPath": ".pi/tasks/session-1533352-1533352/bf851fab2.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789833676133,
+  "endTime": 1789833676184,
+  "exitCode": 1,
+  "signal": null,
+  "pid": 1553371,
+  "bytesWritten": 62,
+  "isAgent": true,
+  "error": "Exited with code 1",
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true
+}

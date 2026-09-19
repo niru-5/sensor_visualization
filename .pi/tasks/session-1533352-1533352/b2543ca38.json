@@ -1,0 +1,19 @@
+{
+  "id": "b2543ca38",
+  "name": "docs fae-brief worker",
+  "command": "pi -p \"You are docs worker in /hdd/side_projects/camera_selection/camera_selection_tool. Read docs/requirements.md, docs/architecture.md, src/lib/optics.ts headers, and the FAE evidence from this session (Basler lens selection https://www.baslerweb.com/en/learning/lens-selection/, Roboflow https://blog.roboflow.com/how-to-choose-a-lens-for-machine-vision/, Basler embedded https://www.baslerweb.com/en-sg/learning/interface-embedded/, dev.to interfaces). Write docs/fae-brief.md with: limitation note (Reddit botwalled, 2 Commonlands URLs 404), pains P1-P7 + workarounds, fit chain mount->image-circle->FOV->resolution->interface, company split fetched-verified vs repo-seeded, industry table (general CV P0, embedded P1, inspection P1, UAV CUT), MUST/SHOULD/CUT, assumptions A1-A9 with evidence URLs. No src/ changes. Run: npm run typecheck --silent || true. Report done.\" --mode json > reports/docs-worker.json 2>&1",
+  "status": "failed",
+  "outputPath": ".pi/tasks/session-1533352-1533352/b2543ca38.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789833668926,
+  "endTime": 1789833668982,
+  "exitCode": 1,
+  "signal": null,
+  "pid": 1553173,
+  "bytesWritten": 59,
+  "isAgent": true,
+  "error": "Exited with code 1",
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true
+}

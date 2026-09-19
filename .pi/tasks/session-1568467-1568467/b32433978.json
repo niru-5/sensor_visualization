@@ -1,0 +1,18 @@
+{
+  "id": "b32433978",
+  "name": "verify curl",
+  "command": "sleep 2; curl -s -o /dev/null -w 'web:%{http_code}\\n' http://localhost:5173; curl -s -X POST http://localhost:8787/api/extract-datasheet -H 'Content-Type: application/json' -d '{\"url\":\"x\",\"kind\":\"sensor\"}' -w '\\napi:%{http_code}\\n' || echo api-fail",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1568467-1568467/b32433978.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789834173663,
+  "endTime": 1789834175773,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1570291,
+  "bytesWritten": 45,
+  "isAgent": false,
+  "notified": false,
+  "notifyOnCompletion": false,
+  "triggerOnCompletion": false
+}

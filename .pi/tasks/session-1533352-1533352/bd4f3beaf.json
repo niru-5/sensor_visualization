@@ -1,0 +1,18 @@
+{
+  "id": "bd4f3beaf",
+  "name": "docs retry worker",
+  "command": "mkdir -p reports docs; pi -p \"You are docs worker in /hdd/side_projects/camera_selection/camera_selection_tool. Write docs/fae-brief.md with limitation note (Reddit botwalled, 2 Commonlands 404), pains P1-P7, fit chain, companies, industry table, MUST/SHOULD/CUT, assumptions with evidence URLs (Basler lens, Roboflow, Basler embedded, dev.to). No src changes.\" --mode json > reports/docs-worker.json 2>&1",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1533352-1533352/bd4f3beaf.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789833716746,
+  "endTime": 1789833826254,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1554729,
+  "bytesWritten": 0,
+  "isAgent": true,
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true
+}

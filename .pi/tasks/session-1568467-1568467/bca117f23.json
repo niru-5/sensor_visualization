@@ -1,0 +1,18 @@
+{
+  "id": "bca117f23",
+  "name": "check ports",
+  "command": "curl -s -o /dev/null -w '%{http_code}' http://localhost:5173; echo; curl -s -o /dev/null -w '%{http_code}' http://localhost:8787/api/extract-datasheet 2>&1 || true",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1568467-1568467/bca117f23.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789834165498,
+  "endTime": 1789834165554,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1569926,
+  "bytesWritten": 7,
+  "isAgent": false,
+  "notified": false,
+  "notifyOnCompletion": false,
+  "triggerOnCompletion": false
+}

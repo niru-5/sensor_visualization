@@ -1,0 +1,21 @@
+Warning: No project session found with id 'delegate-e723aa50ac645abb66d7aec3c8fae80c'; creating a new session with that id.
+- **Main user flows:**
+  - Build library (left sidebar): add Sensors / Lenses via `From datasheet link` (paste URL → review pre-filled form → confirm) or `Add manually`; remove entries.
+  - Compare cameras (main column): 1–4 camera panels, each = sensor dropdown + lens dropdown + working-distance slider; each renders 3D FOV cone + numeric readout (FOV, mm/pixel, compatibility) at shared 1:1 scale.
+  - Review summaries: to-scale 2D sensor-size overlay (auto-fed from sensors in play) + table of Camera-1 sensor vs. all lenses in play (FOV, compatibility flags, spatial resolution).
+  - Persist/share: localStorage autosave + Export/Import JSON; no login.
+- **Data:**
+  - 4 seed sensors (Sony IMX264, IMX178, IMX267, IMX392) + 4 seed lenses (Computar V1226-MPZ, Commonlands CIL532/CIL525/CIL060), hand-curated from Sony flyers + vendor pages, bundled as static JSON with provenance URLs.
+  - User data: manual + datasheet-imported entries, stored only in browser localStorage; no server DB.
+- **Frontend (plain language):**
+  - Single-page app, sidebar-library + main-comparison layout.
+  - Pieces: sensor/lens entry forms, datasheet-import form, side-by-side 3D camera panels, 2D sensor-size chart, comparison table, FOV numbers readout. 2D = scaled rectangles; 3D = orbitable camera frustum via three.js.
+  - Pure calculation module for FOV/magnification/compatibility/resolution with unit tests.
+- **Backend (plain language):**
+  - One endpoint only: `POST /api/extract-datasheet {url, kind}` → returns structured sensor/lens fields + found/not-found per field.
+  - Server fetches URL, extracts PDF/HTML text, asks Claude to map to data model; rate-limited, stateless, stores nothing. Local dev proxies `/api/*` to a small Node stand-in.
+- **Top 3 gaps vs. better version:**
+  - No requirement-driven selection: can't input "need X mm FOV at Y mm WD to see Z mm feature" and get ranked recommendations; user must brute-force combos.
+  - Tiny static catalog, no search/filter: 8 seeds, no vendor database, parametric filtering, or sorting by FOV/resolution/price/availability.
+  - No application context: no industry presets (UAV, embedded, inspection), mount/interface guidance, lighting/exposure, distortion/DoF, or cost/availability — the Reddit pain points.
+

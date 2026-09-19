@@ -1,0 +1,1177 @@
+
+> camera-selection-tool@0.0.0 dev
+> concurrently -n web,api -c blue,magenta "npm:dev:web" "npm:dev:api"
+
+[web] 
+[web] > camera-selection-tool@0.0.0 dev:web
+[web] > vite
+[web] 
+[api] 
+[api] > camera-selection-tool@0.0.0 dev:api
+[api] > tsx watch scripts/dev-api.ts
+[api] 
+[web] 
+[web]   VITE v8.3.0  ready in 222 ms
+[web] 
+[web]   ➜  Local:   http://localhost:5173/
+[web]   ➜  Network: use --host to expose
+[api] ◇ injected env (0) from .env
+[api] [dev-api] extraction endpoint listening on http://localhost:8787/api/extract-datasheet
+[api] [dev-api] ANTHROPIC_API_KEY is not set — extraction will fail at the model-call step. See docs/LEARNINGS.md.
+[web] 6:11:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:53 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:53 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:54 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:54 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:56 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:56 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:57 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:57 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:58 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:58 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:59 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:11:59 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:00 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:00 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:01 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:01 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:01 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:02 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:02 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:03 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:03 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:04 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:04 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:05 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:05 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:06 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:06 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:06 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:07 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:07 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:08 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:08 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:09 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:09 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:10 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:10 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:11 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:11 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:12 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:12 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:13 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:13 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:13 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:14 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:14 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:15 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:15 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:16 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:16 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:17 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:17 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:21 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:21 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:22 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:22 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:22 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:23 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:23 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:23 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:24 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:24 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:25 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:25 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:26 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:26 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:27 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:27 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:28 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:28 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:28 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:29 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:29 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:30 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:30 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:31 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:31 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:32 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:32 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:33 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:33 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:33 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:34 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:35 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:35 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:35 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:36 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:36 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:37 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:37 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:38 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:38 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:39 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:39 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:40 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:40 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:40 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:41 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:42 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:42 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:42 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:43 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:43 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:44 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:44 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:45 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:45 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:46 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:46 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:47 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:47 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:48 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:48 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:49 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:49 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:50 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:50 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:53 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:54 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:54 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:56 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:57 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:57 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:57 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:58 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:59 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:12:59 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:00 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:00 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:01 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:01 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:02 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:02 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:03 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:03 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:04 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:05 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:05 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:06 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:06 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:07 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:07 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:08 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:08 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:09 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:09 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:10 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:10 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:11 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:11 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:12 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:12 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:13 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:13 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:14 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:14 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:15 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:15 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:16 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:16 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:17 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:17 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:21 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:21 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:22 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:22 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:23 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:23 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:24 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:25 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:25 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:25 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:26 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:26 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:27 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:27 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:28 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:28 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:29 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:29 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:30 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:30 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:31 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:31 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:32 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:32 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:33 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:33 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:34 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:34 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:35 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:35 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:35 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:36 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:36 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:37 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:37 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:37 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:38 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:38 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:39 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:39 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:40 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:40 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:41 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:41 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:42 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:42 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:43 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:43 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:44 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:44 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:45 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:45 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:46 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:46 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:47 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:47 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:48 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:48 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:49 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:49 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:50 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:50 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:53 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:53 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:54 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:54 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:56 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:56 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:57 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:57 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:58 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:58 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:59 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:13:59 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:00 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:00 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:01 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:01 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:02 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:02 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:03 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:03 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:04 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:04 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:05 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:05 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:06 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:06 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:07 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:07 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:08 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:08 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:09 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:09 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:10 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:10 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:11 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:11 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:12 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:12 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:13 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:13 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:14 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:14 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:15 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:15 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:16 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:16 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:17 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:17 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:14:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:21 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:21 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:21 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:22 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:23 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:23 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:23 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:24 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:25 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:25 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:26 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:26 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:26 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:27 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:27 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:28 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:28 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:29 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:29 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:30 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:30 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:31 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:31 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:32 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:32 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:33 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:33 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:34 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:34 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:35 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:35 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:35 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:36 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:37 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:38 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:39 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:40 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:42 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:43 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:44 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:44 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:45 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:45 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:46 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:46 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:46 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:47 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:47 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:48 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:48 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:49 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:49 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:50 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:50 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:50 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:53 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:53 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:54 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:16:54 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[web] 6:16:54 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:54 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:54 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:54 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:54 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:54 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:54 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:54 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:55 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:55 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:55 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:55 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:55 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:55 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:55 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:55 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:55 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:55 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:55 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:55 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:56 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:56 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:56 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:56 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:56 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:56 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:56 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:56 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:56 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:56 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:57 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:57 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:57 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:57 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:57 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:57 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:57 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:57 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:57 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:57 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:57 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:57 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:58 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:58 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:58 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:58 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:58 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:58 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:58 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:58 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:58 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:58 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:59 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:59 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:59 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:59 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:16:59 PM [vite] (client) [Unhandled error] ReferenceError: MAX_CAMERAS is not defined
+[web]  > App src/App.tsx:264:42
+[web]     262 |              <button
+[web]     263 |                onClick={addCamera}
+[web]     264 |                disabled={cameras.length >= MAX_CAMERAS}
+[web]         |                                            ^
+[web]     265 |                className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:...
+[web]     266 |              >
+[web]  > Object.react_stack_bottom_frame node_modules/react-dom/cjs/react-dom-client.development.js:25904:19
+[web]  > renderWithHooks node_modules/react-dom/cjs/react-dom-client.development.js:7662:21
+[web]  > updateFunctionComponent node_modules/react-dom/cjs/react-dom-client.development.js:10166:18
+[web]  > beginWork node_modules/react-dom/cjs/react-dom-client.development.js:11778:17
+[web]  > runWithFiberInDEV node_modules/react-dom/cjs/react-dom-client.development.js:871:29
+[web]  > performUnitOfWork node_modules/react-dom/cjs/react-dom-client.development.js:17641:21
+[web]  > workLoopSync node_modules/react-dom/cjs/react-dom-client.development.js:17469:40
+[web]  > renderRootSync node_modules/react-dom/cjs/react-dom-client.development.js:17450:10
+[web]  > performWorkOnRoot node_modules/react-dom/cjs/react-dom-client.development.js:16583:34
+[web] 
+[web] 6:16:59 PM [vite] (client) [console.warn] An error occurred in the <App> component.
+[web] 
+[web] Consider adding an error boundary to your tree to customize error handling behavior.
+[web] Visit https://react.dev/link/error-boundaries to learn more about error boundaries.
+[web] 
+[web] 6:17:01 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[web] 6:17:07 PM [vite] (client) hmr update /src/App.tsx, /src/index.css
+[web] 6:19:48 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:49 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:49 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:49 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:50 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:50 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:50 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:51 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:52 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:53 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:53 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:53 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:54 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:54 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:55 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:56 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:56 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:56 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:57 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:57 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:58 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:58 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:58 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:59 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:19:59 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:00 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:00 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:01 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:01 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:01 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:02 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:02 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:02 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:03 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:03 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:03 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:04 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:05 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:05 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:05 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:06 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:06 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:06 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:07 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:07 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:07 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:08 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:08 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:08 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:09 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:09 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:09 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:10 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:10 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:11 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:11 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:12 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:12 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:12 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:13 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:13 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:13 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:14 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:14 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:14 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:15 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:15 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:16 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:16 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:17 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:17 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:17 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:18 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:19 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:20 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:21 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:21 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:21 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:22 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:22 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:22 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:23 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:24 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:25 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:26 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:28 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:29 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:30 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:31 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:32 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:33 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:34 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:35 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:37 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:38 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:39 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] 6:20:40 PM [vite] (client) [console.warn] THREE.Clock: This module has been deprecated. Please use THREE.Timer instead.
+[web] npm run dev:web exited with code SIGTERM
+[api] npm run dev:api exited with code SIGTERM

@@ -1,0 +1,18 @@
+{
+  "id": "b1f4ca7a5",
+  "name": "npm typecheck",
+  "command": "npm run typecheck 2>&1 | tail -n 80",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1568467-1568467/b1f4ca7a5.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789834146694,
+  "endTime": 1789834149871,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1569308,
+  "bytesWritten": 51,
+  "isAgent": false,
+  "notified": false,
+  "notifyOnCompletion": false,
+  "triggerOnCompletion": false
+}

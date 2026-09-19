@@ -1,0 +1,19 @@
+{
+  "id": "bfbbfd5e6",
+  "name": "frontend MUSTs worker",
+  "command": "pi -p \"You are frontend worker in /hdd/side_projects/camera_selection/camera_selection_tool. Implement FAE MUSTs reusing src/lib/optics.ts (do NOT change formulas): M1 keep computeFov/workingDistanceForFov/focalLengthForFov solver with risk bands, M2 checkImageCircle tight=repo judgment label, M3 checkMountCompatibility + C->CS spacer text, M4 pitch/Nyquist/mmPerPixel + lens limiter flag, M6 body-vs-chip mount labeling. Add: requirement wizard inputs (target H-FOV or object+margin, WD, feature, fps/motion, interface pref) -> required focal range + ranked pairings, shareable requirement card extending JSON export, mount/coverage explainer callouts, interface/shutter/trigger nullable UI filters, seed expansion toward 12+12 hand-cited with sourceUrl where trivial else leave TODO. Add vitest fixtures: Roboflow Scenario1 1/2.3in C WD1524 FOV1219 ~8mm, Scenario2 1.1in C WD9000 ~50mm. Run npm test + typecheck + lint, fix own breakage. Do NOT touch api/. Report to reports/frontend-worker.md.\" --mode json > reports/frontend-worker.json 2>&1",
+  "status": "failed",
+  "outputPath": ".pi/tasks/session-1533352-1533352/bfbbfd5e6.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789833676122,
+  "endTime": 1789833676184,
+  "exitCode": 1,
+  "signal": null,
+  "pid": 1553370,
+  "bytesWritten": 63,
+  "isAgent": true,
+  "error": "Exited with code 1",
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true
+}

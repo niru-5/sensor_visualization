@@ -1,0 +1,18 @@
+{
+  "id": "b82c83066",
+  "name": "npm test",
+  "command": "npm test 2>&1 | tail -n 80",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1568467-1568467/b82c83066.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789834138435,
+  "endTime": 1789834139207,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1569010,
+  "bytesWritten": 269,
+  "isAgent": false,
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true
+}

@@ -1,0 +1,22 @@
+
+> camera-selection-tool@0.0.0 dev
+> concurrently -n web,api -c blue,magenta "npm:dev:web" "npm:dev:api"
+
+[api] 
+[api] > camera-selection-tool@0.0.0 dev:api
+[api] > tsx watch scripts/dev-api.ts
+[api] 
+[web] 
+[web] > camera-selection-tool@0.0.0 dev:web
+[web] > vite
+[web] 
+[web] 
+[web]   VITE v8.3.0  ready in 214 ms
+[web] 
+[web]   ➜  Local:   http://localhost:5173/
+[web]   ➜  Network: use --host to expose
+[api] ◇ injected env (0) from .env
+[api] [dev-api] extraction endpoint listening on http://localhost:8787/api/extract-datasheet
+[api] [dev-api] ANTHROPIC_API_KEY is not set — extraction will fail at the model-call step. See docs/LEARNINGS.md.
+[api] npm run dev:api exited with code SIGTERM
+[web] npm run dev:web exited with code SIGTERM

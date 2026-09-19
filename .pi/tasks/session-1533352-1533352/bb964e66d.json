@@ -1,0 +1,18 @@
+{
+  "id": "bb964e66d",
+  "name": "two-cam flow tests worker",
+  "command": "mkdir -p reports; pi -p \"In /hdd/side_projects/camera_selection/camera_selection_tool: Trace and verify the complete 2-camera comparison flow end-to-end (sidebar library -> 2 camera panels sensor+lens+WD -> 3D FOV cones + numeric readouts FOV/mm-per-px/compatibility -> 2D sensor overlay + comparison table -> localStorage autosave + export/import). Fix any breakage in selection, solver reuse from src/lib/optics.ts, or persistence. Add unit tests (vitest) for FOV/mag/image-circle/mount/Nyquist edge cases incl. 2-camera divergent configs, plus solid integration tests (component or e2e) covering: add 2 sensors+lenses, configure 2 panels, change WD slider, assert FOV numbers + compatibility flags + overlay + table update, reload persistence. Run npm test + typecheck + lint + build, report pass/fail. Write summary to reports/two-cam-flow.md.\" --mode json > reports/two-cam-flow.json 2>&1",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1533352-1533352/bb964e66d.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789834444272,
+  "endTime": 1789834468759,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1580847,
+  "bytesWritten": 0,
+  "isAgent": true,
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true
+}

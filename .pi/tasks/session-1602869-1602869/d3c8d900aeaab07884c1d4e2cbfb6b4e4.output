@@ -1,0 +1,21 @@
+Warning: No project session found with id 'delegate-922788ea8fa7ac2e09de33d75c756aa2'; creating a new session with that id.
+- **Purpose:** Machine-vision camera & lens selection tool — compare sensors to scale, visualize 3D field-of-view cones, check lens/sensor compatibility, and import datasheets instead of hand-computing from specs.
+- **Tech stack:**
+  - Frontend: React 19 + TypeScript + Vite, Tailwind CSS v4, three.js via `@react-three/fiber` + `@react-three/drei`, plain React state/context (no router, no auth).
+  - Backend: Thin stateless extraction endpoint only — Node serverless fn `api/extract-datasheet.ts` + shared `api/_lib/` (fetch PDF via `pdfjs-dist` / HTML via `cheerio`, LLM extract via Anthropic SDK).
+  - Build/test: `tsc -b`, `vitest` (`src/**/*.test.ts`, `api/**/*.test.ts`), `oxlint`, `tsx`, `concurrently`.
+- **Top-level structure:** `src/` (`App.tsx`, `main.tsx`, `components/`, `lib/`, `store/`), `api/` (`extract-datasheet.ts`, `_lib/`), `scripts/dev-api.ts`, `docs/`, `public/`, `index.html`, `vite.config.ts`, `package.json`, `tsconfig.*`.
+- **Entry points / run locally:**
+  - `src/main.tsx` → `src/App.tsx` (SPA, no routing).
+  - `npm run dev` = `vite` (web) + `tsx watch scripts/dev-api.ts` (api) via `concurrently`; `npm run build`, `npm test`, `npm run typecheck`.
+  - Requires Node 20+ (`nvm use`); `ANTHROPIC_API_KEY` in `.env.local` only for datasheet import.
+- **Browser testing / dev-server config:**
+  - Web `:5173`, API `:8787` (`API_PORT` override); `vite.config.ts` proxies `/api` → `http://localhost:8787` (no CORS needed).
+  - No Playwright/Cypress in app deps (only transitive `@vitest/browser-playwright`); browser automation lives in pi extension (`playwright-core`), needs `npx playwright install chromium`.
+- **Reload-loop / error suspects (flags only, no code dump):**
+  - No router redirects, auth guards, or `location.reload` found (grep clean).
+  - `src/main.tsx`: `StrictMode` — double-mount can look like reload/flicker in dev, esp. with WebGL.
+  - `src/App.tsx` + `src/store/useAppData.ts`: `useEffect(save…)` on every `cameras`/`data` change; dual `localStorage` keys (`store/persistence.ts`, `lib/twoCamera.ts`) — corrupt data falls back to seeds, not reload.
+  - `src/components/FovCone3D.tsx`: one `<Canvas>` per camera panel (up to 4x WebGL) — crash/OOM remount can mimic reload loop; check console/WebGL errors first.
+  - `src/components/DatasheetImportForm.tsx` + `scripts/dev-api.ts`: failed `fetch /api/extract-datasheet` (missing `ANTHROPIC_API_KEY`, 422/429/500) surfaces as error state, not reload — verify API reachable if UI appears stuck retrying.
+

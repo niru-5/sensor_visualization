@@ -1,0 +1,18 @@
+{
+  "id": "bc4781bb5",
+  "name": "verify and serve localhost",
+  "command": "mkdir -p reports; pi -p \"In /hdd/side_projects/camera_selection/camera_selection_tool: 1) verify docs/fae-brief.md exists and lists MUST/SHOULD/CUT + assumptions with evidence URLs, 2) run npm test, npm run typecheck, npm run build (report pass/fail), 3) start localhost demo via npm run dev (web :5173 + api :8787) in background if not running, confirm curl -s -o /dev/null -w '%{http_code}' http://localhost:5173 returns 200, 4) write summary to reports/verify-localhost.md including URLs to visit. Keep changes minimal, fix only breakage you introduced.\" --mode json > reports/verify.json 2>&1",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1533352-1533352/bc4781bb5.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789834125116,
+  "endTime": 1789834199548,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1568458,
+  "bytesWritten": 0,
+  "isAgent": true,
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true
+}

@@ -1,0 +1,18 @@
+{
+  "id": "b1f6b898c",
+  "name": "frontend retry worker",
+  "command": "mkdir -p reports; pi -p \"You are frontend worker in /hdd/side_projects/camera_selection/camera_selection_tool. Implement FAE MUSTs reusing src/lib/optics.ts without changing formulas: wizard inputs to focal range + ranked pairings, shareable card, mount/coverage explainer, interface/shutter filters, Roboflow fixtures as tests. Run npm test + typecheck. Do NOT touch api/.\" --mode json > reports/frontend-worker.json 2>&1",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1533352-1533352/b1f6b898c.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789833716758,
+  "endTime": 1789834119900,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1554732,
+  "bytesWritten": 0,
+  "isAgent": true,
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true
+}

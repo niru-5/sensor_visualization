@@ -1,0 +1,8 @@
+Warning: No project session found with id 'delegate-61de3055a677baf69ee581bdb0f7308e'; creating a new session with that id.
+PASS (with caveat on evidence type):
+
+- `reports/two-cam-flow.md` EXISTS. Summary: traces library→slots→resolve→panels→shared scale→overlay→table; fixed (1) slots lost on reload via `cameras-v1` persistence, (2) WD slider/state desync via re-clamp + `effectiveWd`; 17 unit + 6 integration tests; `npm test` 69 passed, typecheck exit 0, build 586 modules; reproduce via add-2-panels at IMX264+25mm vs IMX178+6mm with reload.
+- `src/lib/twoCamera.test.ts` EXISTS: 17 `it()` verified by grep (2 divergent configs + 4 CRUD + 4 WD-clamp + 7 resolve/scale/parse).
+- `src/twoCamera.integration.test.ts` EXISTS: 6 `it()` verified by grep (add panels, WD 300→600 FOV update, macro, independent WD, reload round-trip, corrupt fallback).
+- `reports/two-cam-flow2.json` is NOT a test-result JSON; it is a background-task telemetry/activity ledger. Evidence for checks is indirect: `tool_end isError:false` for final `npm test`, `npm run typecheck`, `npm run build` after one early `npm test isError:true`; embedded `assistant_text` claims: 5 files/69 passed, `tsc -b` exit 0, 586 modules built.
+

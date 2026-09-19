@@ -1,0 +1,18 @@
+{
+  "id": "b94b93775",
+  "name": "npm build",
+  "command": "npm run build 2>&1 | tail -n 100",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1568467-1568467/b94b93775.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789834154495,
+  "endTime": 1789834158514,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1569553,
+  "bytesWritten": 779,
+  "isAgent": false,
+  "notified": false,
+  "notifyOnCompletion": false,
+  "triggerOnCompletion": false
+}

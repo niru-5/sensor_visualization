@@ -1,0 +1,1 @@
+{"error_code":null,"launch_nonce":"999abf0ae8ed0ee85644b67f62e63b13","observed_task_status":"completed","outcome":{"answerBytes":1219,"answerSha256":"ba7a77190e02fc2f35f5b18c696d055842b65b53e46305393187cca3ab4eb0cb","status":"committed","toolCalls":7,"turns":3},"schema_version":"pi-background-tasks.delegate-outcome.v1","task_id":"de2056217e6ba175cfea704b2fa87032d"}

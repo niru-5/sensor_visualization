@@ -1,0 +1,17 @@
+Warning: No project session found with id 'delegate-8e37659062df60b58276c773e0b0768b'; creating a new session with that id.
+1) `docs/fae-brief.md` — EXISTS: FAE scoping brief (pains P1–P7, fit-chain, vendors, industry table, MUST/SHOULD/CUT, assumptions A1–A6 with live evidence URLs; notes Reddit bot-wall + 2× Commonlands 404s excluded, docs-only).
+
+2) Checks (from `reports/verify-localhost.md` + `reports/verify.json`):
+- `npm test` (vitest): PASS — 3 files, 46 tests passed.
+- `npm run typecheck` (`tsc -b`): PASS, exit 0.
+- `npm run build`: PASS — 585 modules, `dist/` emitted; only warning >500 kB chunk (tracked SHOULD S4).
+
+3) Localhost — RUNNING via `npm run dev` (task `b0a6703b6`):
+- App: http://localhost:5173/ → 200.
+- API: http://localhost:8787/api/extract-datasheet (POST `{url,kind}`; app proxies `/api/*` via Vite, no CORS needed) → live (invalid-URL POST returns `{"error":"Not a valid URL."}`). Note: `ANTHROPIC_API_KEY` unset, so model-call extraction step will fail — expected.
+
+4) Try:
+1. Open http://localhost:5173/ — compare 1–4 seed cameras, vary lens + working distance, check FOV/3D cone + mm/px.
+2. Test datasheet URL import (flag-don't-guess + localStorage/JSON) — works end-to-end only with `ANTHROPIC_API_KEY` set.
+3. Read `docs/fae-brief.md` MUST/SHOULD/CUT to align next build scope.
+

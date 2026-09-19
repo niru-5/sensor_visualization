@@ -1,0 +1,34 @@
+Warning: No project session found with id 'delegate-ed309a2b9d03f3931e6d4b94f62e430a'; creating a new session with that id.
+- **Top-level layout:**
+  - `src/` — React SPA (App, components, lib, store)
+  - `api/` — single Vercel serverless fn `extract-datasheet.ts` + `_lib/` (fetch/parse/LLM/rate-limit)
+  - `scripts/dev-api.ts` — local stand-in API server (`:8787`) proxied by Vite
+  - `docs/` — `requirements.md`, `architecture.md`, `LEARNINGS.md`
+  - `public/`, `index.html`, `src/assets/` — static shell/icons
+  - `dist/`, `node_modules/` — build output / deps
+  - `vite.config.ts`, `tsconfig*.json`, `package.json`, `.nvmrc`, `.env.local.example` — tooling/config
+  - `.pi/` — agent skills (`camera-fae`, `frontend`, `backend`, etc.)
+
+- **Tech stack:**
+  - Frontend: React 19 + TS + Vite, Tailwind v4, three.js via `@react-three/fiber/drei`, plain SVG for 2D
+  - Backend: Node TS serverless fn; `pdfjs-dist` (PDF) + `cheerio` (HTML) + Anthropic Claude tool-use for extraction; stateless, no DB
+  - Persistence: `localStorage` typed wrapper + JSON export/import
+  - Tooling: `vitest` (optics tests), `oxlint`, `tsc -b`, `concurrently`, Node 20+ (`.nvmrc` 24)
+
+- **What site does:**
+  - Sidebar library: add sensors/lenses manually or via datasheet-URL import (editable pre-filled form, blank+flag on failure) + curated Sony/ON-Semi seed data
+  - Main: 1–4 side-by-side camera panels (sensor+lens dropdowns, working-distance slider) each with 3D FOV cone + stat readout (FOV, mag, mm/pixel, risk)
+  - Below: to-scale 2D sensor-size overlay + comparison table (1 sensor vs N lenses: FOV, compatibility, resolution)
+  - Logic: thin-lens FOV/mag, image-circle vs diagonal + C/CS/S-mount check, Nyquist vs lens lp/mm
+
+- **Docs/roadmap:**
+  - `requirements.md`: machine-vision scope, data model, out-of-scope (no catalog crawl, OCR, DoF, pricing, cloud collab), 4 open Qs (extraction confidence, seed list, uncertainty UI, caching)
+  - `architecture.md`: 2-piece design + repo map, local-dev harness note
+  - `LEARNINGS.md`: judgment calls (mag-based risk bands, 10% image-circle margin, mount≈camera-body), v1.1 Basler-inspired dark configurator redesign
+
+- **Current state:**
+  - `README`: `npm run dev` → web `:5173` + api `:8787`; needs `ANTHROPIC_API_KEY` only for import
+  - Verified per LEARNINGS: `test` (22 optics tests), `typecheck`, `lint`, `build` pass (~1.14MB, mostly three.js); PDF+HTML fetch→parse smoke-tested to model step; dev page serves 200/HMR ok
+  - Not verified: live LLM extraction (no key), in-browser 3D/forms visual check, Vercel deploy
+  - TODOs: visual pass, live import test, code-split three.js, seed/caching/uncertainty Qs
+

@@ -1,0 +1,13 @@
+
+> camera-selection-tool@0.0.0 test
+> vitest run
+
+
+ RUN  v5.0.1 /hdd/side_projects/camera_selection/camera_selection_tool
+
+
+ Test Files  3 passed (3)
+      Tests  46 passed (46)
+   Start at  18:08:58
+   Duration  235ms (transform 64%, import 24%, tests 8%, worker 3%)
+

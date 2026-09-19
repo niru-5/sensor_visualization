@@ -1,0 +1,9 @@
+Warning: No project session found with id 'delegate-764b463aa6b0f799df8e0647821f39bd'; creating a new session with that id.
+Two-camera flow check — no verifiable completion:
+
+1) Flow verified/fixes: `reports/two-cam-flow.md` does not exist. `reports/two-cam-flow.json` contains only worker telemetry/activity ledger, no verified steps, no fixes, no test output. No evidence any 2-panel flow (library → 2 panels → FOV/mm-px/compatibility → overlay/table → persistence/export) was traced or fixed.
+2) Unit tests added: 0 new found. Existing only: `src/lib/optics.test.ts` (22: diagonal, pitch, Nyquist, thin-lens FOV, inverse solves, image-circle, mount, formats), `src/lib/fae.test.ts` (12: target-FOV, focal range, ranking, explainer, share-card), `api/_lib/extractSchema.test.ts` (12: nullable interface/shutter/fps/trigger + display fields, found-flags). Total 46.
+3) Integration tests added: 0. No `*.spec.*`, no component/persistence test file found; grep shows no two-cam test.
+4) Checks: no fresh results in two-cam output. Last recorded in `reports/verify-localhost.md`: `npm test` PASS (3 files, 46), `typecheck` PASS, `build` PASS (585 modules, >500kB chunk warning). Lint: no record.
+5) Try flow: app http://localhost:5173/ , API http://localhost:8787/api/extract-datasheet (app uses `/api/*` proxy).
+

@@ -1,0 +1,18 @@
+{
+  "id": "bf6004107",
+  "name": "check localhost status",
+  "command": "curl -s -o /dev/null -w \"5173:%{http_code}\\n\" http://localhost:5173/; curl -s -X POST http://localhost:8787/api/extract-datasheet -H \"Content-Type: application/json\" -d '{\"url\":\"x\",\"kind\":\"sensor\"}' | head -c 200; echo; ps aux | grep -E \"vite|dev-api\" | grep -v grep | head -n 5",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1533352-1533352/bf6004107.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789834280070,
+  "endTime": 1789834280134,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1573888,
+  "bytesWritten": 10,
+  "isAgent": false,
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true
+}

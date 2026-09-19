@@ -1,0 +1,411 @@
+{
+  "schema_version": "pi-background-tasks.fusion-manifest.v4",
+  "run_id": "research-efd8bfb4066b0e31d97d9a0351549cc4",
+  "workflow": "research",
+  "source": "tool",
+  "state": "completed",
+  "created_at": "2026-09-19T15:57:50.670Z",
+  "updated_at": "2026-09-19T16:00:29.741Z",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "config": {
+    "schema_version": "pi-background-tasks.fusion-models.v1",
+    "candidates": [
+      "$current",
+      "$current",
+      "$current"
+    ],
+    "evaluator": "$current",
+    "merger": "$current"
+  },
+  "models": {
+    "candidates": [
+      "opencode-go/muse-spark-1.3-contributor",
+      "opencode-go/muse-spark-1.3-contributor",
+      "opencode-go/muse-spark-1.3-contributor"
+    ],
+    "evaluator": "opencode-go/muse-spark-1.3-contributor",
+    "merger": "opencode-go/muse-spark-1.3-contributor",
+    "thinking_level": "medium"
+  },
+  "capabilities": {
+    "candidate": "research",
+    "evaluation": "reason",
+    "merge": "reason"
+  },
+  "context": {
+    "kind": "clean_task",
+    "policy_id": "fusion-clean-task-v1",
+    "source_policy_artifact": "source-policy.private.json"
+  },
+  "tool_policy": {
+    "candidate_tools": [
+      "read",
+      "grep",
+      "find",
+      "ls",
+      "fusion_web_fetch"
+    ],
+    "evaluation_tools": [],
+    "merge_tools": []
+  },
+  "usage": {
+    "input": 182248,
+    "output": 23815,
+    "cacheRead": 225424,
+    "cacheWrite": 0,
+    "reasoning": 3861,
+    "totalTokens": 431487,
+    "cost": {
+      "input": 0.0182248,
+      "output": 0.004763000000000001,
+      "cacheRead": 0.000450848,
+      "cacheWrite": 0,
+      "total": 0.023438648000000003
+    }
+  },
+  "attempts": [
+    {
+      "stage": "candidate",
+      "attempt": 1,
+      "status": "completed",
+      "child_created": true,
+      "prompt_path": "candidate-1.attempt-1.prompt.txt",
+      "events_path": "candidate-1.attempt-1.events.jsonl",
+      "stderr_path": "candidate-1.attempt-1.stderr.txt",
+      "response_path": "candidate-1.attempt-1.response.md",
+      "provider": "opencode-go",
+      "model": "muse-spark-1.3-contributor",
+      "qualifiedId": "opencode-go/muse-spark-1.3-contributor",
+      "usage": {
+        "input": 46009,
+        "output": 5039,
+        "cacheRead": 62389,
+        "cacheWrite": 0,
+        "reasoning": 934,
+        "totalTokens": 113437,
+        "cost": {
+          "input": 0.0046009,
+          "output": 0.0010078,
+          "cacheRead": 0.000124778,
+          "cacheWrite": 0,
+          "total": 0.005733478
+        }
+      },
+      "tool_calls_path": "candidate-1.attempt-1.tool-calls.jsonl",
+      "tool_calls": {
+        "count": 15,
+        "total_result_bytes": 161304,
+        "trace_complete": true
+      },
+      "slot": 1
+    },
+    {
+      "stage": "candidate",
+      "attempt": 1,
+      "status": "completed",
+      "child_created": true,
+      "prompt_path": "candidate-2.attempt-1.prompt.txt",
+      "events_path": "candidate-2.attempt-1.events.jsonl",
+      "stderr_path": "candidate-2.attempt-1.stderr.txt",
+      "response_path": "candidate-2.attempt-1.response.md",
+      "provider": "opencode-go",
+      "model": "muse-spark-1.3-contributor",
+      "qualifiedId": "opencode-go/muse-spark-1.3-contributor",
+      "usage": {
+        "input": 48864,
+        "output": 6353,
+        "cacheRead": 110487,
+        "cacheWrite": 0,
+        "reasoning": 605,
+        "totalTokens": 165704,
+        "cost": {
+          "input": 0.004886400000000001,
+          "output": 0.0012706,
+          "cacheRead": 0.000220974,
+          "cacheWrite": 0,
+          "total": 0.006377974000000001
+        }
+      },
+      "tool_calls_path": "candidate-2.attempt-1.tool-calls.jsonl",
+      "tool_calls": {
+        "count": 17,
+        "total_result_bytes": 173298,
+        "trace_complete": true
+      },
+      "slot": 2
+    },
+    {
+      "stage": "candidate",
+      "attempt": 1,
+      "status": "completed",
+      "child_created": true,
+      "prompt_path": "candidate-3.attempt-1.prompt.txt",
+      "events_path": "candidate-3.attempt-1.events.jsonl",
+      "stderr_path": "candidate-3.attempt-1.stderr.txt",
+      "response_path": "candidate-3.attempt-1.response.md",
+      "provider": "opencode-go",
+      "model": "muse-spark-1.3-contributor",
+      "qualifiedId": "opencode-go/muse-spark-1.3-contributor",
+      "usage": {
+        "input": 59142,
+        "output": 5717,
+        "cacheRead": 52548,
+        "cacheWrite": 0,
+        "reasoning": 346,
+        "totalTokens": 117407,
+        "cost": {
+          "input": 0.0059142000000000005,
+          "output": 0.0011434000000000001,
+          "cacheRead": 0.000105096,
+          "cacheWrite": 0,
+          "total": 0.007162696000000001
+        }
+      },
+      "tool_calls_path": "candidate-3.attempt-1.tool-calls.jsonl",
+      "tool_calls": {
+        "count": 16,
+        "total_result_bytes": 172599,
+        "trace_complete": true
+      },
+      "slot": 3
+    },
+    {
+      "stage": "evaluation",
+      "attempt": 1,
+      "status": "completed",
+      "child_created": true,
+      "prompt_path": "evaluation.attempt-1.prompt.txt",
+      "events_path": "evaluation.attempt-1.events.jsonl",
+      "stderr_path": "evaluation.attempt-1.stderr.txt",
+      "response_path": "evaluation.attempt-1.response.txt",
+      "provider": "opencode-go",
+      "model": "muse-spark-1.3-contributor",
+      "qualifiedId": "opencode-go/muse-spark-1.3-contributor",
+      "usage": {
+        "input": 13596,
+        "output": 2836,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 1185,
+        "totalTokens": 16432,
+        "cost": {
+          "input": 0.0013596,
+          "output": 0.0005672,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.0019268000000000002
+        }
+      }
+    },
+    {
+      "stage": "merge",
+      "attempt": 1,
+      "status": "completed",
+      "child_created": true,
+      "prompt_path": "merge.attempt-1.prompt.txt",
+      "events_path": "merge.attempt-1.events.jsonl",
+      "stderr_path": "merge.attempt-1.stderr.txt",
+      "response_path": "merge.attempt-1.response.md",
+      "provider": "opencode-go",
+      "model": "muse-spark-1.3-contributor",
+      "qualifiedId": "opencode-go/muse-spark-1.3-contributor",
+      "usage": {
+        "input": 14637,
+        "output": 3870,
+        "cacheRead": 0,
+        "cacheWrite": 0,
+        "reasoning": 791,
+        "totalTokens": 18507,
+        "cost": {
+          "input": 0.0014637,
+          "output": 0.0007740000000000001,
+          "cacheRead": 0,
+          "cacheWrite": 0,
+          "total": 0.0022377
+        }
+      }
+    }
+  ],
+  "artifacts": {
+    "canonical-input.json": {
+      "path": "canonical-input.json",
+      "byte_length": 4343,
+      "sha256": "sha256:6292a0ee3575094fb29326d40f78ab1031713e89983e72a06d0dfae6513499a9"
+    },
+    "source-policy.private.json": {
+      "path": "source-policy.private.json",
+      "byte_length": 2185,
+      "sha256": "sha256:b055d641e55a53b0ae1581b34a17eb382953d70e67f7b28db1a76be2a821fb89"
+    },
+    "budget-plan.json": {
+      "path": "budget-plan.json",
+      "byte_length": 59931,
+      "sha256": "sha256:6fe6c19b7140aaf1bc5114b5637c407fdf5d0813fd74b13269bf857c979dbf7e"
+    },
+    "candidate-1.attempt-1.system-prompt.txt": {
+      "path": "candidate-1.attempt-1.system-prompt.txt",
+      "byte_length": 2092,
+      "sha256": "sha256:202103ef0ccb14c136573a0d43b23cda4bde50f872cb89aaeb5f9448ea3afc7c"
+    },
+    "candidate-1.attempt-1.prompt.txt": {
+      "path": "candidate-1.attempt-1.prompt.txt",
+      "byte_length": 4343,
+      "sha256": "sha256:6292a0ee3575094fb29326d40f78ab1031713e89983e72a06d0dfae6513499a9"
+    },
+    "candidate-1.attempt-1.events.jsonl": {
+      "path": "candidate-1.attempt-1.events.jsonl",
+      "byte_length": 5448,
+      "sha256": "sha256:63c995ad72c72ed29076d52f2d5509395324cf4a9b5452fac383f2c852fd4df5"
+    },
+    "candidate-1.attempt-1.stderr.txt": {
+      "path": "candidate-1.attempt-1.stderr.txt",
+      "byte_length": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "candidate-1.attempt-1.response.md": {
+      "path": "candidate-1.attempt-1.response.md",
+      "byte_length": 10709,
+      "sha256": "sha256:40f451cc4dc01aae88593a22e85937dec4a97deccf45ff98e80a598e4b790ae9"
+    },
+    "candidate-1.attempt-1.tool-calls.jsonl": {
+      "path": "candidate-1.attempt-1.tool-calls.jsonl",
+      "byte_length": 6516,
+      "sha256": "sha256:9c3cb7b216638c2593bc8fa1547a1bc18995dd8a4da4148b88006da1073b3ad8"
+    },
+    "candidate-2.attempt-1.system-prompt.txt": {
+      "path": "candidate-2.attempt-1.system-prompt.txt",
+      "byte_length": 2092,
+      "sha256": "sha256:202103ef0ccb14c136573a0d43b23cda4bde50f872cb89aaeb5f9448ea3afc7c"
+    },
+    "candidate-2.attempt-1.prompt.txt": {
+      "path": "candidate-2.attempt-1.prompt.txt",
+      "byte_length": 4343,
+      "sha256": "sha256:6292a0ee3575094fb29326d40f78ab1031713e89983e72a06d0dfae6513499a9"
+    },
+    "candidate-2.attempt-1.events.jsonl": {
+      "path": "candidate-2.attempt-1.events.jsonl",
+      "byte_length": 6194,
+      "sha256": "sha256:9e4c79ee58073474db82aff191fe0627826482b3039c816bc967273e65dea14a"
+    },
+    "candidate-2.attempt-1.stderr.txt": {
+      "path": "candidate-2.attempt-1.stderr.txt",
+      "byte_length": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "candidate-2.attempt-1.response.md": {
+      "path": "candidate-2.attempt-1.response.md",
+      "byte_length": 16866,
+      "sha256": "sha256:edb89436da395501bbf662bd163c24f3a647831f0f2bbd5f243687b10e3c40b6"
+    },
+    "candidate-2.attempt-1.tool-calls.jsonl": {
+      "path": "candidate-2.attempt-1.tool-calls.jsonl",
+      "byte_length": 7180,
+      "sha256": "sha256:6772167418fca90c55b400a4f3a6ea45971db4793bbd4b535f2cb3aec4d50002"
+    },
+    "candidate-3.attempt-1.system-prompt.txt": {
+      "path": "candidate-3.attempt-1.system-prompt.txt",
+      "byte_length": 2092,
+      "sha256": "sha256:202103ef0ccb14c136573a0d43b23cda4bde50f872cb89aaeb5f9448ea3afc7c"
+    },
+    "candidate-3.attempt-1.prompt.txt": {
+      "path": "candidate-3.attempt-1.prompt.txt",
+      "byte_length": 4343,
+      "sha256": "sha256:6292a0ee3575094fb29326d40f78ab1031713e89983e72a06d0dfae6513499a9"
+    },
+    "candidate-3.attempt-1.events.jsonl": {
+      "path": "candidate-3.attempt-1.events.jsonl",
+      "byte_length": 5389,
+      "sha256": "sha256:988389e4be029b36cd2c9f1ff3a4c058fcb0465ca17034263b02c598b7322f44"
+    },
+    "candidate-3.attempt-1.stderr.txt": {
+      "path": "candidate-3.attempt-1.stderr.txt",
+      "byte_length": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "candidate-3.attempt-1.response.md": {
+      "path": "candidate-3.attempt-1.response.md",
+      "byte_length": 15116,
+      "sha256": "sha256:3efdd480311a959361dbaa62b7c23517e514246275c8599e3db73e993fc406d1"
+    },
+    "candidate-3.attempt-1.tool-calls.jsonl": {
+      "path": "candidate-3.attempt-1.tool-calls.jsonl",
+      "byte_length": 6843,
+      "sha256": "sha256:fcfaf918c7c4c28d325acf12006036ce3982921b3e2e188e5593400d36a78837"
+    },
+    "blind-candidates.json": {
+      "path": "blind-candidates.json",
+      "byte_length": 47698,
+      "sha256": "sha256:f63a47c0d4040c0260ecb9bb5922802140a5d0a59201eb3eef4cdfd70d6c1d9a"
+    },
+    "evaluation.attempt-1.system-prompt.txt": {
+      "path": "evaluation.attempt-1.system-prompt.txt",
+      "byte_length": 1969,
+      "sha256": "sha256:a0316327a194effce5b0038914004e687c4c1c9d1af92adeca49b34c7c5c8e3c"
+    },
+    "evaluation.attempt-1.prompt.txt": {
+      "path": "evaluation.attempt-1.prompt.txt",
+      "byte_length": 47698,
+      "sha256": "sha256:f63a47c0d4040c0260ecb9bb5922802140a5d0a59201eb3eef4cdfd70d6c1d9a"
+    },
+    "evaluation.attempt-1.events.jsonl": {
+      "path": "evaluation.attempt-1.events.jsonl",
+      "byte_length": 1284,
+      "sha256": "sha256:70e9593d26f371fd0297fae9f80d6f59486307f900681f4ba052383c2b45d782"
+    },
+    "evaluation.attempt-1.stderr.txt": {
+      "path": "evaluation.attempt-1.stderr.txt",
+      "byte_length": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evaluation.attempt-1.response.txt": {
+      "path": "evaluation.attempt-1.response.txt",
+      "byte_length": 7294,
+      "sha256": "sha256:da3a7ff8fb998de0576eaa8b9668b01628bd2a5d32984ba1d6c34cabedaa6ae0"
+    },
+    "evaluation.json": {
+      "path": "evaluation.json",
+      "byte_length": 7154,
+      "sha256": "sha256:656e267001e8694e68be00c5b5af7f286ae1f0b268a46692a7bccb70c6cf5a24"
+    },
+    "merge.attempt-1.system-prompt.txt": {
+      "path": "merge.attempt-1.system-prompt.txt",
+      "byte_length": 470,
+      "sha256": "sha256:d3bb1e5c0488db0dd463bfe7dc17e24b1e8f15e40c1d7dab3fbfe91000e80337"
+    },
+    "merge.attempt-1.prompt.txt": {
+      "path": "merge.attempt-1.prompt.txt",
+      "byte_length": 54861,
+      "sha256": "sha256:4aedee6ab85f75d77b049646a9f2ba47e4229a10d48a25d7e403580c26f3161d"
+    },
+    "merge.attempt-1.events.jsonl": {
+      "path": "merge.attempt-1.events.jsonl",
+      "byte_length": 1285,
+      "sha256": "sha256:1743c926371cbd83581735d2a4d9461fc205a99a9258b7d829d19b4b84ea8e2c"
+    },
+    "merge.attempt-1.stderr.txt": {
+      "path": "merge.attempt-1.stderr.txt",
+      "byte_length": 0,
+      "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "merge.attempt-1.response.md": {
+      "path": "merge.attempt-1.response.md",
+      "byte_length": 10967,
+      "sha256": "sha256:074552245d15537f311a9c28f7b1d8d88f047baa9abafcb2291fdbbec0655391"
+    },
+    "merged.md": {
+      "path": "merged.md",
+      "byte_length": 10967,
+      "sha256": "sha256:074552245d15537f311a9c28f7b1d8d88f047baa9abafcb2291fdbbec0655391"
+    },
+    "result.json": {
+      "path": "result.json",
+      "byte_length": 18481,
+      "sha256": "sha256:da23fe0497091ced453a2c965f30a3c79ffb0ec50342bece2a482237deda81e6"
+    }
+  },
+  "anonymous_map": {
+    "A": 3,
+    "B": 1,
+    "C": 2
+  }
+}

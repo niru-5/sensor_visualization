@@ -1,0 +1,19 @@
+{
+  "id": "b0a6703b6",
+  "name": "dev servers",
+  "command": "npm run dev 2>&1",
+  "status": "killed",
+  "outputPath": ".pi/tasks/session-1568467-1568467/b0a6703b6.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789834169745,
+  "endTime": 1789834199164,
+  "exitCode": null,
+  "signal": "SIGTERM",
+  "pid": 1570078,
+  "bytesWritten": 752,
+  "isAgent": false,
+  "error": "Killed during Pi session shutdown/reload",
+  "notified": false,
+  "notifyOnCompletion": false,
+  "triggerOnCompletion": false
+}

@@ -1,0 +1,18 @@
+{
+  "id": "b07d94dd5",
+  "name": "backend retry worker",
+  "command": "mkdir -p reports; pi -p \"You are backend worker in /hdd/side_projects/camera_selection/camera_selection_tool. Extend api extract schema with nullable interface/shutter/fps/trigger + MOD/distortion/weight/driverNote + resolvingPower, keep found flag dont-guess, stateless. Add tests, run npm test + typecheck. Do NOT change optics formulas.\" --mode json > reports/backend-worker.json 2>&1",
+  "status": "completed",
+  "outputPath": ".pi/tasks/session-1533352-1533352/b07d94dd5.output",
+  "cwd": "/hdd/side_projects/camera_selection/camera_selection_tool",
+  "startTime": 1789833716765,
+  "endTime": 1789834004402,
+  "exitCode": 0,
+  "signal": null,
+  "pid": 1554733,
+  "bytesWritten": 0,
+  "isAgent": true,
+  "notified": true,
+  "notifyOnCompletion": true,
+  "triggerOnCompletion": true
+}
