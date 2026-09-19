@@ -2,11 +2,13 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { ComparisonTable } from './components/ComparisonTable'
 import { CompatibilityExplainer } from './components/CompatibilityExplainer'
 import { DatasheetImportForm } from './components/DatasheetImportForm'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import { FovCone3D } from './components/FovCone3D'
 import { FovReadout } from './components/FovReadout'
 import { LensForm } from './components/LensForm'
-import { SensorCompare2D } from './components/SensorCompare2D'
+import { RankedPairingsPanel } from './components/RankedPairingsPanel'
 import { SensorForm } from './components/SensorForm'
+import { useWizardDraft } from './components/useWizardDraft'
 import { WizardPanel } from './components/WizardPanel'
 import { useAppData } from './store/useAppData'
 import {
@@ -22,9 +24,33 @@ import {
   updateCameraSlot,
 } from './lib/twoCamera'
 import type { CameraSlot } from './lib/twoCamera'
-import type { Lens, Sensor } from './lib/types'
+import type { Lens } from './lib/types'
 
 type AddMode = 'none' | 'manual' | 'import'
+
+const TABS = [
+  { id: 'wizard', label: 'Application wizard' },
+  { id: 'comparison', label: 'Camera comparison' },
+  { id: 'pairings', label: 'Ranked pairings' },
+] as const
+
+type TabId = (typeof TABS)[number]['id']
+
+const ACTIVE_TAB_KEY = 'camera-selection:activeTab'
+
+function isTabId(value: string | null): value is TabId {
+  return TABS.some((t) => t.id === value)
+}
+
+function loadActiveTab(): TabId {
+  try {
+    const stored = localStorage.getItem(ACTIVE_TAB_KEY)
+    if (isTabId(stored)) return stored
+  } catch {
+    // localStorage unavailable (SSR/private mode) — fall back to default.
+  }
+  return 'wizard'
+}
 
 function Section({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
   return (
@@ -43,6 +69,21 @@ export default function App() {
 
   const [sensorAddMode, setSensorAddMode] = useState<AddMode>('none')
   const [lensAddMode, setLensAddMode] = useState<AddMode>('none')
+  // Persist the active tab so a remount / reload (e.g. after a WebGL
+  // crash in the comparison view) doesn't silently reset to the wizard.
+  const [activeTab, setActiveTab] = useState<TabId>(loadActiveTab)
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(ACTIVE_TAB_KEY, activeTab)
+    } catch {
+      // Ignore quota/private-mode write failures.
+    }
+  }, [activeTab])
+
+  // Shared wizard draft state: the "Application wizard" tab edits it, the
+  // "Ranked pairings" tab reads it for rankPairings().
+  const wizard = useWizardDraft()
 
   // The camera comparison slots. Restored from localStorage when present so a
   // 2-panel comparison survives reload; otherwise start with a single camera.
@@ -76,8 +117,7 @@ export default function App() {
   const resolved = view.resolved
   // Shared world scale across every panel → identical camera position and true 1:1 framing.
   const sharedScaleMm = view.sharedScale
-  // Sensors currently in play, de-duplicated, feed the to-scale size comparison automatically.
-  const camerasSensors = view.playSensors as Sensor[]
+  // Lenses currently in play, de-duplicated, feed the lens comparison table automatically.
   const camerasLenses = view.playLenses as Lens[]
 
   const firstSensor = resolved[0]?.sensor ?? null
@@ -239,136 +279,175 @@ export default function App() {
           </Section>
         </aside>
 
-        {/* Main column: the side-by-side camera comparison, plus the 2D size chart and lens table. */}
-        <main className="flex min-w-0 flex-col gap-6">
-          <Section
-            title="Application wizard"
-            subtitle="Describe the imaging task — target field of view (or smallest feature), working distance, interface and shutter needs — and get the required focal range plus a ranked shortlist."
-          >
-            <WizardPanel sensors={sensors} lenses={lenses} />
-          </Section>
-
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <div>
-              <h2 className="text-base font-semibold text-neutral-800">Camera comparison</h2>
-              <p className="text-sm text-neutral-500">
-                Each panel is one camera at the same shared scale, so the 3D views are a genuine 1:1 comparison.
-              </p>
-            </div>
-            <button
-              onClick={addCamera}
-              disabled={maxedOut}
-              className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              + Add camera{maxedOut ? ' (max 4)' : ''}
-            </button>
-          </div>
-
-          <div className={`grid gap-4 ${gridColsClass}`}>
-            {resolved.map(({ cam, sensor, lens, effectiveWd }, index) => {
-              const { min: sliderMin, max: sliderMax } = getSliderBounds(lens?.focalLengthMm ?? null)
+        {/* Main column: tabbed workspace — wizard inputs, side-by-side
+            camera comparison plus lens table, and the ranked shortlist. */}
+        <main className="flex min-w-0 flex-col gap-8">
+          <div role="tablist" aria-label="Workspace views" className="flex flex-wrap gap-2 border-b border-neutral-200 pb-3">
+            {TABS.map((tab) => {
+              const selected = activeTab === tab.id
               return (
-                <section key={cam.id} className="flex flex-col gap-3 rounded-xl bg-slate-950 p-4 shadow-lg ring-1 ring-slate-900/10">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold text-slate-100">Camera {index + 1}</p>
-                    {cameras.length > 1 && (
-                      <button onClick={() => removeCamera(cam.id)} className="text-xs text-slate-400 hover:text-red-300">
-                        Remove
-                      </button>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2">
-                    <label className="flex flex-col gap-1 text-xs text-slate-300">
-                      <span>Sensor</span>
-                      <select
-                        className="rounded-md border border-slate-700 bg-slate-800 p-1.5 text-sm text-slate-100"
-                        value={sensor?.id ?? ''}
-                        onChange={(e) => updateCamera(cam.id, { sensorId: e.target.value })}
-                      >
-                        {sensors.length === 0 && <option value="">No sensors yet</option>}
-                        {sensors.map((s) => (
-                          <option key={s.id} value={s.id}>
-                            {s.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <label className="flex flex-col gap-1 text-xs text-slate-300">
-                      <span>Lens</span>
-                      <select
-                        className="rounded-md border border-slate-700 bg-slate-800 p-1.5 text-sm text-slate-100"
-                        value={lens?.id ?? ''}
-                        onChange={(e) => updateCamera(cam.id, { lensId: e.target.value })}
-                      >
-                        {lenses.length === 0 && <option value="">No lenses yet</option>}
-                        {lenses.map((l) => (
-                          <option key={l.id} value={l.id}>
-                            {l.name}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
-
-                  <label className="flex flex-col gap-1 text-xs text-slate-300">
-                    <div className="flex items-center justify-between">
-                      <span>Working distance</span>
-                      <span className="font-mono text-slate-100 tabular-nums">{effectiveWd}mm</span>
-                    </div>
-                    <input
-                      type="range"
-                      min={sliderMin}
-                      max={sliderMax}
-                      value={effectiveWd}
-                      onChange={(e) => updateCamera(cam.id, { workingDistanceMm: Number(e.target.value) })}
-                      className="accent-sky-400"
-                    />
-                  </label>
-
-                  {sensor && lens ? (
-                    <>
-                      <FovCone3D
-                        sensor={sensor}
-                        lens={lens}
-                        workingDistanceMm={effectiveWd}
-                        sceneScaleMm={sharedScaleMm}
-                        heightClass={panelHeight}
-                      />
-                      <FovReadout sensor={sensor} lens={lens} workingDistanceMm={effectiveWorkingDistance(cam, lens)} />
-                    </>
-                  ) : (
-                    <div className={`flex ${panelHeight} items-center justify-center rounded-xl bg-slate-900 text-sm text-slate-400`}>
-                      Add a sensor and a lens on the left to view this camera.
-                    </div>
-                  )}
-                </section>
+                <button
+                  key={tab.id}
+                  role="tab"
+                  aria-selected={selected}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`rounded-t-lg px-4 py-2 text-sm font-medium transition-colors ${
+                    selected
+                      ? 'bg-slate-900 text-white shadow-sm'
+                      : 'bg-white text-neutral-600 ring-1 ring-neutral-200 hover:bg-neutral-50 hover:text-neutral-900'
+                  }`}
+                >
+                  {tab.label}
+                </button>
               )
             })}
           </div>
 
-          <Section title="Sensor size comparison" subtitle="Drawn to scale from the sensors used across the cameras above.">
-            <SensorCompare2D sensors={camerasSensors} />
-          </Section>
+          {activeTab === 'wizard' && (
+            <div className="flex flex-col gap-8 p-1 sm:p-2">
+              <Section
+                title="Application wizard"
+                subtitle="Describe the imaging task — target field of view (or smallest feature), working distance, interface and shutter needs — and get the required focal range. The ranked shortlist lives in the Ranked pairings tab."
+              >
+                <WizardPanel sensors={sensors} wizard={wizard} />
+              </Section>
+            </div>
+          )}
 
-          <Section
-            title="Comparison: first camera's sensor vs. the lenses in play"
-            subtitle="Uses Camera 1's sensor and every lens currently selected across the cameras."
-          >
-            {!firstSensor ? (
-              <p className="text-sm text-neutral-500">Add a sensor to enable this comparison.</p>
-            ) : (
-              <ComparisonTable sensor={firstSensor} lenses={camerasLenses} workingDistanceMm={resolved[0]?.effectiveWd ?? 300} />
-            )}
-            {firstSensor && camerasLenses[0] && (
-              <div className="mt-2 flex flex-col gap-2">
-                <h3 className="text-sm font-semibold text-neutral-800">
-                  Why this fits (or doesn't): {firstSensor.name} + {camerasLenses[0].name}
-                </h3>
-                <CompatibilityExplainer sensor={firstSensor} lens={camerasLenses[0]} />
+          {activeTab === 'comparison' && (
+            <div className="flex flex-col gap-8 p-1 sm:p-2">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h2 className="text-base font-semibold text-neutral-800">Camera comparison</h2>
+                  <p className="text-sm text-neutral-500">
+                    Each panel is one camera at the same shared scale, so the 3D views are a genuine 1:1 comparison.
+                  </p>
+                </div>
+                <button
+                  onClick={addCamera}
+                  disabled={maxedOut}
+                  className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  + Add camera{maxedOut ? ' (max 4)' : ''}
+                </button>
               </div>
-            )}
-          </Section>
+
+              <div className={`grid gap-6 ${gridColsClass}`}>
+                {resolved.map(({ cam, sensor, lens, effectiveWd }, index) => {
+                  const { min: sliderMin, max: sliderMax } = getSliderBounds(lens?.focalLengthMm ?? null)
+                  return (
+                    <section key={cam.id} className="flex flex-col gap-4 rounded-xl bg-slate-950 p-5 shadow-lg ring-1 ring-slate-900/10 sm:p-6">
+                      <div className="flex items-center justify-between">
+                        <p className="text-sm font-semibold text-slate-100">Camera {index + 1}</p>
+                        {cameras.length > 1 && (
+                          <button onClick={() => removeCamera(cam.id)} className="text-xs text-slate-400 hover:text-red-300">
+                            Remove
+                          </button>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        <label className="flex flex-col gap-1 text-xs text-slate-300">
+                          <span>Sensor</span>
+                          <select
+                            className="rounded-md border border-slate-700 bg-slate-800 p-1.5 text-sm text-slate-100"
+                            value={sensor?.id ?? ''}
+                            onChange={(e) => updateCamera(cam.id, { sensorId: e.target.value })}
+                          >
+                            {sensors.length === 0 && <option value="">No sensors yet</option>}
+                            {sensors.map((s) => (
+                              <option key={s.id} value={s.id}>
+                                {s.name}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <label className="flex flex-col gap-1 text-xs text-slate-300">
+                          <span>Lens</span>
+                          <select
+                            className="rounded-md border border-slate-700 bg-slate-800 p-1.5 text-sm text-slate-100"
+                            value={lens?.id ?? ''}
+                            onChange={(e) => updateCamera(cam.id, { lensId: e.target.value })}
+                          >
+                            {lenses.length === 0 && <option value="">No lenses yet</option>}
+                            {lenses.map((l) => (
+                              <option key={l.id} value={l.id}>
+                                {l.name}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                      </div>
+
+                      <label className="flex flex-col gap-1 text-xs text-slate-300">
+                        <div className="flex items-center justify-between">
+                          <span>Working distance</span>
+                          <span className="font-mono text-slate-100 tabular-nums">{effectiveWd}mm</span>
+                        </div>
+                        <input
+                          type="range"
+                          min={sliderMin}
+                          max={sliderMax}
+                          value={effectiveWd}
+                          onChange={(e) => updateCamera(cam.id, { workingDistanceMm: Number(e.target.value) })}
+                          className="accent-sky-400"
+                        />
+                      </label>
+
+                      {sensor && lens ? (
+                        <>
+                          <ErrorBoundary key={`fov-${cam.id}`} label={`FovCone3D-${cam.id}`}>
+                            <FovCone3D
+                              sensor={sensor}
+                              lens={lens}
+                              workingDistanceMm={effectiveWd}
+                              sceneScaleMm={sharedScaleMm}
+                              heightClass={panelHeight}
+                            />
+                          </ErrorBoundary>
+                          <FovReadout sensor={sensor} lens={lens} workingDistanceMm={effectiveWorkingDistance(cam, lens)} />
+                        </>
+                      ) : (
+                        <div className={`flex ${panelHeight} items-center justify-center rounded-xl bg-slate-900 text-sm text-slate-400`}>
+                          Add a sensor and a lens on the left to view this camera.
+                        </div>
+                      )}
+                    </section>
+                  )
+                })}
+              </div>
+
+              <Section
+                title="Comparison: first camera's sensor vs. the lenses in play"
+                subtitle="Uses Camera 1's sensor and every lens currently selected across the cameras."
+              >
+                {!firstSensor ? (
+                  <p className="text-sm text-neutral-500">Add a sensor to enable this comparison.</p>
+                ) : (
+                  <ComparisonTable sensor={firstSensor} lenses={camerasLenses} workingDistanceMm={resolved[0]?.effectiveWd ?? 300} />
+                )}
+                {firstSensor && camerasLenses[0] && (
+                  <div className="mt-4 flex flex-col gap-3">
+                    <h3 className="text-sm font-semibold text-neutral-800">
+                      Why this fits (or doesn't): {firstSensor.name} + {camerasLenses[0].name}
+                    </h3>
+                    <CompatibilityExplainer sensor={firstSensor} lens={camerasLenses[0]} />
+                  </div>
+                )}
+              </Section>
+            </div>
+          )}
+
+          {activeTab === 'pairings' && (
+            <div className="flex flex-col gap-8 p-1 sm:p-2">
+              <Section
+                title="Ranked pairings"
+                subtitle="Every sensor×lens pairing scored against the task described in the Application wizard tab."
+              >
+                <RankedPairingsPanel sensors={sensors} lenses={lenses} inputs={wizard.inputs} valid={wizard.valid} />
+              </Section>
+            </div>
+          )}
         </main>
       </div>
     </div>
