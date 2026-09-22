@@ -104,23 +104,35 @@ Files: `src/lib/optics.ts` (`mmPerPixel`, `computeFov`, `derivePixelPitchUm`),
 
 Lock in the upgrade with coverage and a paper trail.
 
-- [ ] Vitest unit tests:
-  - [ ] `src/lib/optics.test.ts` — extend: `mmPerPixel` / GSD math, pixel-grid
-    stride-capping helper (new util if Track C adds one).
-  - [ ] `src/lib/twoCamera.test.ts` — extend: shared-scale / union-fit helper
-    (new util if Track A adds one, e.g. union footprint fit).
-  - [ ] New util tests (whichever Tracks A–C introduce, e.g.
-    `src/lib/sharedFit.ts`, `pixelGrid.ts`) — edge cases: invalid geometry
-    (WD ≤ f), zero/negative inputs, huge resolutions.
-- [ ] e2e stability: update `e2e/comparisonStability.e2e.test.ts` if selectors /
-  layout changed (single canvas vs N canvases); keep green (`vitest.e2e.config.ts`).
-- [ ] Docs: dated entry in `docs/LEARNINGS.md` (shared-view decision, palette,
-  GSD overlay, Tangram `fov/lidar-visualizer` inspiration + what was borrowed).
-- [ ] Docs: update `docs/architecture.md` if component tree changed
-  (`SharedFovStage`, `PixelGridOverlay`, wiring in `App.tsx:337-410`).
+- [x] Vitest unit tests (Track D, 2026-09-22 — new files only per wait-for-others rule):
+  - [x] `src/lib/cameraPalette.test.ts` (new) — slot-color distinctness,
+    risk-color separation, dark-stage contrast, cyclic N > 3, agreement with
+    `pixelGrid.ts` fallback palette.
+  - [x] `src/lib/frustumGeometry.test.ts` — Track B's landed suite preserved
+    verbatim (same-path collision, nothing deleted) + Track D supplement:
+    corners cross-checked against `computeFov` in `optics.ts` directly,
+    rectangle/diagonal invariants, degenerate-input (NaN/Inf/zero/negative)
+    fuzzing. Track C's `src/lib/pixelGrid.test.ts` covers stride-capping +
+    huge resolutions.
+  - [ ] `src/lib/optics.test.ts` / `src/lib/twoCamera.test.ts` extensions
+    (TODO-suggested) — deliberately NOT done: wait-for-others rule was
+    new-files-only; no other track added untested utils needing them.
+- [x] e2e stability: NEW `e2e/sharedViewStability.e2e.test.ts` (legacy
+  `e2e/comparisonStability.e2e.test.ts` untouched, still green) —
+  single-canvas + toggle-without-remount asserts; skips until Track A
+  lands (`vitest.e2e.config.ts`).
+- [x] Docs: dated 2026-09-22 entry in `docs/LEARNINGS.md` (shared-view
+  decision, palette, GSD overlay, Tangram `fov/lidar-visualizer`
+  inspiration + what was borrowed, honest not-verified notes).
+- [x] Docs: `docs/architecture.md` repo layout annotated with new viz
+  modules (`FovShading`, `PixelSizeGrid`, `cameraPalette`,
+  `frustumGeometry`, `pixelGrid`; Track A marked in-flight).
 - [ ] Commit after EACH track lands (A, B, C, then D):
   `test(viz): …` / `docs(viz): …` — do not squash track commits.
-- [ ] Final full verification: `npm run test` + e2e + `npm run build` green.
+  (B and C committed separately as `feat(viz): …`; this D commit follows.)
+- [x] Final full verification: `npm run test` (14 files / 164 pass) + e2e
+  (3 passed + 3 shared-view skipped) + `npm run typecheck` + `lint` +
+  `npm run build` green.
 
 Files: `src/lib/optics.test.ts`, `src/lib/optics.ts`,
 `src/lib/twoCamera.test.ts`, `src/lib/twoCamera.ts`,
@@ -131,7 +143,7 @@ Files: `src/lib/optics.test.ts`, `src/lib/optics.ts`,
 
 ## Merge / Done checklist
 
-- [x] Track A merged (shared view renders, toggles work, demand frameloop kept)
-- [ ] Track B merged (shading opacity ~0.3 DoubleSide depthWrite false, rings, grid)
-- [ ] Track C merged (pixel grid + mm label + contours, capped cells)
-- [ ] Track D merged (unit + e2e green, LEARNINGS dated entry, per-track commits)
+- [ ] Track A merged (shared view renders, toggles work, demand frameloop kept) — IN FLIGHT, not landed (uncommitted `SharedFovView.tsx` at D commit time; shared-view e2e skips until it lands)
+- [x] Track B merged (shading opacity ~0.3 DoubleSide depthWrite false, rings, grid)
+- [x] Track C merged (pixel grid + mm label + contours, capped cells)
+- [x] Track D merged (unit + e2e green, LEARNINGS dated entry, per-track commits)

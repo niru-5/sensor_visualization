@@ -292,3 +292,58 @@ visually verified in an actual browser**, same gap as noted below.
 - **If the flicker ever comes back:** restart `npm run dev` first (config
   changes hot-restart Vite, but a stale process is the first thing to rule
   out), then run `npm run test:e2e`.
+
+## 2026-09-22: Viz upgrade — shared-view, shading, pixel grid (Tracks B/C/D)
+
+Single shared-view comparison (one Canvas, co-located frustums at identical
+pose, per-camera palette, FOV shading, GSD pixel grid), inspired by Tangram's
+`fov/lidar-visualizer`. What was borrowed from that genre: a single
+comparison stage instead of N auto-fit panels; translucent depth-readable
+volumes with opaque edge lines; ground-anchored scale references so sizes
+read at a glance. What is ours: the palette/risk-color split, the GSD
+footprint overlay with mm/px badges, and the flicker-guard test pattern from
+the 2026-09-20 entry above, extended to the shared view.
+
+- **Symptom:** N separate `FovCone3D` Canvases each auto-fit (never the same
+  POV), frustums tinted by risk instead of camera identity, no pixel grid,
+  flat shading — cameras could not be judged against each other.
+- **Cause:** per-panel auto-fit diverged by construction (`computeFitDistance`
+  per footprint); risk colors doubled as frustum tint; GSD lived only in
+  numbers, never on the footprint.
+- **Fix (B):** `src/components/FovShading.tsx` — transparent FOV volume
+  (`meshBasicMaterial`, opacity 0.3, `DoubleSide`, `depthWrite={false}`) in
+  the slot color, opaque apex→corner rays + footprint outline, range rings
+  at WD, `MetricGridFloor` + optional 1.8 m `HumanScaleReference`; pure
+  math in `src/lib/frustumGeometry.ts` (`frustumCornersAtWd`,
+  `footprintRingRadiusMm`, `rangeRingPoints`, `computeGroundY`) and identity
+  colors in `src/lib/cameraPalette.ts` (`SLOT_COLORS`, `slotColor`/
+  `slotEdgeColor`/`slotFillColor`, fill 0.16 / ray 0.55 opacities).
+- **Fix (C):** `src/components/PixelSizeGrid.tsx` + `src/lib/pixelGrid.ts`
+  (`computePixelGrid`, `formatGsdLabel`, `defaultContourEvery`) — GSD grid
+  on the footprint, stride-capped at 40 cells/axis (12 MP would otherwise
+  be millions of lines), contour emphasis, mm/px badge in the corner cell.
+- **Fix (D, this track):** new `src/lib/cameraPalette.test.ts` (slot-color
+  distinctness, risk-color separation, dark-stage contrast, cyclic N > 3,
+  canonical-vs-fallback palette agreement); supplement to
+  `src/lib/frustumGeometry.test.ts` (corners cross-checked against
+  `computeFov` directly, rectangle/diagonal invariants, degenerate-input
+  fuzzing); new `e2e/sharedViewStability.e2e.test.ts` (single-canvas +
+  toggle-without-remount, skip-based until Track A lands).
+- **Tests:** `npm test` 14 files / 164 pass; `npm run test:e2e` 3 passed +
+  3 shared-view skipped (Track A unlanded, see below); `npm run
+  typecheck`, `lint`, and `build` green.
+- **Parallel-track collision handled:** Track B committed its own
+  `src/lib/frustumGeometry.test.ts` at the same path Track D was assigned.
+  Restored B's suite verbatim and appended D's supplement in the same
+  file (nothing deleted) rather than overwriting it.
+- **Honest not-verified notes:** (1) Track A had NOT landed at this commit
+  — shared-view e2e asserts skip, and `SharedFovView.tsx` exists only as
+  uncommitted in-flight work; the single-canvas contract is therefore
+  specified, not yet proven. (2) Two opacity sources coexist: 0.3 local
+  to `FovShading` vs 0.16/0.55 in `cameraPalette` (used by in-flight
+  Track A) — unify on one. (3) `pixelGrid.ts` duplicates the palette as
+  `CAMERA_PALETTE` (flagged "Track A owns the canonical one") — dedupe
+  to an import. (4) e2e ran headless (SwiftShader) only; no human eyeball
+  on the shading/grid aesthetics yet. (5) The TODO's suggested
+  `optics.test.ts` / `twoCamera.test.ts` extensions were deliberately NOT
+  done — wait-for-others rule was new-files-only.

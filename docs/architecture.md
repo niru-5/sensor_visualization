@@ -155,9 +155,16 @@ camera_selection_tool/
 │   │   ├── opticalFormats.ts    # optical-format -> mm lookup table
 │   │   ├── extraction.ts        # shared extraction request/response types
 │   │   └── seedData.ts          # bundled starter sensors/lenses (cited sources)
+│   │   ├── cameraPalette.ts     # Track A/B: per-slot identity colors (blue/orange/green, cyclic)
+│   │   ├── frustumGeometry.ts   # Track B: pure footprint math (corners, range rings, ground Y)
+│   │   └── pixelGrid.ts         # Track C: GSD grid spec (stride-capped, contours, mm/px label)
 │   ├── components/
 │   │   ├── SensorCompare2D.tsx
-│   │   ├── FovCone3D.tsx
+│   │   ├── FovCone3D.tsx        # legacy per-camera stage (Track A replaces its use in App comparison grid)
+│   │   ├── FovShading.tsx       # Track B: shaded FOV volume + rings + metric floor + human scale
+│   │   ├── PixelSizeGrid.tsx    # Track C: GSD overlay + mm/px badge on the footprint
+│   │   │   # Track A (in flight at Track D commit): single shared-view stage,
+│   │   │   # one Canvas, visibility toggles, union fit from stageFit.ts
 │   │   ├── ComparisonTable.tsx
 │   │   ├── SensorForm.tsx / LensForm.tsx
 │   │   ├── DatasheetImportForm.tsx
@@ -181,7 +188,6 @@ camera_selection_tool/
 ```
 
 ## 7. Open architecture questions
-
 - Which LLM to call from the extraction function, and how extraction
   cost/rate limits are managed for a side project — a single personal
   API key is probably fine for v1 since it's single-user, no auth layer
