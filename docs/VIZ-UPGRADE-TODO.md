@@ -1,0 +1,136 @@
+# Visualization Upgrade TODO — Single Shared-View Comparison
+
+> Goal (inspired by Tangram `fov/lidar-visualizer`): replace N separate auto-fit
+> `FovCone3D` Canvases with a **single shared-view comparison** — co-located
+> frustums at identical pose, per-camera palette, FOV shading, pixel-size grid —
+> with tests + docs + commits per track.
+>
+> Current state: N separate `FovCone3D` Canvases each auto-fit (not same POV);
+> risk-colors not camera-colors; no pixel grid; flat shading;
+> `MetricGridFloor` / `HumanScaleReference` unwired (standalone, unused in `App`).
+>
+> How to work: 4 parallel worker tracks (A–D). Each track is independent —
+> claim one, finish it, commit it. Merge order: A → B → C → D.
+
+## Palette (shared across tracks)
+
+- Camera 1 blue `#03a9f4`, Camera 2 orange `#f8982e`, Camera 3 green `#22c55e`
+  (extend cyclically for N > 3).
+- Reserve risk colors (`#38bdf8`/`#fbbf24`/`#fb923c`/`#f87171` in
+  `src/components/FovCone3D.tsx`) for badges/labels only — never frustum tint.
+
+## Track A — Shared-View (single Canvas, same POV)
+
+Single comparison stage so cameras are judged at an identical viewpoint.
+
+- [ ] Add `src/components/SharedFovStage.tsx`: ONE `<Canvas frameloop="demand">`
+  with ONE `<OrbitControls enableDamping={false}>` (preserve demand frameloop).
+- [ ] Render all cameras co-located at identical pose: frustum per camera from
+  shared apex (apex at origin, optical axis +Z, footprint plane at z = WD).
+- [ ] Per-camera palette: frustum/rays/edges tinted by camera index
+  (blue `#03a9f4` / orange `#f8982e` / green `#22c55e`), NOT `RISK_COLOR`.
+- [ ] Visibility toggles per camera (checkbox/chip → show/hide that frustum group).
+- [ ] Shared fit: single fit distance from union of footprints
+  (reuse `computeFitDistance`/`computeStageFit`/`fitCameraPosition` from
+  `src/lib/stageFit.ts`); remove per-panel auto-fit divergence.
+- [ ] Wire into `src/App.tsx:337-410` (comparison grid section): replace
+  per-camera `<FovCone3D>` map with `<SharedFovStage>` when ≥1 camera resolved;
+  keep `sceneScaleMm` (shared scale) semantics.
+- [ ] Keep risk messaging as `Html` badges (existing `fov.horizontal.message`
+  flow in `src/components/FovCone3D.tsx`), not frustum color.
+- [ ] Commit: `feat(viz): shared-view FOV comparison stage`
+
+Files: `src/components/FovCone3D.tsx`, `src/components/SharedFovStage.tsx` (new),
+`src/App.tsx:337-410`, `src/lib/stageFit.ts`, `src/lib/twoCamera.ts`.
+
+## Track B — FOV Shading + Footprint (range rings, ground grid)
+
+Depth-readable FOV volume + measurable ground reference.
+
+- [x] Transparent FOV sector/volume per camera: `meshBasicMaterial`
+  `transparent opacity ~0.3`, `side={THREE.DoubleSide}`, `depthWrite={false}`
+  in camera color (see Palette above) — `src/components/FovShading.tsx` (`FovShading`, `FOV_SHADING_OPACITY = 0.3`, color via `src/lib/cameraPalette.ts` `slotColor`).
+- [x] Opaque edge lines in camera color: frustum rays apex→corners +
+  footprint outline (`lineBasicMaterial`, full opacity) — ported pattern from
+  `Frustum` in `src/components/FovCone3D.tsx` (`footprintEdges`/`raySets`
+  memo + dispose) into `FovShading`.
+- [x] Range rings at WD: circumscribed circle of the footprint at the
+  working-distance plane per camera (`rangeRingPoints` +
+  `footprintRingRadiusMm` in `src/lib/frustumGeometry.ts`), camera-colored,
+  with mm label (`Ø {d}mm @ {wd}mm`).
+- [x] Meter ground grid wired as stage dressing: `StageFloor` in
+  `src/components/FovShading.tsx` renders existing
+  `src/components/MetricGridFloor.tsx` (`metricGridSpec` from
+  `src/lib/scaleReference.ts`) as the stage floor; major squares = 1 m.
+  (Track A drops `StageFloor` into `SharedFovStage`; `App.tsx` untouched by this track.)
+- [x] Optional `src/components/HumanScaleReference.tsx` (1.8 m figure)
+  beside footprints as scale anchor via `StageFloor` `showHuman` prop
+  (default off).
+- [x] Floor placement helper: `computeGroundY` in `src/lib/frustumGeometry.ts`
+  ports the `groundY` logic from `src/components/FovCone3D.tsx`; fog/grid
+  extents stay with Track A's shared fit.
+- [ ] Commit: `feat(viz): FOV shading, range rings, metric ground grid`
+
+Files: `src/components/FovCone3D.tsx` (pattern source),
+`src/components/SharedFovStage.tsx`, `src/components/MetricGridFloor.tsx`,
+`src/components/HumanScaleReference.tsx`, `src/lib/scaleReference.ts`.
+
+## Track C — Resolution Pixel-Grid (GSD overlay) ✅ DONE (2026-09-22: `src/lib/pixelGrid.ts`, `src/components/PixelSizeGrid.tsx`, `src/lib/pixelGrid.test.ts` — commit `feat(viz): pixel-size GSD grid with mm labels`)
+
+Show ground-sample-distance ON the footprint so resolution differences are visible.
+
+- [x] GSD/pixel grid: grid of squares on the footprint plane at WD, cell size =
+  `mmPerPixel(fovMm, pixelCount)` from `src/lib/optics.ts` (use horizontal GSD;
+  note vertical if non-square pixels).
+- [ ] Implementation: `lineSegments` grid (or thin `planeGeometry` cells) sized
+  `fovH × fovV`, subdivided by pixel count — cap rendered cells (e.g. stride /
+  decimate when resolution is huge, e.g. 12 MP would be millions of lines).
+- [ ] mm label inside one cell (e.g. `Html` badge: `2.1 mm/px`) + axis labels
+  (`FOV {w}×{h}mm @ {wd}mm` — reuse existing badge pattern).
+- [ ] Scanline / GSD contours: every-N-lines emphasis (e.g. every 10th line
+  brighter) or GSD iso-contours so density reads at a glance.
+- [ ] Per-camera colors from shared Palette; toggle with the frustum
+  (Track A visibility toggles hide grid with parent group).
+- [ ] Reuse `mmPerPixel`, `computeFov`, `derivePixelPitchUm` from
+  `src/lib/optics.ts` — no new math utils unless tested (see Track D).
+- [ ] Commit: `feat(viz): GSD pixel-grid overlay on FOV footprint`
+
+Files: `src/lib/optics.ts` (`mmPerPixel`, `computeFov`, `derivePixelPitchUm`),
+`src/components/SharedFovStage.tsx` (or new `src/components/PixelGridOverlay.tsx`),
+`src/components/FovCone3D.tsx` (badge pattern), `src/lib/twoCamera.ts` (pairing context).
+
+## Track D — Tests + Docs (vitest, e2e, learnings, commits)
+
+Lock in the upgrade with coverage and a paper trail.
+
+- [ ] Vitest unit tests:
+  - [ ] `src/lib/optics.test.ts` — extend: `mmPerPixel` / GSD math, pixel-grid
+    stride-capping helper (new util if Track C adds one).
+  - [ ] `src/lib/twoCamera.test.ts` — extend: shared-scale / union-fit helper
+    (new util if Track A adds one, e.g. union footprint fit).
+  - [ ] New util tests (whichever Tracks A–C introduce, e.g.
+    `src/lib/sharedFit.ts`, `pixelGrid.ts`) — edge cases: invalid geometry
+    (WD ≤ f), zero/negative inputs, huge resolutions.
+- [ ] e2e stability: update `e2e/comparisonStability.e2e.test.ts` if selectors /
+  layout changed (single canvas vs N canvases); keep green (`vitest.e2e.config.ts`).
+- [ ] Docs: dated entry in `docs/LEARNINGS.md` (shared-view decision, palette,
+  GSD overlay, Tangram `fov/lidar-visualizer` inspiration + what was borrowed).
+- [ ] Docs: update `docs/architecture.md` if component tree changed
+  (`SharedFovStage`, `PixelGridOverlay`, wiring in `App.tsx:337-410`).
+- [ ] Commit after EACH track lands (A, B, C, then D):
+  `test(viz): …` / `docs(viz): …` — do not squash track commits.
+- [ ] Final full verification: `npm run test` + e2e + `npm run build` green.
+
+Files: `src/lib/optics.test.ts`, `src/lib/optics.ts`,
+`src/lib/twoCamera.test.ts`, `src/lib/twoCamera.ts`,
+`e2e/comparisonStability.e2e.test.ts`, `docs/LEARNINGS.md`,
+`docs/architecture.md`, `src/App.tsx:337-410`.
+
+---
+
+## Merge / Done checklist
+
+- [ ] Track A merged (shared view renders, toggles work, demand frameloop kept)
+- [ ] Track B merged (shading opacity ~0.3 DoubleSide depthWrite false, rings, grid)
+- [ ] Track C merged (pixel grid + mm label + contours, capped cells)
+- [ ] Track D merged (unit + e2e green, LEARNINGS dated entry, per-track commits)
