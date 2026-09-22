@@ -106,6 +106,9 @@ describe.skipIf(!CHROME)('Shared-view comparison stability (real browser)', () =
   let baseUrl: string
   let cacheDir: string
   let navigations = 0
+  // Context losses seen while entering shared view (unmounting the separate
+  // panels loses their contexts by design) — tests assert deltas from here.
+  let baselineLost = 0
 
   beforeAll(async () => {
     cacheDir = mkdtempSync(join(tmpdir(), 'vite-e2e-shared-'))
@@ -146,6 +149,16 @@ describe.skipIf(!CHROME)('Shared-view comparison stability (real browser)', () =
     await page.getByRole('button', { name: /add camera/i }).click()
     await sleep(1500)
 
+    // Track A defaults to the separate view when starting from a single
+    // slot (viewMode initializes once) and only offers the Shared switch
+    // with >1 camera — opt into the shared stage explicitly when present.
+    const sharedSwitch = page.getByRole('button', { name: 'Shared', exact: true })
+    if ((await sharedSwitch.count()) > 0) {
+      await sharedSwitch.first().click()
+      await sleep(1500)
+    }
+    baselineLost = (await snapshot(page)).lost
+
     page.on('framenavigated', (frame) => {
       if (frame === page.mainFrame()) navigations++
     })
@@ -164,7 +177,7 @@ describe.skipIf(!CHROME)('Shared-view comparison stability (real browser)', () =
     }
     const snap = await snapshot(page)
     expect(snap.canvasCount).toBe(1)
-    expect(snap.lost, 'WebGL context was lost').toBe(0)
+    expect(snap.lost, 'WebGL context was lost').toBe(baselineLost)
   }, 30_000)
 
   it('does not reload, remount, or idle-redraw the shared canvas', async (ctx) => {
@@ -183,7 +196,7 @@ describe.skipIf(!CHROME)('Shared-view comparison stability (real browser)', () =
     expect(after.canvasCount).toBe(1)
     expect(after.marked, '<canvas> was replaced').toBe(1)
     expect(after.contexts, 'a new WebGL context was created').toBe(before.contexts)
-    expect(after.lost, 'WebGL context was lost').toBe(0)
+    expect(after.lost, 'WebGL context was lost during the idle window').toBe(before.lost)
     expect(after.draws, 'shared scene redrew with no input (idle should be demand-driven)').toEqual(before.draws)
   }, 30_000)
 
@@ -213,7 +226,7 @@ describe.skipIf(!CHROME)('Shared-view comparison stability (real browser)', () =
     expect(after.canvasCount, 'toggle replaced the shared canvas').toBe(1)
     expect(after.marked, '<canvas> was replaced').toBe(1)
     expect(after.contexts, 'toggle created a new WebGL context').toBe(before.contexts)
-    expect(after.lost).toBe(0)
+    expect(after.lost, 'toggle lost the WebGL context').toBe(before.lost)
     // Toggling visibility hides a frustum group — the scene must respond.
     expect(after.draws[0], 'scene did not respond to the visibility toggle').toBeGreaterThan(before.draws[0] ?? 0)
 

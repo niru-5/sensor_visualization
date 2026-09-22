@@ -119,8 +119,9 @@ Lock in the upgrade with coverage and a paper trail.
     new-files-only; no other track added untested utils needing them.
 - [x] e2e stability: NEW `e2e/sharedViewStability.e2e.test.ts` (legacy
   `e2e/comparisonStability.e2e.test.ts` untouched, still green) —
-  single-canvas + toggle-without-remount asserts; skips until Track A
-  lands (`vitest.e2e.config.ts`).
+  single-canvas + toggle-without-remount asserts; opts into Shared mode
+  via the view switch, baselines context loss from the mode switch
+  (`vitest.e2e.config.ts`).
 - [x] Docs: dated 2026-09-22 entry in `docs/LEARNINGS.md` (shared-view
   decision, palette, GSD overlay, Tangram `fov/lidar-visualizer`
   inspiration + what was borrowed, honest not-verified notes).
@@ -131,7 +132,7 @@ Lock in the upgrade with coverage and a paper trail.
   `test(viz): …` / `docs(viz): …` — do not squash track commits.
   (B and C committed separately as `feat(viz): …`; this D commit follows.)
 - [x] Final full verification: `npm run test` (14 files / 164 pass) + e2e
-  (3 passed + 3 shared-view skipped) + `npm run typecheck` + `lint` +
+  (6 passed, zero skips) + `npm run typecheck` + `lint` +
   `npm run build` green.
 
 Files: `src/lib/optics.test.ts`, `src/lib/optics.ts`,
@@ -143,7 +144,7 @@ Files: `src/lib/optics.test.ts`, `src/lib/optics.ts`,
 
 ## Merge / Done checklist
 
-- [ ] Track A merged (shared view renders, toggles work, demand frameloop kept) — IN FLIGHT, not landed (uncommitted `SharedFovView.tsx` at D commit time; shared-view e2e skips until it lands)
+- [x] Track A merged (shared view renders, toggles work, demand frameloop kept) — `SharedFovView` + Shared/Separate switch (`9ebd4cb`)
 - [x] Track B merged (shading opacity ~0.3 DoubleSide depthWrite false, rings, grid)
 - [x] Track C merged (pixel grid + mm label + contours, capped cells)
 - [x] Track D merged (unit + e2e green, LEARNINGS dated entry, per-track commits)

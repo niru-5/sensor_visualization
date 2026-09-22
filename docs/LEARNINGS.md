@@ -329,18 +329,20 @@ the 2026-09-20 entry above, extended to the shared view.
   `computeFov` directly, rectangle/diagonal invariants, degenerate-input
   fuzzing); new `e2e/sharedViewStability.e2e.test.ts` (single-canvas +
   toggle-without-remount, skip-based until Track A lands).
-- **Tests:** `npm test` 14 files / 164 pass; `npm run test:e2e` 3 passed +
-  3 shared-view skipped (Track A unlanded, see below); `npm run
-  typecheck`, `lint`, and `build` green.
+- **Tests:** `npm test` 14 files / 164 pass; `npm run test:e2e` 6 passed
+  (3 legacy + 3 shared-view, zero skips once Track A landed — see update
+  below); `npm run typecheck`, `lint`, and `build` green.
 - **Parallel-track collision handled:** Track B committed its own
   `src/lib/frustumGeometry.test.ts` at the same path Track D was assigned.
   Restored B's suite verbatim and appended D's supplement in the same
   file (nothing deleted) rather than overwriting it.
-- **Honest not-verified notes:** (1) Track A had NOT landed at this commit
-  — shared-view e2e asserts skip, and `SharedFovView.tsx` exists only as
-  uncommitted in-flight work; the single-canvas contract is therefore
-  specified, not yet proven. (2) Two opacity sources coexist: 0.3 local
-  to `FovShading` vs 0.16/0.55 in `cameraPalette` (used by in-flight
+- **Honest not-verified notes:** (1) Track A landed mid-flight
+  (`9ebd4cb`, `SharedFovView` + Shared/Separate switch, shared default
+  with >1 camera) — the follow-up `test(e2e)` commit wires the stability
+  suite into Shared mode and all 6 e2e pass; entering Shared unmounts the
+  separate panels (their context losses are baselined, only new losses
+  fail). (2) Two opacity sources coexist: 0.3 local
+  to `FovShading` vs 0.16/0.55 in `cameraPalette` (used by
   Track A) — unify on one. (3) `pixelGrid.ts` duplicates the palette as
   `CAMERA_PALETTE` (flagged "Track A owns the canonical one") — dedupe
   to an import. (4) e2e ran headless (SwiftShader) only; no human eyeball
