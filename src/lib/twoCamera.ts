@@ -17,7 +17,7 @@ import type { Lens, Sensor } from './types'
  * so it can be unit-tested without React/three.js.
  */
 
-export const MAX_CAMERAS = 4
+export const MAX_CAMERAS = 3
 export const DEFAULT_WORKING_DISTANCE_MM = 300
 export const CAMERAS_STORAGE_KEY = 'camera-selection-tool/cameras-v1'
 
@@ -130,9 +130,9 @@ export function updateCameraSlot(
   })
 }
 
-/** Resolve each slot to its sensor/lens with first-available fallback + clamped WD. */
+/** Resolve each slot to its sensor/lens with first-available fallback + clamped WD. Capped at MAX_CAMERAS. */
 export function resolveSlots(cameras: CameraSlot[], sensors: Sensor[], lenses: Lens[]): ResolvedSlot[] {
-  return cameras.map((cam) => {
+  return cameras.slice(0, MAX_CAMERAS).map((cam) => {
     const sensor = sensors.find((s) => s.id === cam.sensorId) ?? sensors[0] ?? null
     const lens = lenses.find((l) => l.id === cam.lensId) ?? lenses[0] ?? null
     return { cam, sensor, lens, effectiveWd: effectiveWorkingDistance(cam, lens) }

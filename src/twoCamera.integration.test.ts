@@ -145,6 +145,21 @@ describe('two-camera integration flow', () => {
     expect(view.overlays[0]).toMatch(/@ 450mm/)
   })
 
+  it('comparison caps at 3 panels: a fourth add is a no-op and oversize payloads are rejected', () => {
+    let cameras = [createSlot(imx264.id, cil532.id, 300)]
+    cameras = addCameraSlot(cameras)
+    cameras = addCameraSlot(cameras)
+    expect(cameras).toHaveLength(3)
+    expect(addCameraSlot(cameras)).toHaveLength(3)
+
+    const view = computeTwoCameraView([imx264], [cil532, cil525], cameras)
+    expect(view.resolved).toHaveLength(3)
+    expect(view.overlays).toHaveLength(3)
+
+    const oversize = [1, 2, 3, 4].map((i) => ({ id: `cam-${i}`, sensorId: imx264.id, lensId: cil532.id, workingDistanceMm: 300 }))
+    expect(parseCameraSlots(oversize)).toBeNull()
+  })
+
   it('reload with corrupt storage falls back to null (caller shows a single fresh panel)', () => {
     const w = globalThis as unknown as { window: { localStorage: Storage } }
     w.window.localStorage.setItem(CAMERAS_STORAGE_KEY, 'not-json{{{')

@@ -83,7 +83,7 @@ describe('slot CRUD', () => {
     expect(a.id).not.toBe(b.id)
   })
 
-  it('addCameraSlot seeds from the last slot and stops at 4', () => {
+  it('addCameraSlot seeds from the last slot and stops at 3', () => {
     let slots = [createSlot(imx264.id, cil532.id, 400)]
     slots = addCameraSlot(slots)
     expect(slots).toHaveLength(2)
@@ -91,9 +91,10 @@ describe('slot CRUD', () => {
     expect(slots[1]?.lensId).toBe(cil532.id)
     expect(slots[1]?.workingDistanceMm).toBe(400)
     slots = addCameraSlot(slots)
-    slots = addCameraSlot(slots)
-    expect(slots).toHaveLength(4)
-    expect(addCameraSlot(slots)).toHaveLength(4)
+    expect(slots).toHaveLength(3)
+    expect(addCameraSlot(slots)).toHaveLength(3)
+    // A fourth add is a no-op at the cap.
+    expect(addCameraSlot(addCameraSlot(slots))).toHaveLength(3)
   })
 
   it('removeCameraSlot keeps at least one panel and ignores unknown ids', () => {
@@ -191,6 +192,21 @@ describe('resolve / scale / dedupe / layout edge cases', () => {
   it('panelLayout switches grid/height at 2+ panels', () => {
     expect(panelLayout(1)).toEqual({ gridColsClass: 'grid-cols-1', panelHeight: 'h-[480px]' })
     expect(panelLayout(2)).toEqual({ gridColsClass: 'grid-cols-1 md:grid-cols-2', panelHeight: 'h-[340px]' })
+    expect(panelLayout(3)).toEqual({ gridColsClass: 'grid-cols-1 md:grid-cols-2', panelHeight: 'h-[340px]' })
+  })
+
+  it('comparison is capped at 3 cameras: resolve/compute ignore slots beyond the cap', () => {
+    const four = [
+      createSlot(imx264.id, cil532.id, 300),
+      createSlot(imx264.id, cil532.id, 400),
+      createSlot(imx264.id, cil532.id, 500),
+      createSlot(imx264.id, cil532.id, 600),
+    ]
+    expect(resolveSlots(four, [imx264], [cil532])).toHaveLength(3)
+    const view = computeTwoCameraView([imx264], [cil532], four)
+    expect(view.resolved).toHaveLength(3)
+    expect(view.overlays).toHaveLength(3)
+    expect(view.sharedScale).toBe(500)
   })
 
   it('parseCameraSlots accepts good data and rejects corrupt/oversize payloads', () => {
@@ -200,6 +216,10 @@ describe('resolve / scale / dedupe / layout edge cases', () => {
     expect(parseCameraSlots({})).toBeNull()
     expect(parseCameraSlots([{ id: '', sensorId: null, lensId: null, workingDistanceMm: 300 }])).toBeNull()
     expect(parseCameraSlots([{ id: 'x', sensorId: null, lensId: null, workingDistanceMm: -5 }])?.[0]?.workingDistanceMm).toBe(300)
+    const three = [1, 2, 3].map((i) => ({ id: `cam-${i}`, sensorId: null, lensId: null, workingDistanceMm: 300 }))
+    expect(parseCameraSlots(three)).toHaveLength(3)
+    const four = [1, 2, 3, 4].map((i) => ({ id: `cam-${i}`, sensorId: null, lensId: null, workingDistanceMm: 300 }))
+    expect(parseCameraSlots(four)).toBeNull()
     const five = [1, 2, 3, 4, 5].map((i) => ({ id: `cam-${i}`, sensorId: null, lensId: null, workingDistanceMm: 300 }))
     expect(parseCameraSlots(five)).toBeNull()
   })

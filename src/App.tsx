@@ -12,6 +12,7 @@ import { useWizardDraft } from './components/useWizardDraft'
 import { WizardPanel } from './components/WizardPanel'
 import { useAppData } from './store/useAppData'
 import {
+  MAX_CAMERAS,
   addCameraSlot,
   computeTwoCameraView,
   createSlot,
@@ -142,7 +143,7 @@ export default function App() {
   }
 
   const { gridColsClass, panelHeight } = panelLayout(cameras.length)
-  const maxedOut = cameras.length >= 4
+  const maxedOut = cameras.length >= MAX_CAMERAS
 
   return (
     <div className="min-h-screen bg-neutral-100">
@@ -328,7 +329,7 @@ export default function App() {
                   disabled={maxedOut}
                   className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  + Add camera{maxedOut ? ' (max 4)' : ''}
+                  + Add camera{maxedOut ? ` (max ${MAX_CAMERAS})` : ''}
                 </button>
               </div>
 
