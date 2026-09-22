@@ -36,8 +36,8 @@ interface FovStageProps extends FovCone3DProps {
   heightClass?: string
 }
 
-/** Stylized camera body + lens barrel sitting at the frustum apex — reads as "a camera", not just a wireframe box. */
-function CameraRig({ sensor }: { sensor: Sensor }) {
+/** Stylized camera body + lens barrel sitting at the frustum apex — reads as "a camera", not just a wireframe box. Exported for the shared-view stage (single rig at the shared apex). */
+export function CameraRig({ sensor }: { sensor: Sensor }) {
   const sw = sensor.widthMm / 2
   const sh = sensor.heightMm / 2
   const lensRadius = Math.max(4, Math.min(sw, sh) * 0.85)

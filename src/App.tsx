@@ -8,6 +8,7 @@ import { FovReadout } from './components/FovReadout'
 import { LensForm } from './components/LensForm'
 import { RankedPairingsPanel } from './components/RankedPairingsPanel'
 import { SensorForm } from './components/SensorForm'
+import { SharedFovView } from './components/SharedFovView'
 import { useWizardDraft } from './components/useWizardDraft'
 import { WizardPanel } from './components/WizardPanel'
 import { useAppData } from './store/useAppData'
@@ -89,6 +90,11 @@ export default function App() {
   // The camera comparison slots. Restored from localStorage when present so a
   // 2-panel comparison survives reload; otherwise start with a single camera.
   const [cameras, setCameras] = useState<CameraSlot[]>(() => loadCameraSlots() ?? [createSlot(null, null)])
+  // Shared vs separate 3D comparison. Defaults to the single shared stage
+  // whenever more than one camera is in play (Track A shared-view).
+  const [viewMode, setViewMode] = useState<'shared' | 'separate'>(() =>
+    (loadCameraSlots()?.length ?? 1) > 1 ? 'shared' : 'separate',
+  )
 
   useEffect(() => {
     saveCameraSlots(cameras)
@@ -118,6 +124,9 @@ export default function App() {
   const resolved = view.resolved
   // Shared world scale across every panel → identical camera position and true 1:1 framing.
   const sharedScaleMm = view.sharedScale
+  // Shared-stage mode needs >1 camera and at least one configured frustum.
+  const hasHardware = resolved.some((r) => r.sensor && r.lens)
+  const showShared = viewMode === 'shared' && resolved.length > 1 && hasHardware
   // Lenses currently in play, de-duplicated, feed the lens comparison table automatically.
   const camerasLenses = view.playLenses as Lens[]
 
@@ -321,17 +330,45 @@ export default function App() {
                 <div>
                   <h2 className="text-base font-semibold text-neutral-800">Camera comparison</h2>
                   <p className="text-sm text-neutral-500">
-                    Each panel is one camera at the same shared scale, so the 3D views are a genuine 1:1 comparison.
+                    {showShared
+                      ? 'All cameras share one 3D stage at the same viewpoint — a genuine 1:1 comparison. Toggle cameras with the chips above the stage.'
+                      : 'Each panel is one camera at the same shared scale, so the 3D views are a genuine 1:1 comparison.'}
                   </p>
                 </div>
-                <button
-                  onClick={addCamera}
-                  disabled={maxedOut}
-                  className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
-                >
-                  + Add camera{maxedOut ? ` (max ${MAX_CAMERAS})` : ''}
-                </button>
+                <div className="flex flex-wrap items-center gap-2">
+                  {resolved.length > 1 && hasHardware && (
+                    <div role="group" aria-label="Comparison view" className="flex overflow-hidden rounded border border-neutral-300">
+                      <button
+                        onClick={() => setViewMode('shared')}
+                        aria-pressed={viewMode === 'shared'}
+                        className={`px-3 py-1.5 text-sm font-medium ${viewMode === 'shared' ? 'bg-slate-900 text-white' : 'bg-white text-neutral-600 hover:bg-neutral-50'}`}
+                      >
+                        Shared
+                      </button>
+                      <button
+                        onClick={() => setViewMode('separate')}
+                        aria-pressed={viewMode === 'separate'}
+                        className={`px-3 py-1.5 text-sm font-medium ${viewMode === 'separate' ? 'bg-slate-900 text-white' : 'bg-white text-neutral-600 hover:bg-neutral-50'}`}
+                      >
+                        Separate
+                      </button>
+                    </div>
+                  )}
+                  <button
+                    onClick={addCamera}
+                    disabled={maxedOut}
+                    className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    + Add camera{maxedOut ? ` (max ${MAX_CAMERAS})` : ''}
+                  </button>
+                </div>
               </div>
+
+              {showShared && (
+                <ErrorBoundary key="shared-fov-view" label="SharedFovView">
+                  <SharedFovView slots={resolved} sharedScaleMm={sharedScaleMm} heightClass="h-[480px]" />
+                </ErrorBoundary>
+              )}
 
               <div className={`grid gap-6 ${gridColsClass}`}>
                 {resolved.map(({ cam, sensor, lens, effectiveWd }, index) => {
@@ -397,15 +434,17 @@ export default function App() {
 
                       {sensor && lens ? (
                         <>
-                          <ErrorBoundary key={`fov-${cam.id}`} label={`FovCone3D-${cam.id}`}>
-                            <FovCone3D
-                              sensor={sensor}
-                              lens={lens}
-                              workingDistanceMm={effectiveWd}
-                              sceneScaleMm={sharedScaleMm}
-                              heightClass={panelHeight}
-                            />
-                          </ErrorBoundary>
+                          {!showShared && (
+                            <ErrorBoundary key={`fov-${cam.id}`} label={`FovCone3D-${cam.id}`}>
+                              <FovCone3D
+                                sensor={sensor}
+                                lens={lens}
+                                workingDistanceMm={effectiveWd}
+                                sceneScaleMm={sharedScaleMm}
+                                heightClass={panelHeight}
+                              />
+                            </ErrorBoundary>
+                          )}
                           <FovReadout sensor={sensor} lens={lens} workingDistanceMm={effectiveWorkingDistance(cam, lens)} />
                         </>
                       ) : (

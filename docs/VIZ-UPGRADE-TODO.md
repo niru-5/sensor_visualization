@@ -23,22 +23,23 @@
 
 Single comparison stage so cameras are judged at an identical viewpoint.
 
-- [ ] Add `src/components/SharedFovStage.tsx`: ONE `<Canvas frameloop="demand">`
+- [x] Add `src/components/SharedFovView.tsx` (implements the planned `SharedFovStage.tsx`): ONE `<Canvas frameloop="demand">`
   with ONE `<OrbitControls enableDamping={false}>` (preserve demand frameloop).
-- [ ] Render all cameras co-located at identical pose: frustum per camera from
+- [x] Render all cameras co-located at identical pose: frustum per camera from
   shared apex (apex at origin, optical axis +Z, footprint plane at z = WD).
-- [ ] Per-camera palette: frustum/rays/edges tinted by camera index
+- [x] Per-camera palette (`src/lib/cameraPalette.ts` SLOT_COLORS + edge/fill helpers): frustum/rays/edges tinted by camera index
   (blue `#03a9f4` / orange `#f8982e` / green `#22c55e`), NOT `RISK_COLOR`.
-- [ ] Visibility toggles per camera (checkbox/chip → show/hide that frustum group).
-- [ ] Shared fit: single fit distance from union of footprints
+- [x] Visibility toggles per camera (chip → show/hide that frustum group).
+- [x] Shared fit: single fit distance from union of footprints
   (reuse `computeFitDistance`/`computeStageFit`/`fitCameraPosition` from
   `src/lib/stageFit.ts`); remove per-panel auto-fit divergence.
-- [ ] Wire into `src/App.tsx:337-410` (comparison grid section): replace
-  per-camera `<FovCone3D>` map with `<SharedFovStage>` when ≥1 camera resolved;
-  keep `sceneScaleMm` (shared scale) semantics.
-- [ ] Keep risk messaging as `Html` badges (existing `fov.horizontal.message`
+- [x] Wire into `src/App.tsx` (comparison grid section): Shared/Separate toggle
+  (default Shared when >1 camera); shared mode renders one `<SharedFovView>`
+  above the control cards instead of per-camera `<FovCone3D>`; separate mode
+  keeps the existing per-panel stages. Keeps `sceneScaleMm` (shared scale) semantics.
+- [x] Keep risk messaging as `Html` badges (existing `fov.horizontal.message`
   flow in `src/components/FovCone3D.tsx`), not frustum color.
-- [ ] Commit: `feat(viz): shared-view FOV comparison stage`
+- [x] Commit: `feat(viz): shared-view comparison with per-camera palette`
 
 Files: `src/components/FovCone3D.tsx`, `src/components/SharedFovStage.tsx` (new),
 `src/App.tsx:337-410`, `src/lib/stageFit.ts`, `src/lib/twoCamera.ts`.
@@ -130,7 +131,7 @@ Files: `src/lib/optics.test.ts`, `src/lib/optics.ts`,
 
 ## Merge / Done checklist
 
-- [ ] Track A merged (shared view renders, toggles work, demand frameloop kept)
+- [x] Track A merged (shared view renders, toggles work, demand frameloop kept)
 - [ ] Track B merged (shading opacity ~0.3 DoubleSide depthWrite false, rings, grid)
 - [ ] Track C merged (pixel grid + mm label + contours, capped cells)
 - [ ] Track D merged (unit + e2e green, LEARNINGS dated entry, per-track commits)
