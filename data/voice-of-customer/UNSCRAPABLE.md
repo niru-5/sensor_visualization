@@ -68,6 +68,12 @@ Rule: blocked ≠ skipped silently — record here, then crack with the listed t
 - **Reason:** phpBB forum with no Cloudflare/WAF wall encountered from this egress.
 - **To crack:** N/A — plain fetch suffices; strip session `sid` for canonical URLs. (`search.php` untested; `viewforum.php` pagination used instead.)
 
+## 7. Image.sc Forum (forum.image.sc) — no wall
+
+- **Status 2026-09-26: CRACKED 2026-09-26 via Scrapling JSON API** — plain Scrapling `Fetcher.get` (no stealth, no custom User-Agent) returned HTTP 200 on 22/22 fetches live 2026-09-26: homepage + categories.json + 8 search.json queries + 12 topic JSONs; 10 Basler/Micro-Manager + lens threads recorded (see [imagesc-supplement.md](imagesc-supplement.md)); google URL skipped CAPTCHA-walled, site search.json used instead. (commit 'docs(data): index image.sc supplement')
+- **Reason:** Discourse JSON API open from this egress (no Cloudflare/WAF wall encountered); Google search URL CAPTCHA-walled so skipped.
+- **To crack:** N/A — plain fetch of the Discourse JSON API suffices; strip slugs for canonical `https://forum.image.sc/t/<slug>/<id>` URLs.
+
 ## Crawl hygiene (applies to all of the above)
 
 - Identify with a contactable User-Agent; respect robots.txt + rate limits.

@@ -1,6 +1,6 @@
 # Voice of Customer — camera-selection pain evidence
 
-70 real threads collected 2026-09-24/25/26: 32 original + 38 supplement (10 RPi forums + 10 Reddit + 9 vendor/Basler/automate/cable + 9 SharpCap/Basler).
+80 real threads collected 2026-09-24/25/26: 32 original + 48 supplement (10 RPi forums + 10 Reddit + 9 vendor/Basler/automate/cable + 9 SharpCap/Basler + 10 image.sc).
 Every URL below was returned live by a public API (no invented links).
 Per-source files hold title + URL + date + 1–2 line pain summary.
 
@@ -20,6 +20,8 @@ Sources:
   (2 Basler archived lens guides, 1 automate.org hub, 2 vendor lens KB, 4 GigE/USB3 cable items, 2026-09-26)
 - [sharpcap-supplement.md](sharpcap-supplement.md) — 9 threads via plain Scrapling `Fetcher.get`
   (phpBB f=26 Basler Cameras, 13/13, no lens-choice threads — model/driver/ROI/trigger pains, 2026-09-26)
+- [imagesc-supplement.md](imagesc-supplement.md) — 10 threads via plain Scrapling `Fetcher.get`
+  (Discourse bioimaging Image.sc Forum, 22/22 via JSON API, dominant pain Micro-Manager Pylon pairing + 2 lens threads, 2026-09-26)
 - [UNSCRAPABLE.md](UNSCRAPABLE.md) — every site that blocked scraping + how to crack it
 
 ## Index by theme
