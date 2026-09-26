@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VoC Problem-Bucket Graph — 80 threads</title>
+<style>
+  :root { --fg:#1a1a1a; --mut:#5a5a5a; --acc:#2563eb; --bg:#fff; --card:#f6f8fb; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--fg);
+         max-width: 960px; margin: 2rem auto; padding: 0 1rem; background:var(--bg); }
+  h1 { font-size:1.5rem; margin-bottom:0; }
+  .sub { color:var(--mut); margin:.25rem 0 1.5rem; }
+  .note { background:#fffbeb; border:1px solid #f5d76e; border-radius:8px; padding:.6rem .9rem;
+          font-size:.85rem; margin-bottom:1.5rem; }
+  figure { margin:0 0 2rem; }
+  figcaption { color:var(--mut); font-size:.85rem; margin-top:.4rem; }
+  .grid { display:grid; grid-template-columns:1fr; gap:1rem; }
+  @media (min-width:720px){ .grid{ grid-template-columns:1fr 1fr; } }
+  .card { background:var(--card); border:1px solid #e2e8f0; border-radius:10px; padding:.9rem 1rem; }
+  .card h2 { font-size:1rem; margin:0 0 .3rem; }
+  .pill { display:inline-block; background:var(--acc); color:#fff; border-radius:999px;
+          font-size:.75rem; padding:.1rem .6rem; margin-left:.4rem; vertical-align:middle; }
+  .card ul { margin:.4rem 0 .2rem 1.1rem; padding:0; font-size:.88rem; }
+  .card li { margin:.25rem 0; }
+  .members { font-size:.78rem; color:var(--mut); word-break:break-word; }
+  a { color:var(--acc); }
+  .bar-label { font:12px system-ui,sans-serif; fill:var(--fg); }
+  .bar-count { font:12px system-ui,sans-serif; fill:var(--mut); }
+  footer { color:var(--mut); font-size:.8rem; margin-top:2rem; border-top:1px solid #e2e8f0; padding-top:.8rem; }
+  code { background:#eef2f7; padding:.05rem .3rem; border-radius:4px; font-size:.85em; }
+</style>
+</head>
+<body>
+<h1>Voice-of-Customer Problem-Bucket Graph</h1>
+<p class="sub">80 real threads across 8 source files in <code>data/voice-of-customer/</code> · each item in exactly one bucket · generated 2026-09-26</p>
+<div class="note"><strong>Offline note:</strong> this page is dependency-free on purpose — the chart below is
+pure inline SVG (no Chart.js CDN, no build step). Open the file directly in any browser; it renders offline.
+Source of truth for counts and the full 80-item audit table:
+<code>docs/VOC-PROBLEM-GRAPH.md</code>.</div>
+
+<figure role="img" aria-label="Bar chart of VoC problem buckets: driver/software 18, mount/coverage 14, FOV math 10, resolution 8, shutter 6, interface 6, cables 6, selection 5, lighting 4, misc 3.">
+<svg viewBox="0 0 640 360" width="100%" role="presentation">
+  <!-- axes -->
+  <line x1="230" y1="10" x2="230" y2="320" stroke="#999"/>
+  <line x1="230" y1="320" x2="630" y2="320" stroke="#999"/>
+  <g>
+    <text class="bar-label" x="0" y="39">F · driver/software</text>
+    <rect x="230" y="24" width="360" height="18" fill="#2563eb"/><text class="bar-count" x="596" y="38">18 · 22.5%</text>
+    <text class="bar-label" x="0" y="69">B · mount/coverage</text>
+    <rect x="230" y="54" width="280" height="18" fill="#2563eb"/><text class="bar-count" x="516" y="68">14 · 17.5%</text>
+    <text class="bar-label" x="0" y="99">A · FOV/WD math</text>
+    <rect x="230" y="84" width="200" height="18" fill="#3b82f6"/><text class="bar-count" x="436" y="98">10 · 12.5%</text>
+    <text class="bar-label" x="0" y="129">C · resolution/GSD</text>
+    <rect x="230" y="114" width="160" height="18" fill="#3b82f6"/><text class="bar-count" x="396" y="128">8 · 10.0%</text>
+    <text class="bar-label" x="0" y="159">D · shutter/motion</text>
+    <rect x="230" y="144" width="120" height="18" fill="#60a5fa"/><text class="bar-count" x="356" y="158">6 · 7.5%</text>
+    <text class="bar-label" x="0" y="189">E · interface/net</text>
+    <rect x="230" y="174" width="120" height="18" fill="#60a5fa"/><text class="bar-count" x="356" y="188">6 · 7.5%</text>
+    <text class="bar-label" x="0" y="219">G · cables/range</text>
+    <rect x="230" y="204" width="120" height="18" fill="#60a5fa"/><text class="bar-count" x="356" y="218">6 · 7.5%</text>
+    <text class="bar-label" x="0" y="249">I · selection/budget</text>
+    <rect x="230" y="234" width="100" height="18" fill="#93c5fd"/><text class="bar-count" x="336" y="248">5 · 6.2%</text>
+    <text class="bar-label" x="0" y="279">H · lighting/focus</text>
+    <rect x="230" y="264" width="80" height="18" fill="#93c5fd"/><text class="bar-count" x="316" y="278">4 · 5.0%</text>
+    <text class="bar-label" x="0" y="309">J · misc</text>
+    <rect x="230" y="294" width="60" height="18" fill="#bfdbfe"/><text class="bar-count" x="296" y="308">3 · 3.8%</text>
+  </g>
+</svg>
+<figcaption>Bucket share of 80 VoC threads. Bar width = thread count (20 px per thread). Top pain: driver/software pairing (18).</figcaption>
+</figure>
+
+<div class="grid">
+
+<div class="card"><h2>F · Driver / software pairing <span class="pill">18 · 22.5%</span></h2>
+<ul>
+<li><a href="https://forum.image.sc/t/basler-pylon-unavailable/87608">Basler Pylon Unavailable (Micro-Manager)</a></li>
+<li><a href="https://forums.sharpcap.co.uk/viewtopic.php?t=9278">Unable to connect Basler a2A 1920-160uc PRO</a></li>
+<li><a href="https://forums.developer.nvidia.com/t/issue-installing-arducam-imx477-driver-on-jetson-runtimeerror-mountpoint-mnt-app-already-exists/332548">Arducam IMX477 driver install fails on Jetson</a></li>
+</ul>
+<p class="members">nvidia267033, nvidia332548, arducam10210, r-embedded-1w6yys9, sharpcap7757, sharpcap8617, sharpcap9278, sharpcap6068, sharpcap151, sharpcap1263, imagesc87608, imagesc51786, imagesc60274, imagesc68660, imagesc79843, imagesc111299, nvidia340841, imagesc113646</p></div>
+
+<div class="card"><h2>B · Mount / sensor coverage <span class="pill">14 · 17.5%</span></h2>
+<ul>
+<li><a href="https://www.reddit.com/r/raspberry_pi/comments/1g4nyka/whats_the_difference_between_hq_camera_ccs_and/">HQ Camera C/CS vs M12 lenses?</a></li>
+<li><a href="https://photo.stackexchange.com/q/130699">What determines the image circle diameter?</a></li>
+<li><a href="https://forums.raspberrypi.com/viewtopic.php?t=391378">16 mm telephoto C/CS adapter back-focus</a></li>
+</ul>
+<p class="members">r-raspberry_pi-1g4nyka, photo130699, photo86448, photo43451, arducam5545, r-raspberry_pi-12dt3jc, r-raspberry_pi-1br9mfu, r-raspberry_pi-1m0kw6a, rpi400640, rpi395856, rpi391378, rpi381840, basler-learning-lens-selection, r-computervision-1vcoeut</p></div>
+
+<div class="card"><h2>A · FOV / focal-length / WD math <span class="pill">10 · 12.5%</span></h2>
+<ul>
+<li><a href="https://photo.stackexchange.com/q/135377">Focal length/sensor/resolution from angle + FOV + WD</a></li>
+<li><a href="https://forums.raspberrypi.com/viewtopic.php?t=396825">Lens for 10 m laser targeting of 6 cm target</a></li>
+<li><a href="https://www.edmundoptics.com/knowledge-center/application-notes/imaging/understanding-focal-length-and-field-of-view/">Edmund: focal length &amp; FOV app note</a></li>
+</ul>
+<p class="members">r-raspberry_pi-yntdla, arducam5585, photo135377, photo132122, photo131213, rpi396825, rpi395080, edmund-focal-length-fov, r-raspberry_pi-12x86n0, basler-vision-campus-expert-tips-lens</p></div>
+
+<div class="card"><h2>C · Resolution / GSD / frame-rate <span class="pill">8 · 10.0%</span></h2>
+<ul>
+<li><a href="https://forum.arducam.com/t/how-to-determine-pixel-to-millimeter-ratio-using-an-arducam-camera-with-known-focus/8102">Pixel-to-mm ratio from known focus</a></li>
+<li><a href="https://stackoverflow.com/q/31444235">Defect detection in product</a></li>
+<li><a href="https://forums.sharpcap.co.uk/viewtopic.php?t=6139">Basler max fps with ROI</a></li>
+</ul>
+<p class="members">r-computervision-1vipntd, so31444235, r-computervision-1t73a6v, arducam8102, rpi389713, rpi393090, sharpcap6139, rpi387864</p></div>
+
+<div class="card"><h2>D · Shutter / motion blur <span class="pill">6 · 7.5%</span></h2>
+<ul>
+<li><a href="https://www.reddit.com/r/computervision/comments/1w9nud3/camera_recommendation_for_realtime_object/">Conveyor tracking camera, $150–280</a></li>
+<li><a href="https://www.reddit.com/r/computervision/comments/1rpyu0s/looking_for_a_monglobalshutter_camera_120500_fps/">Mono/GS 120–500 FPS eye tracker</a></li>
+<li><a href="https://forums.developer.nvidia.com/t/compatibility-of-jetson-orin-nano-with-raspberry-pi-global-shutter-camera-imx296/311050">Orin Nano + Pi GS Camera (IMX296)</a></li>
+</ul>
+<p class="members">r-computervision-1w9nud3, r-computervision-1rpyu0s, nvidia311050, r-computervision-1svi4dk, imagesc114067, sharpcap6234</p></div>
+
+<div class="card"><h2>E · Interface / bandwidth <span class="pill">6 · 7.5%</span></h2>
+<ul>
+<li><a href="https://stackoverflow.com/q/11222813">2 USB cameras not working with OpenCV</a></li>
+<li><a href="https://stackoverflow.com/q/73080768">Docker can't access Basler GigE camera</a></li>
+<li><a href="https://forums.ni.com/t5/Machine-Vision/GigE-Vsion-images-sometimes-corrupted/td-p/2037614">GigE Vision images sometimes corrupted</a></li>
+</ul>
+<p class="members">so11222813, so73080768, r-computervision-1w48m73, ni-gige-corrupted-images, teledyne-robust-gige, r-computervision-1ukff19</p></div>
+
+<div class="card"><h2>G · Cables / pinout / range <span class="pill">6 · 7.5%</span></h2>
+<ul>
+<li><a href="https://www.reddit.com/r/raspberry_pi/comments/1uuaxmm/would_this_work_im_trying_to_extend_my_camera/">Extending a Camera Module 3 cable</a></li>
+<li><a href="https://forums.raspberrypi.com/viewtopic.php?t=389366">Longer than 500 mm ribbon cable</a></li>
+<li><a href="https://www.teledynevisionsolutions.com/support/support-center/application-note/iis/extending-the-working-distance-of-usb-3.1-cameras">Teledyne: extending USB3 working distance</a></li>
+</ul>
+<p class="members">r-raspberry_pi-1uuaxmm, nvidia349380, r-embedded-1w6sizz, rpi389366, teledyne-usb3-working-distance, zwo-max-usb3-cable</p></div>
+
+<div class="card"><h2>I · Selection / availability / budget <span class="pill">5 · 6.2%</span></h2>
+<ul>
+<li><a href="https://www.reddit.com/r/raspberry_pi/comments/1pn1abj/need_help_finding_the_best_low_light_wide_angle/">Best low-light wide-angle Pi camera?</a></li>
+<li><a href="https://www.reddit.com/r/computervision/comments/1vq21dk/i_cant_find_cameras_in_stock/">I can't find cameras in stock</a></li>
+<li><a href="https://forum.image.sc/t/recommendations-for-microscope-cameras-for-brightfield-microscopy/109934">Microscope cameras for brightfield</a></li>
+</ul>
+<p class="members">r-raspberry_pi-1pn1abj, r-raspberry_pi-1er788d, r-computervision-1vq21dk, basler-lens-selecting-easy-way, imagesc109934</p></div>
+
+<div class="card"><h2>H · Lighting / focus / IR <span class="pill">4 · 5.0%</span></h2>
+<ul>
+<li><a href="https://stackoverflow.com/q/10168686">Coca-Cola can recognition: algorithm vs lighting</a></li>
+<li><a href="https://www.reddit.com/r/raspberry_pi/comments/1qtmszq/how_to_set_arducam_b0371_imx519s_focus_to_infinite/">Arducam IMX519 focus to infinity</a></li>
+<li><a href="https://forum.arducam.com/t/autofocus-and-motorized-focus-not-working-on-arducam-imx519-ak7375-cameras-on-raspberry-pi/10813">IMX519 AK7375 autofocus broken</a></li>
+</ul>
+<p class="members">r-raspberry_pi-1qtmszq, arducam10813, so10168686, imagesc93389</p></div>
+
+<div class="card"><h2>J · Misc <span class="pill">3 · 3.8%</span></h2>
+<ul>
+<li><a href="https://www.reddit.com/r/machinevision/comments/1o2ui9n/compact_3dvision_setup_on_a_robotic_car_testing/">Compact 3D-vision on a robotic car</a> — multi-domain system design, no single bucket</li>
+<li><a href="https://www.automate.org/vision">A3 Vision &amp; Imaging hub</a> — standards/training competence, not a camera pain</li>
+<li><a href="https://forums.sharpcap.co.uk/viewtopic.php?t=7821">Temp sensor + gain UX + usable-area confusion</a> — mixed feature/UX thread</li>
+</ul>
+</div>
+
+</div>
+
+<footer>Single-label classification · ties broken by the asker's primary question ·
+full audit table + mermaid + ASCII chart in <code>docs/VOC-PROBLEM-GRAPH.md</code>.</footer>
+</body>
+</html>
