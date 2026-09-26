@@ -1,6 +1,6 @@
 # Voice of Customer — camera-selection pain evidence
 
-32 real threads collected 2026-09-24/25 from three completed crawls.
+61 real threads collected 2026-09-24/25/26: 32 original + 29 supplement (10 RPi forums + 10 Reddit + 9 vendor/Basler/automate/cable).
 Every URL below was returned live by a public API (no invented links).
 Per-source files hold title + URL + date + 1–2 line pain summary.
 
@@ -12,6 +12,12 @@ Sources:
   (`forums.developer.nvidia.com/search.json`, `forum.arducam.com/search.json`)
 - [machine-vision-stack.md](machine-vision-stack.md) — 10 threads via Stack Exchange API
   (`api.stackexchange.com/2.3/search/advanced`, Photo.SE + StackOverflow)
+- [rpi-supplement.md](rpi-supplement.md) — 10 threads via Scrapling StealthyFetcher
+  (Turnstile 307→200 solved; `viewforum.php?f=43` pagination + `viewtopic.php?t=<id>`, 2026-09-26)
+- [reddit-supplement.md](reddit-supplement.md) — 10 threads via Firecrawl `search`
+  (threads the earlier Arctic Shift title-search missed; metadata via Arctic Shift mirror, 2026-09-26)
+- [vendor-supplement.md](vendor-supplement.md) — 9 items via Wayback CDX + Firecrawl search/scrape
+  (2 Basler archived lens guides, 1 automate.org hub, 2 vendor lens KB, 4 GigE/USB3 cable items, 2026-09-26)
 - [UNSCRAPABLE.md](UNSCRAPABLE.md) — every site that blocked scraping + how to crack it
 
 ## Index by theme
@@ -76,6 +82,12 @@ Sources:
 
 ## Method notes
 
+- Supplement methods (2026-09-26 re-crack): Scrapling `StealthyFetcher` Turnstile solve
+  (RPi forums; `search.php` login-walled so `viewforum.php` pagination used); Firecrawl
+  `search` for discovery where `scrape` refused reddit (`.json` 403, mirror fallback);
+  Wayback CDX domain/urlkey search (Basler community hostname zero records — nearest
+  archived lens items instead; Cloudy Nights 403 excluded); Arctic Shift mirror
+  single-token `query` + `subreddit` lookup for reddit metadata.
 - Reddit dates are `created_utc` as returned by Arctic Shift; note its index
   contains re-ingested/recent posts, so several dates fall in 2026.
 - Discourse dates are topic `created_at` from `search.json`.
