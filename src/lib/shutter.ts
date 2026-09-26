@@ -1,16 +1,16 @@
 /**
- * Minimal shutter math for Track VIZ (blur/skew readout).
+ * Track VIZ adapter over Track OPTICS shutter physics.
  *
- * Canonical home for shutter physics is Track OPTICS (`src/lib/shutter.ts`
- * per docs/FLOW-REDESIGN-TODO.md) — but OPTICS has not landed yet and the
- * center stage needs blur/skew numbers now. This module provides the pure,
- * UI-free core (`motionBlurMm`, `readoutSkewMm`, `shutterOverlayInfo`) with
- * no hardware database behind it: readout times fall back to an fps-based
- * estimate explicitly flagged as such, and verdicts degrade to advisory
- * (`unknown`) whenever inputs are missing. When OPTICS lands, it may
- * extend or supersede this module — the `ShutterOverlayInfo` shape is the
- * contract the viz component depends on.
+ * The physics lives in `src/lib/shutterMath.ts` (`blurBudget`,
+ * `rollingSkew` — landed by Track OPTICS while this track was in flight).
+ * This module adapts it to the viz contract: it adds the fps-based
+ * readout estimate (explicitly flagged — `shutterMath` deliberately leaves
+ * estimation to callers) and the advisory-only degradation when motion
+ * input or GSD is missing (`unknown`, never a fail from absence).
+ * No physics is duplicated here — only presentation shaping.
  */
+import { blurBudget, rollingSkew } from './shutterMath'
+import { DEFAULT_SKEW_WARN_PX } from './shutterMath'
 import type { ShutterType } from './types'
 
 export type ShutterOverlayStatus = 'pass' | 'warn' | 'fail' | 'unknown'
@@ -40,39 +40,18 @@ export interface ShutterOverlayInfo {
   message: string
 }
 
-/** Blur verdict thresholds in pixels (Track OPTICS rationale lives here until that track lands). */
-export const BLUR_WARN_PX = 1
-export const BLUR_FAIL_PX = 3
-
-/** Motion-blur extent: `blur = v · t_exp` (v in mm/s, t in s → mm). */
-export function motionBlurMm(velocityMms: number, exposureS: number): number {
-  return velocityMms * exposureS
-}
-
-/** Rolling-shutter skew: `Δx = v · T_readout` (v in mm/s, T in s → mm). */
-export function readoutSkewMm(velocityMms: number, readoutS: number): number {
-  return velocityMms * readoutS
-}
-
-/** Estimate frame readout time from fps (`T ≈ 1/fps`) — flagged as estimate by callers. */
+/** Estimate frame readout time from fps (`T ≈ 1/fps`) — callers must flag it. */
 export function estimateReadoutMs(fps: number): number | null {
   if (!Number.isFinite(fps) || fps <= 0) return null
   return 1000 / fps
 }
 
-/** Bucket a blur extent (mm) against pixel size: <1px pass, 1–3px warn, >3px fail. */
-export function blurVerdict(blurMm: number, pixelSizeMm: number | null | undefined): ShutterOverlayStatus {
-  if (pixelSizeMm == null || !Number.isFinite(pixelSizeMm) || pixelSizeMm <= 0) return 'unknown'
-  const px = blurMm / pixelSizeMm
-  if (px > BLUR_FAIL_PX) return 'fail'
-  if (px >= BLUR_WARN_PX) return 'warn'
-  return 'pass'
-}
-
 /**
  * Pure, UI-free shutter readout for one slot. Advisory-only (`unknown`,
  * never fail) when motion input or GSD is missing — missing data must not
- * render as a failure.
+ * render as a failure. Status ladder follows `shutterMath`: blur past the
+ * 1px tolerance fails; blur inside tolerance but rolling skew past its
+ * threshold warns.
  */
 export function shutterOverlayInfo(
   shutter: ShutterType | undefined,
@@ -80,9 +59,9 @@ export function shutterOverlayInfo(
   motion: ShutterMotionInput = {},
 ): ShutterOverlayInfo {
   const v = motion.targetVelocityMms
-  const tExpS = motion.exposureMs != null ? motion.exposureMs / 1000 : null
+  const expMs = motion.exposureMs
   const hasMotion =
-    v != null && tExpS != null && Number.isFinite(v) && Number.isFinite(tExpS) && v > 0 && tExpS > 0
+    v != null && expMs != null && Number.isFinite(v) && Number.isFinite(expMs) && v > 0 && expMs > 0
 
   if (!hasMotion) {
     if (shutter === 'global') {
@@ -118,39 +97,75 @@ export function shutterOverlayInfo(
   }
 
   const velocity = v as number
-  const exposureS = tExpS as number
-  const blurMm = motionBlurMm(velocity, exposureS)
-  let skewMm: number | null = null
-  let readoutEstimated = false
-  if (shutter === 'rolling') {
-    if (motion.readoutMs != null && Number.isFinite(motion.readoutMs) && motion.readoutMs > 0) {
-      skewMm = readoutSkewMm(velocity, motion.readoutMs / 1000)
-    } else if (motion.fpsHint != null && Number.isFinite(motion.fpsHint) && motion.fpsHint > 0) {
-      const est = estimateReadoutMs(motion.fpsHint)
-      if (est != null) {
-        skewMm = readoutSkewMm(velocity, est / 1000)
-        readoutEstimated = true
-      }
+  const exposureMs = expMs as number
+  const gsdOk = pixelSizeMm != null && Number.isFinite(pixelSizeMm) && (pixelSizeMm as number) > 0
+
+  const blurMm = velocity * (exposureMs / 1000)
+  if (!gsdOk) {
+    return {
+      status: 'unknown',
+      blurMm,
+      skewMm: null,
+      readoutEstimated: false,
+      label: `blur ${blurMm.toFixed(2)}mm · px unknown (no GSD)`,
+      message: `Blur v·t_exp = ${blurMm.toFixed(2)}mm, but without GSD it cannot be bucketed — advisory only.`,
+    }
+  }
+  const gsd = pixelSizeMm as number
+
+  const budget = blurBudget(exposureMs, velocity, gsd)
+  if (!budget.frozen) {
+    return {
+      status: 'fail',
+      blurMm: budget.blurMm,
+      skewMm: null,
+      readoutEstimated: false,
+      label: `blur ${budget.blurMm.toFixed(2)}mm · ${budget.blurPx.toFixed(1)}px — over tolerance`,
+      message: budget.message,
     }
   }
 
-  const status = blurVerdict(blurMm, pixelSizeMm)
-  const px =
-    pixelSizeMm != null && Number.isFinite(pixelSizeMm) && pixelSizeMm > 0 ? blurMm / pixelSizeMm : null
+  if (shutter === 'rolling') {
+    let readoutMs: number | null = null
+    let readoutEstimated = false
+    if (motion.readoutMs != null && Number.isFinite(motion.readoutMs) && motion.readoutMs > 0) {
+      readoutMs = motion.readoutMs
+    } else if (motion.fpsHint != null && Number.isFinite(motion.fpsHint) && motion.fpsHint > 0) {
+      readoutMs = estimateReadoutMs(motion.fpsHint)
+      readoutEstimated = readoutMs != null
+    }
+    if (readoutMs == null) {
+      return {
+        status: 'unknown',
+        blurMm: budget.blurMm,
+        skewMm: null,
+        readoutEstimated: false,
+        label: `blur ${budget.blurMm.toFixed(2)}mm · ${budget.blurPx.toFixed(1)}px · skew unknown (no readout)`,
+        message: `${budget.message} Rolling skew not quantified — no readout time or fps hint.`,
+      }
+    }
+    const skew = rollingSkew(velocity, readoutMs, gsd)
+    const skewPx = skew.skewPx ?? 0
+    const warn = skewPx > DEFAULT_SKEW_WARN_PX
+    const estNote = readoutEstimated ? ' (T_readout estimated from fps — verify datasheet)' : ''
+    return {
+      status: warn ? 'warn' : 'pass',
+      blurMm: budget.blurMm,
+      skewMm: skew.skewMm,
+      readoutEstimated,
+      label:
+        `blur ${budget.blurMm.toFixed(2)}mm · skew ${skew.skewMm.toFixed(2)}mm` +
+        `${readoutEstimated ? ' (est.)' : ''} · ${skewPx.toFixed(1)}px skew`,
+      message: `${budget.message} ${skew.message}${estNote}`,
+    }
+  }
 
-  const parts = [`blur ${blurMm.toFixed(2)}mm`]
-  if (skewMm != null) parts.push(`skew ${skewMm.toFixed(2)}mm${readoutEstimated ? ' (est.)' : ''}`)
-  if (px != null) parts.push(`${px.toFixed(1)}px`)
-  const label = parts.join(' · ')
-  const message =
-    shutter === 'rolling'
-      ? `Rolling shutter: blur v·t_exp = ${blurMm.toFixed(2)}mm` +
-        (skewMm != null
-          ? `, skew v·T_readout = ${skewMm.toFixed(2)}mm${readoutEstimated ? ' (T_readout estimated from fps — verify datasheet)' : ''}`
-          : ' (readout time unknown — skew not quantified)') +
-        `. Blur ${px != null ? `${px.toFixed(1)}px` : 'in px unknown (no GSD)'}.`
-      : `Global shutter (no skew): blur v·t_exp = ${blurMm.toFixed(2)}mm` +
-        `${px != null ? ` (${px.toFixed(1)}px)` : ' (px unknown — no GSD)'}.`
-
-  return { status, blurMm, skewMm, readoutEstimated, label, message }
+  return {
+    status: 'pass',
+    blurMm: budget.blurMm,
+    skewMm: null,
+    readoutEstimated: false,
+    label: `blur ${budget.blurMm.toFixed(2)}mm · ${budget.blurPx.toFixed(1)}px`,
+    message: `Global shutter (no skew): ${budget.message}`,
+  }
 }

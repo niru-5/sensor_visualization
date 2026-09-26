@@ -1,32 +1,11 @@
 import { describe, expect, it } from 'vitest'
-import {
-  blurVerdict,
-  estimateReadoutMs,
-  motionBlurMm,
-  readoutSkewMm,
-  shutterOverlayInfo,
-} from './shutter'
+import { estimateReadoutMs, shutterOverlayInfo } from './shutter'
 
-describe('shutter math', () => {
-  it('motionBlurMm computes v * t_exp', () => {
-    expect(motionBlurMm(100, 0.001)).toBeCloseTo(0.1, 9)
-  })
-
-  it('readoutSkewMm computes v * T_readout', () => {
-    expect(readoutSkewMm(100, 0.01)).toBeCloseTo(1, 9)
-  })
-
-  it('estimateReadoutMs inverts fps, rejects junk', () => {
+describe('estimateReadoutMs', () => {
+  it('inverts fps, rejects junk', () => {
     expect(estimateReadoutMs(100)).toBeCloseTo(10, 9)
     expect(estimateReadoutMs(0)).toBeNull()
     expect(estimateReadoutMs(NaN)).toBeNull()
-  })
-
-  it('blurVerdict buckets <1px pass / 1-3px warn / >3px fail / unknown without GSD', () => {
-    expect(blurVerdict(0.05, 0.1)).toBe('pass')
-    expect(blurVerdict(0.1, 0.1)).toBe('warn')
-    expect(blurVerdict(0.5, 0.1)).toBe('fail')
-    expect(blurVerdict(0.5, null)).toBe('unknown')
   })
 })
 
@@ -51,29 +30,35 @@ describe('shutterOverlayInfo', () => {
     expect(info.label).toMatch(/verify datasheet/)
   })
 
-  it('computes blur = v * t_exp and buckets sub-pixel as pass', () => {
+  it('passes sub-pixel global blur', () => {
     const info = shutterOverlayInfo('global', 0.1, { targetVelocityMms: 50, exposureMs: 1 })
     expect(info.blurMm).toBeCloseTo(0.05, 9)
     expect(info.skewMm).toBeNull()
     expect(info.status).toBe('pass')
   })
 
-  it('buckets >3px blur as fail', () => {
+  it('fails blur past the 1px tolerance', () => {
     const info = shutterOverlayInfo('global', 0.01, { targetVelocityMms: 1000, exposureMs: 1 })
     expect(info.blurMm).toBeCloseTo(1, 9)
     expect(info.status).toBe('fail')
   })
 
-  it('computes rolling skew from readoutMs', () => {
-    const info = shutterOverlayInfo('rolling', 0.01, { targetVelocityMms: 100, exposureMs: 1, readoutMs: 10 })
-    expect(info.skewMm).toBeCloseTo(1, 9)
+  it('warns on rolling skew past threshold even when blur passes', () => {
+    // blur 0.5px (passes), skew 5px at 10ms readout (warns).
+    const info = shutterOverlayInfo('rolling', 0.1, { targetVelocityMms: 50, exposureMs: 1, readoutMs: 10 })
+    expect(info.status).toBe('warn')
+    expect(info.skewMm).toBeCloseTo(0.5, 9)
     expect(info.readoutEstimated).toBe(false)
-    expect(info.label).toMatch(/skew/)
+  })
+
+  it('passes rolling when blur and skew both clear', () => {
+    const info = shutterOverlayInfo('rolling', 0.1, { targetVelocityMms: 50, exposureMs: 1, readoutMs: 1 })
+    expect(info.status).toBe('pass')
   })
 
   it('estimates skew from fpsHint flagged as estimate', () => {
-    const info = shutterOverlayInfo('rolling', 0.01, { targetVelocityMms: 100, exposureMs: 1, fpsHint: 100 })
-    expect(info.skewMm).toBeCloseTo(1, 9)
+    const info = shutterOverlayInfo('rolling', 0.1, { targetVelocityMms: 50, exposureMs: 1, fpsHint: 100 })
+    expect(info.skewMm).toBeCloseTo(0.5, 9)
     expect(info.readoutEstimated).toBe(true)
     expect(info.message).toMatch(/estimated/)
   })
@@ -82,5 +67,11 @@ describe('shutterOverlayInfo', () => {
     const info = shutterOverlayInfo('global', null, { targetVelocityMms: 100, exposureMs: 1 })
     expect(info.blurMm).toBeCloseTo(0.1, 9)
     expect(info.status).toBe('unknown')
+  })
+
+  it('stays advisory when rolling readout is unknowable', () => {
+    const info = shutterOverlayInfo('rolling', 0.1, { targetVelocityMms: 50, exposureMs: 1 })
+    expect(info.status).toBe('unknown')
+    expect(info.label).toMatch(/skew unknown/)
   })
 })
