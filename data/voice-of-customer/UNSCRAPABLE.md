@@ -62,6 +62,12 @@ Rule: blocked ≠ skipped silently — record here, then crack with the listed t
   Search API, or Bing Web Search API. Never burn residential IP reputation on
   raw SERP scraping.
 
+## 6. SharpCap forums (forums.sharpcap.co.uk) — no wall
+
+- **Status 2026-09-26: CRACKED** — plain Scrapling `Fetcher.get` (no stealth, no custom User-Agent) returned HTTP 200 on 13/13 fetches live 2026-09-26: `viewforum.php?f=26` listing + 9 `viewtopic.php?t=<id>` threads + index + f=20 category page; zero credits spent (`StealthyFetcher` and Firecrawl not needed). 9 Basler-model threads recorded (see [sharpcap-supplement.md](sharpcap-supplement.md)). (commit 'docs(data): index sharpcap supplement')
+- **Reason:** phpBB forum with no Cloudflare/WAF wall encountered from this egress.
+- **To crack:** N/A — plain fetch suffices; strip session `sid` for canonical URLs. (`search.php` untested; `viewforum.php` pagination used instead.)
+
 ## Crawl hygiene (applies to all of the above)
 
 - Identify with a contactable User-Agent; respect robots.txt + rate limits.
