@@ -2,12 +2,33 @@ import { Grid, Html, OrbitControls } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
 import { useEffect, useMemo, useState } from 'react'
 import * as THREE from 'three'
-import { SLOT_FILL_OPACITY, SLOT_RAY_OPACITY, slotColor } from '../lib/cameraPalette'
-import { computeFov, sensorDiagonalMm } from '../lib/optics'
+import { FOV_VOLUME_OPACITY, SLOT_FILL_OPACITY, SLOT_RAY_OPACITY, slotColor } from '../lib/cameraPalette'
+import { computeFov, mmPerPixel, sensorDiagonalMm } from '../lib/optics'
+import type { ShutterMotionInput } from '../lib/shutter'
+import { slotCompatSummary } from '../lib/slotCompat'
+import type { CompatTone } from '../lib/slotCompat'
 import { computeFitDistance, computeStageFit, fitCameraPosition } from '../lib/stageFit'
 import type { ResolvedSlot } from '../lib/twoCamera'
 import type { Lens, Sensor } from '../lib/types'
 import { CameraRig } from './FovCone3D'
+import { PixelSizeGrid } from './PixelSizeGrid'
+import { ShutterOverlay } from './ShutterOverlay'
+
+/** Per-overlay visibility toggles for the shared stage (Track VIZ). */
+export interface OverlayToggles {
+  shading: boolean
+  grid: boolean
+  shutter: boolean
+  badges: boolean
+}
+
+export const DEFAULT_OVERLAYS: OverlayToggles = { shading: true, grid: true, shutter: true, badges: true }
+
+const COMPAT_BG: Record<CompatTone, string> = {
+  pass: '#22c55e',
+  warn: '#fbbf24',
+  fail: '#f87171',
+}
 
 interface SharedFrustumProps {
   sensor: Sensor
@@ -17,6 +38,11 @@ interface SharedFrustumProps {
   color: string
   /** Slot index — staggers Html badges so overlapping footprints stay readable. */
   index: number
+  overlays: OverlayToggles
+  /** Cable length (m) for a real interface pass/fail; unknown → informational badge. */
+  cableLengthM?: number
+  /** Shared target-motion input for the shutter stripe; missing → advisory chip. */
+  motion?: ShutterMotionInput
 }
 
 /**
@@ -24,8 +50,16 @@ interface SharedFrustumProps {
  * optical axis +Z, footprint plane at z = workingDistanceMm. Same geometry
  * pattern as `Frustum` in FovCone3D, but tinted by camera slot (palette)
  * instead of FOV risk level. Risk still surfaces via Html badges.
+ *
+ * Track VIZ overlays (all inside this group so the slot chip hides them
+ * with the frustum): transparent FOV volume in the slot color
+ * (`FOV_VOLUME_OPACITY` — the canonical volume alpha; the flat footprint
+ * plane keeps `SLOT_FILL_OPACITY`, rays keep `SLOT_RAY_OPACITY`, see the
+ * unification note in `cameraPalette.ts`), GSD `PixelSizeGrid` on the
+ * footprint, `ShutterOverlay` blur/skew stripe, and the interface/mount/
+ * image-circle compat badge.
  */
-function SharedFrustum({ sensor, lens, workingDistanceMm, color, index }: SharedFrustumProps) {
+function SharedFrustum({ sensor, lens, workingDistanceMm, color, index, overlays, cableLengthM, motion }: SharedFrustumProps) {
   const fov = computeFov(sensor, lens.focalLengthMm, workingDistanceMm)
   const risk = fov.horizontal.risk
 
@@ -57,6 +91,33 @@ function SharedFrustum({ sensor, lens, workingDistanceMm, color, index }: Shared
     [footprintEdges, raySets],
   )
 
+  // Transparent FOV pyramid volume (apex + 4 side faces + base quad —
+  // same construction as FovShading, inlined so the slot toggle owns it).
+  const volumeGeometry = useMemo(() => {
+    if (!fov.horizontal.fovMm || !fov.vertical.fovMm) return null
+    const fw = (fov.horizontal.fovMm as number) / 2
+    const fh = (fov.vertical.fovMm as number) / 2
+    const wd = workingDistanceMm
+    const positions = new Float32Array([
+      0, 0, 0, fw, fh, wd, -fw, fh, wd,
+      0, 0, 0, -fw, fh, wd, -fw, -fh, wd,
+      0, 0, 0, -fw, -fh, wd, fw, -fh, wd,
+      0, 0, 0, fw, -fh, wd, fw, fh, wd,
+      fw, fh, wd, -fw, fh, wd, -fw, -fh, wd,
+      fw, fh, wd, -fw, -fh, wd, fw, -fh, wd,
+    ])
+    const geom = new THREE.BufferGeometry()
+    geom.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+    return geom
+  }, [fov.horizontal.fovMm, fov.vertical.fovMm, workingDistanceMm])
+
+  useEffect(() => () => volumeGeometry?.dispose(), [volumeGeometry])
+
+  const compat = useMemo(
+    () => slotCompatSummary(sensor, lens, cableLengthM),
+    [sensor, lens, cableLengthM],
+  )
+
   // Stagger badges per slot so co-located footprints don't stack labels exactly.
   const staggerMm = index * 26
 
@@ -73,7 +134,11 @@ function SharedFrustum({ sensor, lens, workingDistanceMm, color, index }: Shared
   }
 
   const wd = workingDistanceMm
-  const fh = (fov.vertical.fovMm ?? 0) / 2
+  const fovH = fov.horizontal.fovMm as number
+  const fovV = fov.vertical.fovMm as number
+  const fw = fovH / 2
+  const fh = fovV / 2
+  const gsdH = sensor.resolutionH > 0 ? mmPerPixel(fovH, sensor.resolutionH) : null
 
   return (
     <group>
@@ -92,20 +157,62 @@ function SharedFrustum({ sensor, lens, workingDistanceMm, color, index }: Shared
       )}
 
       <mesh position={[0, 0, wd]}>
-        <planeGeometry args={[fov.horizontal.fovMm, fov.vertical.fovMm]} />
+        <planeGeometry args={[fovH, fovV]} />
         <meshBasicMaterial color={color} transparent opacity={SLOT_FILL_OPACITY} side={THREE.DoubleSide} />
       </mesh>
+
+      {overlays.shading && volumeGeometry && (
+        <mesh geometry={volumeGeometry}>
+          <meshBasicMaterial color={color} transparent opacity={FOV_VOLUME_OPACITY} side={THREE.DoubleSide} depthWrite={false} />
+        </mesh>
+      )}
+
+      {overlays.grid && (
+        <PixelSizeGrid
+          fovHmm={fovH}
+          fovVmm={fovV}
+          resolutionH={sensor.resolutionH}
+          resolutionV={sensor.resolutionV}
+          workingDistanceMm={wd}
+          focalLengthMm={lens.focalLengthMm}
+          color={color}
+        />
+      )}
+
+      {overlays.shutter && (
+        <ShutterOverlay
+          sensor={sensor}
+          fovHmm={fovH}
+          fovVmm={fovV}
+          workingDistanceMm={wd}
+          pixelSizeMm={gsdH}
+          color={color}
+          index={index}
+          motion={motion}
+        />
+      )}
 
       <Html position={[0, fh + Math.max(15, fh * 0.08) + staggerMm, wd]} center distanceFactor={Math.max(wd, 200)}>
         <div className="rounded bg-slate-900/90 px-2 py-1 text-xs whitespace-nowrap text-slate-100 shadow-lg ring-1 ring-white/10">
           <span className="mr-1 inline-block h-2 w-2 rounded-full" style={{ backgroundColor: color }} />
-          C{index + 1} FOV {fov.horizontal.fovMm.toFixed(0)} x {fov.vertical.fovMm.toFixed(0)}mm @ {wd}mm
+          C{index + 1} FOV {fovH.toFixed(0)} x {fovV.toFixed(0)}mm @ {wd}mm
         </div>
       </Html>
       {risk !== 'normal' && (
         <Html position={[0, -fh - Math.max(15, fh * 0.08) - staggerMm, wd]} center distanceFactor={Math.max(wd, 200)}>
           <div className="rounded px-2 py-1 text-xs font-medium whitespace-nowrap text-slate-900 shadow-lg" style={{ backgroundColor: color }}>
             C{index + 1}: {fov.horizontal.message}
+          </div>
+        </Html>
+      )}
+      {overlays.badges && (
+        <Html position={[fw + Math.max(15, fw * 0.08) + staggerMm, 0, wd]} center distanceFactor={Math.max(wd, 200)}>
+          <div
+            className="rounded px-2 py-1 text-[11px] font-medium whitespace-nowrap text-slate-900 shadow-lg"
+            style={{ backgroundColor: COMPAT_BG[compat.tone] }}
+            title={compat.title}
+          >
+            C{index + 1} {compat.glyphs}
           </div>
         </Html>
       )}
@@ -119,20 +226,38 @@ export interface SharedFovViewProps {
   /** Shared world scale (sharedScaleMm) so floor/fog margins match the separate stages. */
   sharedScaleMm: number
   heightClass?: string
+  /** Cable length (m) for interface pass/fail badges; absent → informational. */
+  cableLengthM?: number
+  /** Shared target-motion input for the shutter stripes; absent → advisory chips. */
+  motion?: ShutterMotionInput
 }
+
+const OVERLAY_CONTROLS: { key: keyof OverlayToggles; label: string; title: string }[] = [
+  { key: 'shading', label: 'Shading', title: 'Transparent FOV volume per slot' },
+  { key: 'grid', label: 'GSD grid', title: 'Pixel-size grid on each footprint' },
+  { key: 'shutter', label: 'Shutter', title: 'Blur/skew readout stripe per slot' },
+  { key: 'badges', label: 'Badges', title: 'Interface / mount / image-circle pass-fail' },
+]
 
 /**
  * Track A shared-view comparison stage: ONE Canvas, ONE OrbitControls, every
  * camera's frustum co-located at the identical origin pose (apex at origin,
  * +Z optical axis). A single union fit over all visible footprints sets the
  * POV, so cameras are judged at an identical viewpoint instead of N
- * diverging per-panel auto-fits. Per-slot chips toggle frustum visibility.
+ * diverging per-panel auto-fits. Per-slot chips toggle frustum visibility;
+ * overlay chips toggle the Track VIZ layers (shading, GSD grid, shutter
+ * stripe, compat badges) with the frustum.
  */
-export function SharedFovView({ slots, sharedScaleMm, heightClass = 'h-[480px]' }: SharedFovViewProps) {
+export function SharedFovView({ slots, sharedScaleMm, heightClass = 'h-[480px]', cableLengthM, motion }: SharedFovViewProps) {
   const [hiddenIds, setHiddenIds] = useState<readonly string[]>([])
+  const [overlays, setOverlays] = useState<OverlayToggles>(DEFAULT_OVERLAYS)
 
   function toggleSlot(id: string) {
     setHiddenIds((prev) => (prev.includes(id) ? prev.filter((h) => h !== id) : [...prev, id]))
+  }
+
+  function toggleOverlay(key: keyof OverlayToggles) {
+    setOverlays((prev) => ({ ...prev, [key]: !prev[key] }))
   }
 
   // Union fit over visible, hardware-backed slots: max footprint extents +
@@ -219,6 +344,27 @@ export function SharedFovView({ slots, sharedScaleMm, heightClass = 'h-[480px]' 
         })}
       </div>
 
+      <div role="group" aria-label="Toggle overlays in shared view" className="flex flex-wrap gap-2">
+        {OVERLAY_CONTROLS.map(({ key, label, title }) => {
+          const on = overlays[key]
+          return (
+            <button
+              key={key}
+              onClick={() => toggleOverlay(key)}
+              aria-pressed={on}
+              title={title}
+              className={`rounded-full px-3 py-1 text-xs font-medium ring-1 transition-opacity ${
+                on
+                  ? 'bg-cyan-950 text-cyan-100 ring-cyan-800'
+                  : 'bg-white text-neutral-400 line-through opacity-60 ring-neutral-300'
+              }`}
+            >
+              {label}
+            </button>
+          )
+        })}
+      </div>
+
       <div className={`relative ${heightClass} w-full overflow-hidden rounded-xl bg-gradient-to-b from-slate-900 to-slate-950 shadow-inner`}>
         <Canvas frameloop="demand" dpr={[1, 1.5]} camera={cameraProps}>
           <color attach="background" args={['#0b1220']} />
@@ -248,6 +394,9 @@ export function SharedFovView({ slots, sharedScaleMm, heightClass = 'h-[480px]' 
                 workingDistanceMm={r.effectiveWd}
                 color={slotColor(i)}
                 index={i}
+                overlays={overlays}
+                cableLengthM={cableLengthM}
+                motion={motion}
               />
             )
           })}

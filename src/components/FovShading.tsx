@@ -16,7 +16,7 @@
 import { Html } from '@react-three/drei';
 import { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
-import { slotColor } from '../lib/cameraPalette';
+import { FOV_VOLUME_OPACITY, slotColor } from '../lib/cameraPalette';
 import { computeFov } from '../lib/optics';
 import { footprintRingRadiusMm, frustumCornersAtWd, rangeRingPoints } from '../lib/frustumGeometry';
 import type { Vec3 } from '../lib/frustumGeometry';
@@ -24,8 +24,12 @@ import type { Lens, Sensor } from '../lib/types';
 import { HumanScaleReference } from './HumanScaleReference';
 import { MetricGridFloor } from './MetricGridFloor';
 
-/** Fill opacity for the FOV volume (Track B spec: ~0.3). */
-export const FOV_SHADING_OPACITY = 0.3;
+/**
+ * Fill opacity for the FOV volume — canonical value lives in
+ * `cameraPalette.ts` (`FOV_VOLUME_OPACITY`); re-exported here so existing
+ * imports keep working.
+ */
+export const FOV_SHADING_OPACITY = FOV_VOLUME_OPACITY;
 
 interface FovShadingProps {
   sensor: Sensor;

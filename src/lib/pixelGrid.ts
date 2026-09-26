@@ -1,4 +1,5 @@
 import { mmPerPixel } from './optics'
+import { SLOT_COLORS, slotColor } from './cameraPalette'
 
 /**
  * Pure pixel-grid (GSD overlay) helpers for Track C.
@@ -8,14 +9,16 @@ import { mmPerPixel } from './optics'
  * otherwise produce millions of lines). No THREE imports — UI-free.
  */
 
-/** Shared per-camera palette (local fallback; Track A owns the canonical one). */
-export const CAMERA_PALETTE = ['#03a9f4', '#f8982e', '#22c55e'] as const
+/**
+ * Shared per-camera palette — canonical definition lives in
+ * `cameraPalette.ts` (`SLOT_COLORS`); re-exported here so existing
+ * imports keep working. Do NOT extend this copy; import the canonical one.
+ */
+export const CAMERA_PALETTE: readonly string[] = SLOT_COLORS
 
-/** Camera slot color, cycling for N > 3. */
+/** Camera slot color, cycling for N > 3 (delegates to canonical `slotColor`). */
 export function cameraColorForIndex(index: number): string {
-  const i = Math.floor(index)
-  const slot = ((Number.isFinite(i) ? i : 0) % CAMERA_PALETTE.length + CAMERA_PALETTE.length) % CAMERA_PALETTE.length
-  return CAMERA_PALETTE[slot]
+  return slotColor(index)
 }
 
 /** Default cap on rendered cells per axis. */
