@@ -124,14 +124,21 @@ inside this track, then build to it).
 - [ ] Write `docs/UI-DESIGN-3PANE.md`: pane widths/behavior (collapsible
   left filters? responsive collapse order?), shared selection state
   shape, prompt→suggestion→comparison interaction contract.
-- [ ] `src/components/OptionsPanel.tsx` (new, left): camera list,
+- [x] `src/components/OptionsPanel.tsx` (new, left): camera list,
   lens list, filters (mount, interface, IP/DIY-vs-manufacturing, budget,
   shutter) — reads Track DB query fns; emits selection + filter state up.
-- [ ] `src/components/AdvicePanel.tsx` (new, right): prompt input
+  → Done 2026-09-26 (Track UI): camera search + interface/shutter/format/IP-flag
+  filters with shortlist checkboxes, lens mount/coverage/entocentric-telecentric
+  toggle (telecentric hooks lensMath.computeFovForLens, NEEDS-VERIFY fallback),
+  DIY/manufacturing radio + standards hints, Library + disclosure.
+- [x] `src/components/AdvicePanel.tsx` (new, right): prompt input
   (user asks question in own words) → rule-based suggestion
   (DB + OPTICS ranks products) → suggestion cards that drive the center
   comparison + table. v1 is deterministic rules, not an LLM call
   (see V2 PARKED §J).
+  → Done 2026-09-26 (Track UI): prompt box → parseAdviceQuery chips echo →
+  suggest() cards (verdict, reasons, VERIFIED/NEEDS-VERIFY, failedChecks) +
+  [Use top-N in comparison] writing slots clamped to MAX_CAMERAS.
 - [x] `src/lib/suggestion.ts` SuggestionEngine v1 — landed 2026-09-26
   (`feat(fae): suggestion engine v1`): `suggest(question, ctx)` +
   `parseAdviceQuery` + `buildWizardInputs` + `familyForSensor`, scoring via
@@ -139,8 +146,11 @@ inside this track, then build to it).
   per-suggestion `reasons[]`, VERIFIED (with URL) / NEEDS-VERIFY evidence,
   and pass/fail `failedChecks[]`; covered by `src/lib/suggestion.test.ts`
   (15 cases). No UI edits — AdvicePanel wires this up next.
-- [ ] `src/App.tsx`: 3-pane grid shell (left / center / right);
+- [x] `src/App.tsx`: 3-pane grid shell (left / center / right);
   shared selection state (lift from current hero configurator);
+  → Done 2026-09-26 (Track UI): OptionsPanel / SharedFovView-always-shared /
+  AdvicePanel grid; tabs + shared/separate toggle deleted; shortlist pool +
+  environment state owned here; slot persistence kept.
   existing `WizardPanel`, `RankedPairingsPanel`,
   `ComparisonTable` re-homed (wizard prompt → right pane;
   table stays under center or docks right — decide in UI-DESIGN doc).
