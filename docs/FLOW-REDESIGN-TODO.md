@@ -132,6 +132,13 @@ inside this track, then build to it).
   (DB + OPTICS ranks products) → suggestion cards that drive the center
   comparison + table. v1 is deterministic rules, not an LLM call
   (see V2 PARKED §J).
+- [x] `src/lib/suggestion.ts` SuggestionEngine v1 — landed 2026-09-26
+  (`feat(fae): suggestion engine v1`): `suggest(question, ctx)` +
+  `parseAdviceQuery` + `buildWizardInputs` + `familyForSensor`, scoring via
+  `rankPairings()` with environment (±5) and software-compat modifiers,
+  per-suggestion `reasons[]`, VERIFIED (with URL) / NEEDS-VERIFY evidence,
+  and pass/fail `failedChecks[]`; covered by `src/lib/suggestion.test.ts`
+  (15 cases). No UI edits — AdvicePanel wires this up next.
 - [ ] `src/App.tsx`: 3-pane grid shell (left / center / right);
   shared selection state (lift from current hero configurator);
   existing `WizardPanel`, `RankedPairingsPanel`,
