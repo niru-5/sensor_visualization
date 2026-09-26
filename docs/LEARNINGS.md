@@ -349,3 +349,64 @@ the 2026-09-20 entry above, extended to the shared view.
   on the shading/grid aesthetics yet. (5) The TODO's suggested
   `optics.test.ts` / `twoCamera.test.ts` extensions were deliberately NOT
   done — wait-for-others rule was new-files-only.
+
+## 2026-09-26: Flow redesign — options / visualize / advise (3-pane QA)
+
+Single-page hero configurator replaced by a 3-pane grid (`src/App.tsx`):
+left `OptionsPanel` (camera/lens pickers + mount/interface/shutter/format/
+IP-budget filters + shortlist), center always-shared `SharedFovView` stage
+(tabs + shared/separate toggle deleted), right `AdvicePanel` (free-text
+prompt → deterministic `suggest()` cards → [Use top-N in comparison]
+writes center slots, clamped to `MAX_CAMERAS`). Design contract lives in
+`docs/UI-DESIGN-3PANE.md`. Five tracks landed as separate commits
+(`f199c74` → `2ca967a`); this QA pass locked them in.
+
+- **Compat DB** (`src/lib/database/cameras|lenses|software|rules.ts` +
+  `*.test.ts`): real machine-vision catalog rows (Sony IMX sensors,
+  Computar/Commonlands lenses, software compat) with VERIFIED (cited URL)
+  / NEEDS-VERIFY statuses, mount/image-circle/interface/IP checks. Note:
+  landed under `database/` rather than the TODO's `compatibilityDb.ts`
+  name — same contract, different path.
+- **Telecentric/shutter math** (`src/lib/lensMath.ts`,
+  `src/lib/shutterMath.ts`, 26 cases): thin-lens keeps
+  `FOV = dim*(WD−f)/f`; telecentric is `FOV = dim/m`, WD only gates
+  in/out-of-range. `blurBudget` (`t_exp ≤ blur_tol/v`), `rollingSkew`
+  (`Δx = v·T_readout`), `fpsCap`, `motionCheck` with global-vs-rolling
+  branches. The TODO's `lensType` field on the shared `Lens` type + seed
+  migration is still open (OptionsPanel treats all seed lenses as
+  entocentric with a NEEDS-VERIFY fallback). `src/lib/shutter.ts` is a
+  thin VIZ-facing wrapper delegating to `shutterMath` (commit `06243f6`).
+- **Suggestion engine v1** (`src/lib/suggestion.ts`, 15 cases):
+  `suggest()` + `parseAdviceQuery()` + `buildWizardInputs()`, scoring via
+  `rankPairings()` with environment (±5) and software-compat modifiers,
+  per-suggestion `reasons[]`, VERIFIED/NEEDS-VERIFY `evidence[]`,
+  pass/fail `failedChecks[]`. Deterministic rules, no LLM call.
+- **3-pane UI** (`OptionsPanel.tsx`, `AdvicePanel.tsx`, `App.tsx`
+  rewrite): shared selection state lifted to `App` (shortlist pool +
+  environment); slot persistence untouched (`twoCamera.ts` storage key
+  unchanged, no schema break). `WizardPanel`, `RankedPairingsPanel`,
+  `FovCone3D` are now unmounted from `App` but left in-tree — lint is
+  clean (no unused-module flags), so per the no-refactor rule they stay
+  until a real removal commit.
+- **Viz wiring** (`SharedFovView.tsx`, `ShutterOverlay.tsx`,
+  `slotCompat.ts`): per-slot FOV volume + GSD grid + shutter stripe +
+  one compact `IF/MNT/IMG` Html badge per slot (right-edge staggered);
+  `FOV_VOLUME_OPACITY` canonical in `cameraPalette.ts`; `pixelGrid.ts`
+  palette delegates to it. Unknown cable length / interface degrades to
+  warn, never silent pass/fail.
+- **QA (this pass):** `e2e/comparisonStability` test 3 rewritten — the old
+  version waited for 2 canvases, which can never happen in the
+  always-shared stage (that's the timeout this pass fixed, caused by the
+  UI track, not a product bug). New `e2e/flowRedesign.e2e.test.ts`
+  (3-pane renders, filter narrows, Use-top-2 writes slots without canvas
+  remount). Final: `npm test` 23 files / 252 pass; `npm run test:e2e`
+  3 files / 9 pass; `typecheck`, `lint`, `build` green.
+- **Honest not-verified notes:** (1) e2e headless (SwiftShader) only — no
+  human eyeball on the 3-pane layout, overlay aesthetics, or badge
+  readability yet. (2) Seed `lensType`/shutter/interface fields default to
+  NEEDS-VERIFY estimates, not datasheet-confirmed values. (3) `suggest()`
+  ranking is rule-based heuristics over a 4×4 seed catalog — sensible
+  ordering, not validated against real FAE picks. (4) Telecentric seed
+  lenses don't exist yet, so the telecentric path is unit-tested but
+  never exercised through the UI. (5) `three.js` bundle still ~1.18 MB —
+  code-split still open (V2 park J).

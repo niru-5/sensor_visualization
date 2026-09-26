@@ -1,6 +1,7 @@
 /**
- * Real-browser regression tests for the "3D model keeps flickering" bug on the
- * Camera comparison tab.
+ * Real-browser regression tests for the "3D model keeps flickering" bug,
+ * now covering the 3-pane flow-redesign center stage (always-shared single
+ * Canvas — no tabs, no shared/separate toggle).
  *
  * The symptom was the whole page reloading every ~0.7s (see
  * scripts/devServer.test.ts for the root cause). These tests assert the
@@ -200,28 +201,36 @@ describe.skipIf(!CHROME)('Camera comparison tab stability (real browser)', () =>
     expect(after.draws[0], 'scene did not respond to the slider').toBeGreaterThan(before.draws[0] ?? 0)
   }, 30_000)
 
-  it('keeps existing panels mounted when a camera is added, and only redraws the panel that changed', async () => {
-    await page.getByRole('button', { name: /add camera/i }).click()
-    await page.waitForFunction(() => document.querySelectorAll('canvas').length === 2)
-    await sleep(1000)
-
+  it('keeps the single shared canvas mounted when a camera is added, and the shared scene responds to the new slot', async () => {
+    // Flow redesign (3-pane, always-shared stage): there is exactly ONE
+    // canvas no matter how many cameras are in play, so "add camera"
+    // must not remount it or create a new WebGL context — and moving the
+    // new slot's slider must repaint the shared scene.
     await markCanvases(page)
     navigations = 0
     const before = await snapshot(page)
-    expect(before.draws).toHaveLength(2)
+    expect(before.draws).toHaveLength(1)
 
-    // Camera 2 starts equal to camera 1 (300mm). Moving it *down* leaves the
-    // shared scale (the max working distance) unchanged, so camera 1's scene
-    // has no reason to redraw. (Exact values, not a mouse drag: pressing the
-    // track at some fraction would jump above 300mm and legitimately rescale.)
+    await page.getByRole('button', { name: /add camera/i }).click()
+    await page.waitForFunction(() => document.querySelectorAll('input[type=range]').length === 2)
+    await sleep(1000)
+
+    const added = await snapshot(page)
+    expect(navigations).toBe(0)
+    expect(added.draws).toHaveLength(1)
+    expect(added.marked, 'the shared <canvas> was replaced').toBe(1)
+    expect(added.contexts, 'adding a camera created a new WebGL context').toBe(before.contexts)
+    expect(added.lost).toBe(0)
+
+    // The new slot starts seeded from slot 1. Moving it must repaint the
+    // shared scene (exact values via fill, not a mouse drag).
     await setSlider(page, 1, [290, 270, 250, 230, 210, 190, 170, 150])
 
     const after = await snapshot(page)
     expect(navigations).toBe(0)
-    expect(after.marked, 'a <canvas> was replaced').toBe(2)
+    expect(after.marked, 'a <canvas> was replaced').toBe(1)
     expect(after.contexts).toBe(before.contexts)
     expect(after.lost).toBe(0)
-    expect(after.draws[1], 'camera 2 did not respond to its slider').toBeGreaterThan(before.draws[1] ?? 0)
-    expect(after.draws[0], 'camera 1 redrew although nothing about it changed').toBe(before.draws[0])
+    expect(after.draws[0], 'shared scene did not respond to the new slot slider').toBeGreaterThan(added.draws[0] ?? 0)
   }, 30_000)
 })

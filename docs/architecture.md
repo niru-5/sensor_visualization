@@ -187,6 +187,36 @@ camera_selection_tool/
 └── vite.config.ts
 ```
 
+## 6a. Flow-redesign modules (2026-09-26, 3-pane layout)
+
+On top of §6, the options / visualize / advise redesign added:
+
+```
+src/
+├── lib/
+│   ├── database/            # compat DB: cameras|lenses|software|rules.ts + *.test.ts
+│   │                          # (VERIFIED with cited URL / NEEDS-VERIFY; NOT compatibilityDb.ts)
+│   ├── lensMath.ts            # thin-lens vs telecentric FOV=dim/m + WD-range gating
+│   ├── shutterMath.ts         # blurBudget / rollingSkew / fpsCap / motionCheck
+│   ├── shutter.ts             # thin VIZ-facing wrapper delegating to shutterMath
+│   ├── slotCompat.ts          # interface/mount/image-circle → one IF/MNT/IMG badge summary
+│   └── suggestion.ts          # SuggestionEngine v1: suggest() + parseAdviceQuery()
+├── components/
+│   ├── OptionsPanel.tsx       # left pane: pickers + filters + shortlist
+│   ├── AdvicePanel.tsx        # right pane: prompt → suggestion cards → Use-top-N
+│   ├── SharedFovView.tsx      # center stage: ONE always-shared Canvas (no tabs/toggle)
+│   └── ShutterOverlay.tsx     # blur/skew stripe per slot (advisory without motion input)
+├── App.tsx                    # 3-pane grid shell; owns shortlist + environment + slots
+└── docs/UI-DESIGN-3PANE.md    # pane widths/behavior + interaction contract
+e2e/
+├── comparisonStability.e2e.test.ts  # rewritten for always-shared (1 canvas, not N)
+├── sharedViewStability.e2e.test.ts
+└── flowRedesign.e2e.test.ts            # 3 panes render, filter narrows, Use-top-N writes slots
+```
+
+Unmounted but kept in-tree (lint-clean, explicit no-refactor rule):
+`WizardPanel.tsx`, `RankedPairingsPanel.tsx`, `FovCone3D.tsx`.
+
 ## 7. Open architecture questions
 - Which LLM to call from the extraction function, and how extraction
   cost/rate limits are managed for a side project — a single personal

@@ -39,27 +39,28 @@
 Source of truth for "does this combination work". Pure data + pure
 functions; no UI.
 
-- [ ] `src/lib/compatibilityDb.ts` (new): typed tables —
-  - [ ] `cameraSoftwareCompat`: camera × software rows with status
-    `VERIFIED | NEEDS-VERIFY` + source citation per row (URL/datasheet
-    section). Convention: `NEEDS-VERIFY` renders with amber badge +
+> QA 2026-09-26: landed as `src/lib/database/` (cameras|lenses|software|rules.ts + *.test.ts,
+> commit `f199c74`) instead of the `compatibilityDb.ts` / `seedCompatibility.ts` names below —
+> same contract (VERIFIED with cited URL / NEEDS-VERIFY amber default), different path.
+
+- [x] `src/lib/database/` (landed path; TODO name was `compatibilityDb.ts`): typed tables —
+  - [x] `cameraSoftwareCompat` → `database/software.ts` `COMPAT_MATRIX`: family × software rows with status
+    `VERIFIED | NEEDS-VERIFY | NOT-SUPPORTED` + source citation per VERIFIED row (`verified()` requires
+    `sourceUrl`; `unverified()` defaults to NEEDS-VERIFY). Convention: `NEEDS-VERIFY` renders with amber badge +
     "unverified — check vendor docs" note, never silently passes.
-  - [ ] `mountSensorCoverage`: mount × max-sensor-coverage (image-circle
-    Ø vs sensor diagonal) — reuse `checkImageCircle` semantics from
-    `src/lib/optics.ts` (ok / tight <10% margin / fail).
-  - [ ] `interfaceCheck`: interface pass/fail (bandwidth vs
-    `resolution × fps × bitdepth`; cable-length / connector gating).
-  - [ ] `ipRatingGuide`: IP standards table with DIY vs manufacturing
-    split (e.g. IP40 lab/DIY ok, IP65/67 washdown/food-pharma
-    manufacturing requirement) — advisory text + filter thresholds.
-- [ ] Seed rows: extend `src/lib/seedData.ts` (or new
-  `src/lib/seedCompatibility.ts`) with cited rows for existing seed
-  cameras/lenses; every `VERIFIED` row needs a source, everything else
-  defaults to `NEEDS-VERIFY`.
-- [ ] Pure query fns (`compatibleSoftware(camera)`, `mountCovers(mount,
-  sensor)`, `interfacePass(camera, fps, bits)`, `ipMeetsRequirement(rating,
-  environment)`) — framework-free, vitest-covered (see Track QA).
-- [ ] Commit: `feat(db): compatibility database with verify statuses`
+  - [x] `mountSensorCoverage` → `database/rules.ts` `coverageCheck` (image-circle Ø vs sensor diagonal) +
+    `database/cameras.ts` family mounts + `checkImageCircle` 10%-margin tight band in `src/lib/optics.ts`
+    (surfaced in OptionsPanel coverage readout).
+  - [x] `interfaceCheck` → `database/rules.ts` `interfaceCheck` (per-interface cable-length limits) +
+    `INTERFACE_LIMITS_M`; unknown cable length degrades to warn via `slotCompat.ts`, never silent pass/fail.
+  - [x] `ipRatingGuide` → `database/rules.ts` `FAMILY_ENV_RATING` + `environmentRating()` with DIY vs
+    manufacturing split (IP40 lab/DIY ok, sealed variants for washdown/food-pharma) — advisory text +
+    filter thresholds in OptionsPanel Environment section.
+- [x] Seed rows: `database/cameras.ts` + `database/lenses.ts` (+ `software.ts` matrix) with cited rows;
+  every `VERIFIED` row carries a source, everything else defaults to `NEEDS-VERIFY`.
+- [x] Pure query fns (`verifiedFor`/`lookupCompat`/`allMatches`, `coverageCheck`, `interfaceCheck`,
+  `environmentRating`) — framework-free, vitest-covered (see Track QA).
+- [x] Commit: `f199c74 feat(data): machine-vision compatibility database` (TODO name was `feat(db): …`)
 
 Files: `src/lib/compatibilityDb.ts` (new), `src/lib/seedData.ts`,
 `src/lib/seedCompatibility.ts` (new, optional),
@@ -85,28 +86,30 @@ Files: `src/lib/compatibilityDb.ts` (new), `src/lib/seedData.ts`,
 Correct physics per lens/shutter type. Pure functions in
 `src/lib/optics.ts` (or new `src/lib/shutter.ts`); no UI.
 
+> QA 2026-09-26: math landed (`lensMath.ts` + `shutterMath.ts`, commit `0c1e254`); the shared-type
+> `Lens.lensType` field + seed-lens migration is still OPEN (OptionsPanel keeps a local toggle with a
+> NEEDS-VERIFY fallback — no per-lens datasheet magnification exists in seed data).
+
 - [ ] Lens-type FOV split (gate on `lens.lensType`):
-  - [ ] Thin-lens (entocentric/fixed-focus/varifocal): keep existing
-    `FOV = dim * (WD − f) / f` (`computeFovAxis` in `src/lib/optics.ts`);
-    keep `WD <= f` invalid + magnification risk buckets
+  - [x] Thin-lens (entocentric/fixed-focus/varifocal): existing
+    `FOV = dim * (WD − f) / f` (`computeFovAxis` in `src/lib/optics.ts`) untouched;
+    `WD <= f` invalid + magnification risk buckets kept.
     (<0.5 normal / 0.5–2 macro / ≥2 extreme-macro — see
     `docs/LEARNINGS.md` judgment-calls section).
-  - [ ] Telecentric: `FOV = dim / m` (m = magnification, WD-independent
-    within telecentric range); WD only gates in/out-of-range
-    (below min / above max → warn, not rescale).
+  - [x] Telecentric: `FOV = dim / m` via `lensMath.computeFovForLens` (m = magnification, WD-independent
+    within telecentric range); WD only gates in/out-of-range (`limited` gate with message). Unit-tested in
+    `lensMath.test.ts`; UI wiring pending on the `lensType` field above.
   - [ ] `lensType` field on `Lens` type (`entocentric | telecentric |
     varifocal …`) + migration for seed lenses (default entocentric,
-    flagged `NEEDS-VERIFY` where datasheet doesn't state it).
-- [ ] Shutter math (new `src/lib/shutter.ts` or `optics.ts` section):
-  - [ ] Exposure cap: `t_exp ≤ blur_tol / v` (blur tolerance ÷ target
-    velocity) — global + rolling baseline.
-  - [ ] Rolling-shutter skew overlay input: `Δx = v * T_readout`
-    (T_readout = frame readout time; per-camera from sensor spec or
+    flagged `NEEDS-VERIFY` where datasheet doesn't state it). — OPEN, see note above.
+- [x] Shutter math (`src/lib/shutterMath.ts`, VIZ-facing wrapper `src/lib/shutter.ts` which delegates to it):
+  - [x] Exposure cap: `t_exp ≤ blur_tol / v` (`blurBudget`) — global + rolling baseline.
+  - [x] Rolling-shutter skew overlay input: `Δx = v * T_readout` (`rollingSkew`; per-camera from sensor spec or
     estimated `1/fps` fallback flagged as estimate).
-  - [ ] Global vs rolling branch: global → motion-blur check only;
+  - [x] Global vs rolling branch (`motionCheck`): global → motion-blur check only;
     rolling → blur + skew checks; output `pass | warn | fail` + message
-    strings reusable as viz badges (Track VIZ).
-- [ ] Commit: `feat(optics): lens-type FOV + shutter math`
+    strings reused as viz badges (Track VIZ).
+- [x] Commit: `0c1e254 feat(optics): telecentric + shutter math`
 
 Files: `src/lib/optics.ts` (`computeFovAxis`, `computeFov`,
 `mmPerPixel`, `derivePixelPitchUm`), `src/lib/shutter.ts` (new),
@@ -121,7 +124,7 @@ Shell + wiring. Depends on DB/OPTICS **types** (not their full data).
 Spec lives in `docs/UI-DESIGN-3PANE.md` (to be written — write it first
 inside this track, then build to it).
 
-- [ ] Write `docs/UI-DESIGN-3PANE.md`: pane widths/behavior (collapsible
+- [x] Write `docs/UI-DESIGN-3PANE.md`: pane widths/behavior (collapsible
   left filters? responsive collapse order?), shared selection state
   shape, prompt→suggestion→comparison interaction contract.
 - [x] `src/components/OptionsPanel.tsx` (new, left): camera list,
@@ -154,10 +157,10 @@ inside this track, then build to it).
   existing `WizardPanel`, `RankedPairingsPanel`,
   `ComparisonTable` re-homed (wizard prompt → right pane;
   table stays under center or docks right — decide in UI-DESIGN doc).
-- [ ] Preserve `localStorage` persistence (`src/store/persistence.ts`,
-  `src/store/useAppData.ts`) across the move — no schema break, or
-  versioned migration if the shape changes.
-- [ ] Commit: `feat(ui): 3-pane options/visualize/advise layout`
+- [x] Preserve `localStorage` persistence (`src/store/persistence.ts`,
+  `src/store/useAppData.ts`, `twoCamera.ts` slot key) across the move — verified unchanged keys, no schema
+  break (QA e2e clears `camera-selection-tool/v1` + `camera-selection-tool/cameras-v1` and starts clean).
+- [x] Commit: `2ca967a feat(ui): 3-pane options/visualize/advise flow`
 
 Files: `docs/UI-DESIGN-3PANE.md` (new), `src/App.tsx`,
 `src/components/OptionsPanel.tsx` (new),
@@ -205,7 +208,8 @@ pane shells + DB/OPTICS outputs. Builds on `docs/VIZ-UPGRADE-TODO.md`
   `src/lib/slotCompat.ts` (interface/mount/image-circle → one compact
   `IF/MNT/IMG` Html badge per slot, right-edge staggered; unknown cable
   length or interface degrades to warn, never silent pass/fail).
-- [ ] Commit: `feat(viz): blur overlay + compat badges in shared view`
+- [x] Commit: `c150756 feat(viz): wire shading+GSD+shutter+badges into shared view` +
+  `06243f6 feat(viz): delegate shutter readout to shutterMath` (landed as two commits instead of one)
 
 Files: `src/components/SharedFovView.tsx`,
 `src/components/PixelSizeGrid.tsx`, `src/lib/pixelGrid.ts`,
@@ -219,28 +223,23 @@ Files: `src/components/SharedFovView.tsx`,
 
 Lock in the redesign. Lands last, after DB/OPTICS/UI/VIZ.
 
-- [ ] Vitest unit tests:
-  - [ ] `src/lib/compatibilityDb.test.ts` (new) — VERIFIED/NEEDS-VERIFY
-    defaults, mount coverage incl. 10% tight margin, interface
-    pass/fail boundaries, IP DIY-vs-manufacturing thresholds.
-  - [ ] `src/lib/optics.test.ts` extensions — telecentric `FOV=dim/m`
-    vs thin-lens `FOV=dim*(WD−f)/f`, WD gating per lens type.
-  - [ ] `src/lib/shutter.test.ts` (new) — `t_exp ≤ blur/v` cap,
-    `Δx=v*T_readout` skew, global-vs-rolling branches, estimate
-    fallbacks flagged.
-- [ ] e2e: extend `e2e/sharedViewStability.e2e.test.ts` (or new
-  `e2e/flowRedesign.e2e.test.ts`) — 3-pane renders, left filter narrows
-  options, right prompt drives a suggestion into the center comparison;
-  keep `e2e/comparisonStability.e2e.test.ts` green (see
-  `docs/LEARNINGS.md` 2026-09-20 flicker-guard pattern;
-  `vitest.e2e.config.ts`).
-- [ ] Docs: dated `docs/LEARNINGS.md` entry (flow-redesign decisions,
-  what changed and why, honest not-verified notes); update
-  `docs/architecture.md` repo layout (new DB/OPTICS/UI/VIZ modules).
-- [ ] Commits: one per track (`feat(db): …`, `feat(optics): …`,
-  `feat(ui): …`, `feat(viz): …`, then `test(flow): …` / `docs(flow): …`)
-  — do not squash.
-- [ ] Final full verification: `npm run test` + `npm run test:e2e` +
+- [x] Vitest unit tests:
+  - [x] Compat DB — landed as `src/lib/database/*.test.ts` (cameras/lenses/rules/software: VERIFIED/
+    NEEDS-VERIFY defaults, coverage incl. 10% tight band via `checkImageCircle`, interface limits,
+    DIY-vs-manufacturing environment ratings) instead of the TODO's `compatibilityDb.test.ts` name.
+  - [x] Optics — telecentric `FOV=dim/m` vs thin-lens `FOV=dim*(WD−f)/f` + WD gating per lens type in
+    `src/lib/lensMath.test.ts` (TODO named `optics.test.ts`; existing `optics.test.ts` untouched).
+  - [x] Shutter — `t_exp ≤ blur/v` cap, `Δx=v*T_readout` skew, global-vs-rolling branches, estimate
+    fallbacks flagged, in `src/lib/shutterMath.test.ts` + `src/lib/shutter.test.ts`.
+- [x] e2e: new `e2e/flowRedesign.e2e.test.ts` (3 panes render, left filter narrows options, right prompt
+  drives a suggestion into the center via Use-top-N) + `e2e/comparisonStability` test 3 rewritten for the
+  always-shared stage (old version waited for 2 canvases — impossible by design — and timed out);
+  `e2e/comparisonStability` + `e2e/sharedViewStability` green (9/9 total).
+- [x] Docs: dated `docs/LEARNINGS.md` entry 2026-09-26 (flow-redesign decisions + honest not-verified notes);
+  `docs/architecture.md` §6a repo-layout addendum (new DB/OPTICS/UI/VIZ modules).
+- [x] Commits: one per track (`f199c74` data, `0c1e254` optics, `44e1aad` suggestion engine, `2ca967a` UI,
+  `c150756` + `06243f6` viz — viz took two, not squashed).
+- [x] Final full verification: `npm test` (23 files / 252 pass) + `npm run test:e2e` (3 files / 9 pass) +
   `npm run typecheck` + `lint` + `npm run build` green.
 
 Files: `src/lib/*.test.ts`, `e2e/sharedViewStability.e2e.test.ts`,
@@ -251,11 +250,11 @@ Files: `src/lib/*.test.ts`, `e2e/sharedViewStability.e2e.test.ts`,
 
 ## Merge / Done checklist
 
-- [ ] Track DB merged (compat tables + VERIFIED/NEEDS-VERIFY + seed rows)
-- [ ] Track OPTICS merged (lens-type FOV + shutter math, tests green)
-- [ ] Track UI merged (UI-DESIGN doc + 3 panes + state + persistence kept)
-- [ ] Track VIZ merged (grid/shading wired in, blur overlay, badges)
-- [ ] Track QA merged (unit + e2e green, LEARNINGS entry, per-track commits)
+- [x] Track DB merged (compat tables + VERIFIED/NEEDS-VERIFY + seed rows — as `src/lib/database/`)
+- [x] Track OPTICS merged (lens-type FOV + shutter math, tests green; `Lens.lensType` migration parked openly)
+- [x] Track UI merged (UI-DESIGN doc + 3 panes + state + persistence kept)
+- [x] Track VIZ merged (grid/shading wired in, blur overlay, badges)
+- [x] Track QA merged (unit + e2e green, LEARNINGS entry, per-track commits)
 
 Merge order: DB → OPTICS → UI → VIZ → QA.
 
@@ -263,13 +262,22 @@ Merge order: DB → OPTICS → UI → VIZ → QA.
 
 ## V2 PARKED (out of scope — do not start)
 
+> QA 2026-09-26 confirmations: all three verified NOT STARTED — no optimizer, light-source, or LLM-advice
+> code exists in the tree (grep: no `optimizer`, no `LightSource`/`light-source` model, AdvicePanel calls
+> deterministic `suggest()` only; `three.js` bundle still unsplit ~1.18 MB; `api/extract-datasheet.ts`
+> still never deployed). They remain parked as written below.
+
 - [ ] **I — Constraint optimization**: multi-constraint product optimizer
   (budget + performance + compatibility solved jointly, ranked
   recommendations with trade-off surface). Needs DB + OPTICS mature first.
+  → PARKED confirmed 2026-09-26: no optimizer module exists; `suggest()` ranks single pairs only.
 - [ ] **H — 3D light sources**: light-source models in the 3D stage
   (ring/bar/dome/backlight placement + illumination overlays). Needs VIZ
   overlay patterns settled first.
+  → PARKED confirmed 2026-09-26: no light-source geometry/overlays in `SharedFovView` or anywhere else.
 - [ ] **J — Misc**: LLM-backed advice panel (prompt → model suggestion
   instead of v1 deterministic rules); seed-dataset expansion; `three.js`
   bundle code-split (~1.14 MB warning, see `docs/LEARNINGS.md`
   follow-ups); deployment verification of `api/extract-datasheet.ts`.
+  → PARKED confirmed 2026-09-26: AdvicePanel is rules-only; seed catalog still 4×4; bundle warning persists
+  (~1.18 MB); extraction endpoint still undeployed.
