@@ -148,16 +148,21 @@ describe('WD clamping edge cases (the slider/state desync fix)', () => {
 })
 
 describe('resolve / scale / dedupe / layout edge cases', () => {
-  it('resolveSlots falls back to the first library entries for null/dangling ids', () => {
+  it('resolveSlots returns null for null/dangling ids (empty state stays visible)', () => {
     const resolved = resolveSlots([createSlot(null, null, 300)], [imx264], [cil532])
-    expect(resolved[0]?.sensor?.id).toBe(imx264.id)
-    expect(resolved[0]?.lens?.id).toBe(cil532.id)
+    expect(resolved[0]?.sensor).toBeNull()
+    expect(resolved[0]?.lens).toBeNull()
     const dangling = resolveSlots(
       [{ ...createSlot('ghost-s', 'ghost-l', 300) }],
       [imx264],
       [cil532],
     )
-    expect(dangling[0]?.sensor?.id).toBe(imx264.id)
+    expect(dangling[0]?.sensor).toBeNull()
+    expect(dangling[0]?.lens).toBeNull()
+    // ...while valid ids still resolve.
+    const ok = resolveSlots([createSlot(imx264.id, cil532.id, 300)], [imx264], [cil532])
+    expect(ok[0]?.sensor?.id).toBe(imx264.id)
+    expect(ok[0]?.lens?.id).toBe(cil532.id)
   })
 
   it('resolveSlots yields nulls (and the empty-state overlay) when the library is empty', () => {

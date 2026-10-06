@@ -1,8 +1,94 @@
 import Anthropic from '@anthropic-ai/sdk'
 import type { ExtractKind, LensExtractedFields, SensorExtractedFields } from '../../src/lib/extraction.js'
-import type { ExtractedField } from '../../src/lib/types.js'
+import type { ExtractedField, MountType } from '../../src/lib/types.js'
+import { DatasheetError } from './errors.js'
 
 const MOUNT_ENUM = ['C', 'CS', 'S-mount', 'M12', 'F', 'other']
+
+const SENSOR_KEYS = [
+  'name', 'opticalFormat', 'widthMm', 'heightMm', 'resolutionH', 'resolutionV',
+  'pixelPitchUm', 'mount', 'cameraInterface', 'shutter', 'fps', 'trigger',
+] as const
+const LENS_KEYS = [
+  'name', 'focalLengthMm', 'mount', 'imageCircleMm', 'maxAperture', 'resolvingPowerLpMm',
+  'modMm', 'distortionPct', 'weightG', 'driverNote',
+] as const
+const SENSOR_NUMBER_FIELDS: ReadonlySet<string> = new Set([
+  'widthMm', 'heightMm', 'resolutionH', 'resolutionV', 'pixelPitchUm', 'fps',
+])
+const LENS_NUMBER_FIELDS: ReadonlySet<string> = new Set([
+  'focalLengthMm', 'imageCircleMm', 'maxAperture', 'resolvingPowerLpMm', 'modMm', 'distortionPct', 'weightG',
+])
+
+/** Model "don't know" phrasings that must become null, never a stored value. */
+const NULL_TOKENS: ReadonlySet<string> = new Set([
+  'n/a', 'na', 'n.a.', 'unknown', 'none', 'not specified', 'not stated',
+  'not applicable', 'unspecified', 'tbd', '-', '--', 'null', 'nil',
+])
+
+function isNullToken(value: string): boolean {
+  return NULL_TOKENS.has(value.trim().toLowerCase())
+}
+
+function sanitizeString(value: unknown): string | null {
+  if (value === null || value === undefined) return null
+  if (typeof value !== 'string') return null
+  const trimmed = value.trim()
+  if (trimmed === '' || isNullToken(trimmed)) return null
+  return trimmed
+}
+
+function sanitizeNumber(value: unknown): number | null {
+  if (value === null || value === undefined) return null
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null
+  if (typeof value === 'string') {
+    const trimmed = value.trim()
+    if (trimmed === '' || isNullToken(trimmed)) return null
+    const num = Number(trimmed.replace(/,/g, ''))
+    return Number.isFinite(num) ? num : null
+  }
+  return null
+}
+
+function sanitizeMount(value: unknown): MountType | null {
+  if (value === null || value === undefined) return null
+  if (typeof value !== 'string') return null
+  const trimmed = value.trim()
+  if (trimmed === '' || isNullToken(trimmed)) return null
+  const squash = (s: string) => s.toLowerCase().replace(/[\s_\-]+/g, '')
+  const match = MOUNT_ENUM.find((m) => squash(m) === squash(trimmed))
+  return (match as MountType | undefined) ?? null
+}
+
+/**
+ * Validates + sanitizes raw model tool input before it becomes ExtractedFields:
+ * - drops unknown keys (the model sometimes invents extras like "notes"),
+ * - coerces "N/A" / "unknown" / "" / "-" to null,
+ * - enum-checks mount ("XYZ-mount" becomes null, never stored),
+ * - coerces numeric strings ("2448" -> 2448), drops garbage in number
+ *   fields ("2/3\"" -> null),
+ * - fills every known key (absent -> null) so the frontend always gets a
+ *   complete shape for partial responses.
+ */
+export function sanitizeModelOutput(
+  raw: Record<string, unknown>,
+  kind: ExtractKind,
+): Record<string, unknown> {
+  const keys: readonly string[] = kind === 'sensor' ? SENSOR_KEYS : LENS_KEYS
+  const numberFields = kind === 'sensor' ? SENSOR_NUMBER_FIELDS : LENS_NUMBER_FIELDS
+  const clean: Record<string, unknown> = {}
+  for (const key of keys) {
+    const value = raw[key]
+    if (key === 'mount') {
+      clean[key] = sanitizeMount(value)
+    } else if (numberFields.has(key)) {
+      clean[key] = sanitizeNumber(value)
+    } else {
+      clean[key] = sanitizeString(value)
+    }
+  }
+  return clean
+}
 
 export const SENSOR_TOOL = {
   name: 'record_sensor_specs',
@@ -55,6 +141,7 @@ export const MISSING_API_KEY_MESSAGE =
   'Datasheet extraction is not configured on this server (missing API key). The site owner needs to set ANTHROPIC_API_KEY — meanwhile, please enter the specs manually.'
 
 export function isMissingApiKeyError(err: unknown): boolean {
+  if (err instanceof DatasheetError) return err.code === 'MISSING_API_KEY'
   return err instanceof Error && err.message.includes('MISSING_ANTHROPIC_API_KEY')
 }
 
@@ -73,9 +160,7 @@ export async function extractFieldsFromText(
 ): Promise<{ kind: 'sensor'; fields: SensorExtractedFields } | { kind: 'lens'; fields: LensExtractedFields }> {
   const apiKey = process.env.ANTHROPIC_API_KEY
   if (!apiKey) {
-    // Prefixed so the HTTP layer can map this to 503 (not a generic 500).
-    // The user-facing sentence stays free of internal file references.
-    throw new Error(`MISSING_ANTHROPIC_API_KEY: ${MISSING_API_KEY_MESSAGE}`)
+    throw new DatasheetError('MISSING_API_KEY', 503, MISSING_API_KEY_MESSAGE)
   }
 
   const client = new Anthropic({ apiKey })
@@ -97,12 +182,17 @@ export async function extractFieldsFromText(
 
   const toolUse = message.content.find((block) => block.type === 'tool_use')
   if (!toolUse || toolUse.type !== 'tool_use') {
-    throw new Error('The extraction model did not return structured data.')
+    throw new DatasheetError(
+      'MODEL_NO_TOOL_USE',
+      500,
+      'The extraction model did not return structured data.',
+    )
   }
 
   const raw = toolUse.input as Record<string, unknown>
+  const clean = sanitizeModelOutput(raw, kind)
   if (kind === 'sensor') {
-    return { kind: 'sensor', fields: toExtractedFields(raw) as unknown as SensorExtractedFields }
+    return { kind: 'sensor', fields: toExtractedFields(clean) as unknown as SensorExtractedFields }
   }
-  return { kind: 'lens', fields: toExtractedFields(raw) as unknown as LensExtractedFields }
+  return { kind: 'lens', fields: toExtractedFields(clean) as unknown as LensExtractedFields }
 }

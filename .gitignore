@@ -24,3 +24,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+.pi/tasks/session*
+.pi/delegate*

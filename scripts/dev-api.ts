@@ -1,6 +1,7 @@
 import 'dotenv/config'
 import { createServer } from 'node:http'
 import { isMissingApiKeyError, MISSING_API_KEY_MESSAGE } from '../api/_lib/callExtractionModel.js'
+import { isDatasheetError } from '../api/_lib/errors.js'
 import { extractFromUrl } from '../api/_lib/extract.js'
 import { isRateLimited } from '../api/_lib/rateLimit.js'
 
@@ -47,21 +48,21 @@ const server = createServer(async (req, res) => {
 
   try {
     const result = await extractFromUrl(url, kind)
-    res.writeHead('error' in result ? 422 : 200, { 'Content-Type': 'application/json' })
+    res.writeHead(200, { 'Content-Type': 'application/json' })
     res.end(JSON.stringify(result))
   } catch (err) {
     if (isMissingApiKeyError(err)) {
       res.writeHead(503, { 'Content-Type': 'application/json' })
-      res.end(JSON.stringify({ error: MISSING_API_KEY_MESSAGE }))
+      res.end(JSON.stringify({ error: MISSING_API_KEY_MESSAGE, code: 'MISSING_API_KEY' }))
+      return
+    }
+    if (isDatasheetError(err)) {
+      res.writeHead(err.status, { 'Content-Type': 'application/json' })
+      res.end(JSON.stringify({ error: err.message, code: err.code }))
       return
     }
     const message = err instanceof Error ? err.message : 'Extraction failed.'
-    const status =
-      /not a valid url|only http\(s\)|request body/i.test(message) ? 400
-      : /fetch|reach|timed out|refused|404|too large|content-type|parse.*pdf|reading pages|pdf reader/i.test(message)
-        ? 502
-        : 500
-    res.writeHead(status, { 'Content-Type': 'application/json' })
+    res.writeHead(500, { 'Content-Type': 'application/json' })
     res.end(JSON.stringify({ error: message }))
   }
 })

@@ -1,5 +1,6 @@
 import type { IncomingMessage, ServerResponse } from 'node:http'
 import { isMissingApiKeyError, MISSING_API_KEY_MESSAGE } from './_lib/callExtractionModel.js'
+import { isDatasheetError } from './_lib/errors.js'
 import { extractFromUrl } from './_lib/extract.js'
 import { isRateLimited } from './_lib/rateLimit.js'
 
@@ -15,6 +16,9 @@ type VercelResponse = ServerResponse & {
  * POST /api/extract-datasheet { url, kind } -> ExtractResponse
  * Stateless: fetches the URL, extracts text, calls the model, returns
  * structured fields. Nothing is stored server-side (requirements.md §5).
+ *
+ * Status mapping comes from the typed DatasheetError taxonomy ({code,
+ * status, message}) thrown by the pipeline — no regex-on-message matching.
  */
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== 'POST') {
@@ -44,20 +48,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   try {
     const result = await extractFromUrl(url, kind)
-    res.status('error' in result ? 422 : 200).json(result)
+    res.status(200).json(result)
   } catch (err) {
     if (isMissingApiKeyError(err)) {
-      res.status(503).json({ error: MISSING_API_KEY_MESSAGE })
+      res.status(503).json({ error: MISSING_API_KEY_MESSAGE, code: 'MISSING_API_KEY' })
+      return
+    }
+    if (isDatasheetError(err)) {
+      res.status(err.status).json({ error: err.message, code: err.code })
       return
     }
     const message = err instanceof Error ? err.message : 'Extraction failed.'
-    // URL/fetch problems are upstream failures (502); validation of our own
-    // request shape is 400; anything else is an internal 500.
-    const status =
-      /not a valid url|only http\(s\)|request body/i.test(message) ? 400
-      : /fetch|reach|timed out|refused|404|too large|content-type|parse.*pdf|reading pages|pdf reader/i.test(message)
-        ? 502
-        : 500
-    res.status(status).json({ error: message })
+    res.status(500).json({ error: message })
   }
 }

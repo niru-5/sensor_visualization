@@ -10,8 +10,8 @@ import type { Lens, Sensor } from './types'
  * Two-camera comparison flow helpers (pure, UI-free).
  *
  * App.tsx renders one panel per CameraSlot. Each panel resolves its
- * sensor/lens (falling back to the first library entry so dropdowns are
- * never empty), derives an *effective* working distance clamped into the
+ * sensor/lens (returning null for unset/stale ids so the empty state is
+ * visible), derives an *effective* working distance clamped into the
  * slider range for its lens, and shares one world scale across panels so
  * the 3D stages stay a true 1:1 comparison. This module holds that logic
  * so it can be unit-tested without React/three.js.
@@ -130,11 +130,11 @@ export function updateCameraSlot(
   })
 }
 
-/** Resolve each slot to its sensor/lens with first-available fallback + clamped WD. Capped at MAX_CAMERAS. */
+/** Resolve each slot to its sensor/lens (null for unset/stale ids) + clamped WD. Capped at MAX_CAMERAS. */
 export function resolveSlots(cameras: CameraSlot[], sensors: Sensor[], lenses: Lens[]): ResolvedSlot[] {
   return cameras.slice(0, MAX_CAMERAS).map((cam) => {
-    const sensor = sensors.find((s) => s.id === cam.sensorId) ?? sensors[0] ?? null
-    const lens = lenses.find((l) => l.id === cam.lensId) ?? lenses[0] ?? null
+    const sensor = sensors.find((s) => s.id === cam.sensorId) ?? null
+    const lens = lenses.find((l) => l.id === cam.lensId) ?? null
     return { cam, sensor, lens, effectiveWd: effectiveWorkingDistance(cam, lens) }
   })
 }

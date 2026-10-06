@@ -211,6 +211,38 @@ export default function App() {
                       </button>
                     )}
                   </div>
+                  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    <label className="flex flex-col gap-1 text-xs text-slate-300">
+                      <span>Sensor</span>
+                      <select
+                        value={cam.sensorId ?? ''}
+                        onChange={(e) => updateCamera(cam.id, { sensorId: e.target.value === '' ? null : e.target.value })}
+                        className="rounded border border-slate-700 bg-slate-900 px-2 py-1.5 text-sm text-slate-100"
+                      >
+                        <option value="">Select sensor</option>
+                        {sensors.map((s) => (
+                          <option key={s.id} value={s.id}>
+                            {s.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label className="flex flex-col gap-1 text-xs text-slate-300">
+                      <span>Lens</span>
+                      <select
+                        value={cam.lensId ?? ''}
+                        onChange={(e) => updateCamera(cam.id, { lensId: e.target.value === '' ? null : e.target.value })}
+                        className="rounded border border-slate-700 bg-slate-900 px-2 py-1.5 text-sm text-slate-100"
+                      >
+                        <option value="">Select lens</option>
+                        {lenses.map((l) => (
+                          <option key={l.id} value={l.id}>
+                            {l.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                  </div>
                   <label className="flex flex-col gap-1 text-xs text-slate-300">
                     <div className="flex items-center justify-between">
                       <span>Working distance</span>
